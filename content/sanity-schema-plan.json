@@ -1,0 +1,68 @@
+{
+  "documents": [
+    {
+      "name": "siteSettings",
+      "fields": [
+        "title",
+        "primaryPhone",
+        "secondaryPhones",
+        "email",
+        "address",
+        "socialLinks"
+      ]
+    },
+    {
+      "name": "homePage",
+      "fields": [
+        "heroTitle",
+        "heroSubtitle",
+        "heroImage",
+        "quickLinks[]",
+        "aboutTitle",
+        "aboutBody",
+        "programCards[]",
+        "faqItems[]"
+      ]
+    },
+    {
+      "name": "page",
+      "fields": [
+        "title",
+        "slug",
+        "contentPortableText",
+        "seo"
+      ]
+    },
+    {
+      "name": "program",
+      "fields": [
+        "title",
+        "slug",
+        "description",
+        "iconOrImage",
+        "order",
+        "contentPortableText"
+      ]
+    },
+    {
+      "name": "faqItem",
+      "fields": [
+        "question",
+        "answer",
+        "order"
+      ]
+    },
+    {
+      "name": "newsPost",
+      "fields": [
+        "title",
+        "slug",
+        "excerpt",
+        "bodyPortableText",
+        "publishedAt",
+        "coverImage",
+        "seo"
+      ]
+    }
+  ]
+}

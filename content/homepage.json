@@ -1,0 +1,108 @@
+{
+  "slug": "naslovna",
+  "hero": {
+    "title": "Niste sami na ovom putu",
+    "subtitle": "(TODO: confirm from WP theme/slider; taken from screenshot)",
+    "primaryCta": {
+      "label": "Vodič za pacijente",
+      "href": "/vodic-za-dekubituse"
+    },
+    "secondaryCta": {
+      "label": "Nalog",
+      "href": "/login"
+    },
+    "backgroundImage": "(TODO: choose from uploads)"
+  },
+  "quickLinks": [
+    {
+      "title": "Politika privatnosti",
+      "description": "Politikom privatnosti uređuju se način na koji TT MEDIK prikuplja, koristi, održava i objavljuje informacije prikupljene od korisnika.",
+      "link": {
+        "url": "https://www.ttmedik.co.rs/politika-privatnosti/",
+        "title": "Politika privatnosti"
+      }
+    },
+    {
+      "title": "Kontaktirajte nas",
+      "description": "Besplatna telefonska linija za pacijente:rn0800 101 102rnrnRadnim danima:rn8:30 - 15:30",
+      "link": null
+    },
+    {
+      "title": "Nemate nalog?",
+      "description": "Otvaranjem naloga dobijate pristup celokupnom sadržaju sajta.rnPrijavite se ili napravite nalog!",
+      "link": null
+    }
+  ],
+  "about": {
+    "title": "O kompaniji TT Medik",
+    "body": "TT Medik, d.o.o. je distributer kompanije ConvaTec , jednog od svetskih lidera u razvoju i proizvodnji inovativnih medicinskih tehnologija i proizvoda koji doprinose poboljšanju kvaliteta života miliona ljudi širom sveta. ConvaTec paleta proizvoda namenjena je: nezi stome, modernom lečenju rana i zaštiti kože, rešavanju problema inkontinencije i tretmanu pacijenata na intenzivnoj nezi."
+  },
+  "programs": [
+    {
+      "title": "Stoma program",
+      "description": "",
+      "link": {
+        "url": "http://www.ttmedik.co.rs/stoma-program/",
+        "title": "Stoma program"
+      }
+    },
+    {
+      "title": "Proizvodi za jedinice intenzivne nege",
+      "description": "",
+      "link": {
+        "url": "http://www.ttmedik.co.rs/proizvodi-za-jedinice-intenzivne-nege/",
+        "title": "Proizvodi za jedinice intenzivne nege"
+      }
+    },
+    {
+      "title": "Inkontinencija",
+      "description": "",
+      "link": {
+        "url": "http://www.ttmedik.co.rs/inkontinencija/",
+        "title": "Proizvodi za jedinice intenzivne nege"
+      }
+    },
+    {
+      "title": "Program za negu rana",
+      "description": "",
+      "link": {
+        "url": "http://www.ttmedik.co.rs/program-za-negu-rana/",
+        "title": "Proizvodi za jedinice intenzivne nege"
+      }
+    },
+    {
+      "title": "Kutak za osobe sa stomom",
+      "description": "",
+      "link": {
+        "url": "http://www.ttmedik.co.rs/kutak-za-osobe-sa-stomom/",
+        "title": "Proizvodi za jedinice intenzivne nege"
+      }
+    }
+  ],
+  "faq": [
+    {
+      "question": "Da li mogu da se kupam i tuširam?",
+      "answer": "Naravno. Kese i diskovi su vodootporni. Kada se kupate i tuširate, nosite Vašu kesu kao i obično.\nUkoliko koristite kese za kolostomu sa filterom, tokom tuširanja ili kupanja filter zaštitite\nnalepnicom koja se nalazi u kutiji sa kesama. Ako idete na plivanje kesu ispraznite pre ulaska u\nvodu i nosite je ispod kupaćeg kostima. Voda ne može ući u stomu niti oštetiti sluzokožu creva.\nNakon tuširanja kesu i disk obrišite peškirom. Ukoliko plivate u moru ili bazenu, nakon kupanja\nse istuširajte, presvucite i posušite disk i kesu."
+    },
+    {
+      "question": "Da li ću moći da se vratim na svoj posao?",
+      "answer": "U većini slučajeva pacijenti sa stomom se vraćaju na posao. Međutim dizanje teških predmeta i\nteški fizički rad nisu preporučljivi jer mogu da dovedu do nastanka parastomalne kile. Zbog toga\nćete morati da potražite neki lakši posao o čemu se možete konsultovati sa svojim lekarom."
+    },
+    {
+      "question": "Da li mogu da putujem?",
+      "answer": "Nemojte se odricati putovanja. Ako se dobro osećate i snalazite sa priborom za stomu, i ako\nimate dovoljno vremena za pripremu, dužina putovanja i vrsta prevoza ne predstavlja nikakvu\nprepreku. Imajte pri sebi dovoljno pribora za stomu u slučaju da Vam se negde izgubi prtljag.\nRaspitajte se da li u odredištu Vašeg putovanja možete nabaviti pribor za negu stome. Savetujte\nse i sa Vašim lekarom, ukoliko putujete u zemlje gde se jede drugačije nego što ste navikli. Tako\nćete izbeći eventualne komplikacije."
+    },
+    {
+      "question": "Šta će biti sa mojim društvenim životom?",
+      "answer": "Vaš društveni život vrlo brzo će se nastaviti tamo gde je i stao. Možete ići u kafiće, restorane, u\npozorišta, bioskope i na ples čim se budete osećali spremni za to."
+    },
+    {
+      "question": "Šta je sa bavljenjem sportom i hobijima?",
+      "answer": "Kada se oporavite činjenica da imate stomu neće Vas sprečiti da uživate u sportu i u hobijima.\nŠetnja, vožnja bicikla, rad u bašti, jedrenje, plivanje, kao i veliki broj sportova i ostalih aktivnosti\npredstavljaju deo svakodnevnog života.Trebalo bi da izbegavate upražnjavanje nekih dinamičnih\naktivnosti-kontaktnih sportova, kao što je fudbal, karate ili rvanje, jer je moguća povreda same\nstome."
+    },
+    {
+      "question": "Da li ću moći imati intimne odnose?",
+      "answer": "Imati stomu ne znači da je intimnim odnosima došao kraj.\nSasvim je normalno biti osetljiv na činjenicu da se dogodila promena na Vašem telu.\nRazgovarajte s partnerom, podelite osećanja i razmišljanja. Dajte mu/joj do znanja, da seksualni\nodnosi neće povrediti Vašu stomu. Ukoliko Vam određeni položaj pri seksualnom odnosu\npredstavlja problem ili izaziva bol, probajte neki drugi. Vremenom, uz razumevanje i pozitivan\npristup, moći ćete zajednički uživati u intimnom odnosu."
+    }
+  ]
+}

@@ -1,26 +1,132 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope);
+  --font-serif: var(--font-source-serif);
+  --font-mono: "JetBrains Mono", monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  --radius: 0.8rem;
+  --background: #f5f8fc;
+  --foreground: #12223a;
+  --card: #ffffff;
+  --card-foreground: #12223a;
+  --popover: #ffffff;
+  --popover-foreground: #12223a;
+  --primary: #005da8;
+  --primary-foreground: #ffffff;
+  --secondary: #e9f1fb;
+  --secondary-foreground: #12223a;
+  --muted: #edf2f8;
+  --muted-foreground: #5f6f84;
+  --accent: #e8f2ff;
+  --accent-foreground: #12375f;
+  --destructive: #b42318;
+  --border: #d8e1ec;
+  --input: #d8e1ec;
+  --ring: #8ab2da;
+  --chart-1: #005da8;
+  --chart-2: #0f86c6;
+  --chart-3: #2b5f8a;
+  --chart-4: #49a7d4;
+  --chart-5: #73bddb;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #12223a;
+  --sidebar-primary: #005da8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8f2ff;
+  --sidebar-accent-foreground: #12375f;
+  --sidebar-border: #d8e1ec;
+  --sidebar-ring: #8ab2da;
+}
+
+.dark {
+  --background: #111b2b;
+  --foreground: #ebf2fb;
+  --card: #162134;
+  --card-foreground: #ebf2fb;
+  --popover: #162134;
+  --popover-foreground: #ebf2fb;
+  --primary: #73bddb;
+  --primary-foreground: #0e2037;
+  --secondary: #20324a;
+  --secondary-foreground: #ebf2fb;
+  --muted: #20324a;
+  --muted-foreground: #c2d0e0;
+  --accent: #1f3a57;
+  --accent-foreground: #ebf2fb;
+  --destructive: #f07f7f;
+  --border: #2a3f5d;
+  --input: #2a3f5d;
+  --ring: #63a4d7;
+  --chart-1: #73bddb;
+  --chart-2: #36a4df;
+  --chart-3: #bfd7ec;
+  --chart-4: #0f77b5;
+  --chart-5: #88c8e4;
+  --sidebar: #162134;
+  --sidebar-foreground: #ebf2fb;
+  --sidebar-primary: #73bddb;
+  --sidebar-primary-foreground: #0e2037;
+  --sidebar-accent: #1f3a57;
+  --sidebar-accent-foreground: #ebf2fb;
+  --sidebar-border: #2a3f5d;
+  --sidebar-ring: #63a4d7;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+    background-image: radial-gradient(
+      circle at 20% -10%,
+      rgb(224 238 255 / 90%) 0,
+      rgb(245 248 252 / 0%) 42%
+    );
+  }
 }

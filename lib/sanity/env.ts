@@ -1,0 +1,17 @@
+export const SANITY_API_VERSION =
+  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-03-06";
+
+export const SANITY_PROJECT_ID =
+  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ||
+  process.env.SANITY_STUDIO_PROJECT_ID ||
+  "";
+
+export const SANITY_DATASET =
+  process.env.NEXT_PUBLIC_SANITY_DATASET ||
+  process.env.SANITY_STUDIO_DATASET ||
+  "";
+
+export const SANITY_READ_TOKEN =
+  process.env.SANITY_API_READ_TOKEN || process.env.SANITY_API_TOKEN || "";
+
+export const isSanityConfigured = Boolean(SANITY_PROJECT_ID && SANITY_DATASET);
