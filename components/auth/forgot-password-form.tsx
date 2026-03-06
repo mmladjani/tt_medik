@@ -53,9 +53,11 @@ export function ForgotPasswordForm() {
           id="forgot-email"
           type="email"
           autoComplete="email"
+          placeholder="email@primer.rs"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
+          className="h-10"
         />
       </div>
 
@@ -71,7 +73,7 @@ export function ForgotPasswordForm() {
         </Alert>
       ) : null}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" className="h-10 w-full" disabled={isPending}>
         {isPending ? "Slanje..." : "Pošalji link za reset"}
       </Button>
 

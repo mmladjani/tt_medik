@@ -49,38 +49,38 @@
 }
 
 :root {
-  --radius: 0.8rem;
-  --background: #f5f8fc;
-  --foreground: #12223a;
+  --radius: 0.9rem;
+  --background: #f7fafc;
+  --foreground: #13253d;
   --card: #ffffff;
-  --card-foreground: #12223a;
+  --card-foreground: #13253d;
   --popover: #ffffff;
-  --popover-foreground: #12223a;
-  --primary: #005da8;
+  --popover-foreground: #13253d;
+  --primary: #0a79b3;
   --primary-foreground: #ffffff;
-  --secondary: #e9f1fb;
-  --secondary-foreground: #12223a;
-  --muted: #edf2f8;
-  --muted-foreground: #5f6f84;
-  --accent: #e8f2ff;
-  --accent-foreground: #12375f;
+  --secondary: #eaf4fb;
+  --secondary-foreground: #13253d;
+  --muted: #eef4f9;
+  --muted-foreground: #5a6e87;
+  --accent: #e4f1fc;
+  --accent-foreground: #12385f;
   --destructive: #b42318;
-  --border: #d8e1ec;
-  --input: #d8e1ec;
-  --ring: #8ab2da;
-  --chart-1: #005da8;
-  --chart-2: #0f86c6;
-  --chart-3: #2b5f8a;
-  --chart-4: #49a7d4;
-  --chart-5: #73bddb;
+  --border: #d6e1ec;
+  --input: #d6e1ec;
+  --ring: #8ab8df;
+  --chart-1: #0a79b3;
+  --chart-2: #0f8ecf;
+  --chart-3: #2d628e;
+  --chart-4: #49a8d6;
+  --chart-5: #74bedc;
   --sidebar: #ffffff;
-  --sidebar-foreground: #12223a;
-  --sidebar-primary: #005da8;
+  --sidebar-foreground: #13253d;
+  --sidebar-primary: #0a79b3;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #e8f2ff;
-  --sidebar-accent-foreground: #12375f;
-  --sidebar-border: #d8e1ec;
-  --sidebar-ring: #8ab2da;
+  --sidebar-accent: #e4f1fc;
+  --sidebar-accent-foreground: #12385f;
+  --sidebar-border: #d6e1ec;
+  --sidebar-ring: #8ab8df;
 }
 
 .dark {
@@ -124,9 +124,50 @@
   body {
     @apply bg-background text-foreground;
     background-image: radial-gradient(
-      circle at 20% -10%,
-      rgb(224 238 255 / 90%) 0,
+      circle at 14% -10%,
+      rgb(222 238 255 / 85%) 0,
       rgb(245 248 252 / 0%) 42%
     );
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-primary/15 text-foreground;
+  }
+
+  a {
+    @apply outline-none;
+  }
+
+  a:focus-visible {
+    @apply rounded-sm ring-2 ring-ring/60;
+  }
+}
+
+@layer components {
+  .tt-container {
+    @apply mx-auto max-w-6xl px-4 sm:px-6;
+  }
+
+  .tt-section {
+    @apply py-12 sm:py-16;
+  }
+
+  .tt-surface {
+    @apply rounded-3xl border border-slate-200/80 bg-white shadow-sm;
+  }
+
+  .tt-card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm;
+  }
+
+  .tt-card-hover {
+    @apply transition duration-200 motion-reduce:transition-none hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  .tt-eyebrow {
+    @apply inline-block border-b border-sky-200 pb-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700;
   }
 }

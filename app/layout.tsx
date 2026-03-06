@@ -41,6 +41,12 @@ export default async function RootLayout({
       <body
         className={`${manrope.variable} ${sourceSerif.variable} antialiased`}
       >
+        <a
+          href="#main-content"
+          className="sr-only z-[100] rounded-md bg-white px-4 py-2 text-sm font-semibold text-slate-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        >
+          Preskoči na sadržaj
+        </a>
         <div className="flex min-h-screen flex-col">
           <SiteHeader
             navigation={navigation.primary}
@@ -48,7 +54,7 @@ export default async function RootLayout({
             accountHref={user ? "/nalog" : "/login"}
             accountLabel={user ? "Moj nalog" : "Nalog"}
           />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" className="flex-1">{children}</main>
           <SiteFooter contact={contact} programs={homepage.programs} />
         </div>
       </body>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AuthShell } from "@/components/auth/auth-shell";
 import { LoginForm } from "@/components/auth/login-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export default async function LoginPage({
@@ -27,26 +27,19 @@ export default async function LoginPage({
   }
 
   return (
-    <section className="mx-auto flex min-h-[70vh] w-full max-w-6xl items-center justify-center px-4 py-16 sm:px-6">
-      <Card className="w-full max-w-md border-slate-200/80 shadow-sm">
-        <CardHeader>
-          <CardTitle className="font-[family-name:var(--font-source-serif)] text-3xl text-slate-900">
-            Prijava
-          </CardTitle>
-          <CardDescription>
-            Pristupite svom nalogu i portal sadržaju.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-5">
-          <LoginForm nextPath={nextPath} />
-          <p className="text-center text-sm text-slate-600">
-            Nemate nalog?{" "}
-            <Link href="/register" className="font-semibold text-sky-700 hover:text-sky-800">
-              Registracija
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
-    </section>
+    <AuthShell
+      title="Prijava"
+      description="Pristupite svom nalogu i portal sadržaju."
+      footer={
+        <p className="text-center text-sm text-slate-600">
+          Nemate nalog?{" "}
+          <Link href="/register" className="font-semibold text-sky-700 hover:text-sky-800">
+            Registracija
+          </Link>
+        </p>
+      }
+    >
+      <LoginForm nextPath={nextPath} />
+    </AuthShell>
   );
 }

@@ -2,13 +2,19 @@
 
 ## Setup
 
-1. Install dependencies:
+1. Use Node.js 20+ (recommended 22):
+
+```bash
+nvm use || nvm install
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. Copy `.env.example` to `.env.local` and fill:
+3. Copy `.env.example` to `.env.local` and fill:
 
 ```bash
 NEXT_PUBLIC_SANITY_PROJECT_ID=
@@ -20,7 +26,7 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 ```
 
-3. Start app:
+4. Start app:
 
 ```bash
 npm run dev

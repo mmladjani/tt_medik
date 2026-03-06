@@ -1,31 +1,18 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { cache } from "react";
+import {
+  type NavigationItem,
+  type NavigationLink,
+  isExternalHref,
+  normalizeCmsHref,
+  resolveNavigationHref,
+} from "@/lib/navigation";
 import { sanityClient } from "@/lib/sanity/client";
 import { isSanityConfigured } from "@/lib/sanity/env";
 import { homePageQuery, siteSettingsQuery } from "@/lib/sanity/queries";
 
-interface InternalLink {
-  type: "internal";
-  slug: string;
-  title?: string;
-}
-
-interface ExternalLink {
-  type: "external";
-  url: string;
-}
-
-export type NavigationLink = InternalLink | ExternalLink;
-
-export interface NavigationItem {
-  id: number;
-  label: string;
-  menu_order: number;
-  parent: number;
-  link: NavigationLink;
-  children: NavigationItem[];
-}
+export type { NavigationLink, NavigationItem };
 
 export interface NavigationData {
   primary: NavigationItem[];
@@ -197,7 +184,7 @@ async function fetchSanityHomePage(
           description: item.description ?? "",
           link: item.linkUrl
             ? {
-                url: item.linkUrl,
+                url: normalizeCmsHref(item.linkUrl),
                 title: item.linkLabel || item.title || "Više",
               }
             : null,
@@ -261,18 +248,7 @@ export const getContactData = cache(async () => {
   const sanitySettings = await fetchSanitySiteSettings();
   return sanitySettings ?? localFallback;
 });
-
-export function resolveNavigationHref(item: NavigationItem): string {
-  if (item.link.type === "internal") {
-    return item.link.slug === "naslovna" ? "/" : `/${item.link.slug}`;
-  }
-
-  return item.link.url || "#";
-}
-
-export function isExternalHref(href: string): boolean {
-  return href.startsWith("http://") || href.startsWith("https://");
-}
+export { isExternalHref, normalizeCmsHref, resolveNavigationHref };
 
 export function normalizeSeedText(value: string): string {
   return value

@@ -53,9 +53,11 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
           id="login-email"
           type="email"
           autoComplete="email"
+          placeholder="email@primer.rs"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           required
+          className="h-10"
         />
       </div>
 
@@ -73,9 +75,11 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
           id="login-password"
           type="password"
           autoComplete="current-password"
+          placeholder="Unesite lozinku"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
           required
+          className="h-10"
         />
       </div>
 
@@ -85,7 +89,7 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
         </Alert>
       ) : null}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" className="h-10 w-full" disabled={isPending}>
         {isPending ? "Prijava..." : "Prijava"}
       </Button>
     </form>

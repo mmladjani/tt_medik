@@ -1,6 +1,4 @@
 "use client";
-
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -93,7 +91,9 @@ export function RegisterForm() {
           value={fullName}
           onChange={(event) => setFullName(event.target.value)}
           autoComplete="name"
+          placeholder="Ime i prezime"
           required
+          className="h-10"
         />
       </div>
 
@@ -105,7 +105,9 @@ export function RegisterForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           autoComplete="email"
+          placeholder="email@primer.rs"
           required
+          className="h-10"
         />
       </div>
 
@@ -119,6 +121,8 @@ export function RegisterForm() {
           autoComplete="new-password"
           required
           minLength={6}
+          placeholder="Minimum 6 karaktera"
+          className="h-10"
         />
       </div>
 
@@ -152,16 +156,9 @@ export function RegisterForm() {
         </Alert>
       ) : null}
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" className="h-10 w-full" disabled={isPending}>
         {isPending ? "Registracija..." : "Registruj se"}
       </Button>
-
-      <p className="text-center text-sm text-slate-600">
-        Već imate nalog?{" "}
-        <Link href="/login" className="font-semibold text-sky-700 hover:text-sky-800">
-          Prijava
-        </Link>
-      </p>
     </form>
   );
 }

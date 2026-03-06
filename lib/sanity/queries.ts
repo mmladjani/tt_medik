@@ -35,3 +35,38 @@ export const homePageQuery = groq`
     }
   }
 `;
+
+export const pageBySlugQuery = groq`
+  *[_type == "page" && slug.current == $slug][0]{
+    _id,
+    title,
+    "slug": slug.current,
+    contentPortableText,
+    seo,
+    _updatedAt
+  }
+`;
+
+export const newsPostsQuery = groq`
+  *[_type == "newsPost"] | order(publishedAt desc){
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    bodyPortableText,
+    publishedAt,
+    "coverImageUrl": coverImage.asset->url
+  }
+`;
+
+export const newsPostBySlugQuery = groq`
+  *[_type == "newsPost" && slug.current == $slug][0]{
+    _id,
+    title,
+    "slug": slug.current,
+    excerpt,
+    bodyPortableText,
+    publishedAt,
+    "coverImageUrl": coverImage.asset->url
+  }
+`;

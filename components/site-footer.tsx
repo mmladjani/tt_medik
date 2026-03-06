@@ -5,6 +5,7 @@ import {
   type ContactData,
   type HomepageProgram,
   isExternalHref,
+  normalizeCmsHref,
 } from "@/lib/content";
 
 function FooterLink({
@@ -40,63 +41,91 @@ export function SiteFooter({
   programs: HomepageProgram[];
   contact: ContactData;
 }) {
+  const primaryPhone = contact.phones[0] ?? "";
+  const secondaryPhone = contact.phones[1] ?? "";
+
   return (
-    <footer className="mt-20 bg-slate-900 text-slate-300">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
-        <div className="space-y-4">
+    <footer className="mt-16 border-t border-slate-200/70 bg-slate-950 text-slate-200">
+      <div className="border-b border-sky-500/20 bg-primary py-10">
+        <div className="tt-container text-center">
+          <p className="text-balance text-2xl font-semibold text-white sm:text-3xl">
+            Telefonska podrška za pacijente: {primaryPhone || "011 311 51 52"}
+          </p>
+          <p className="mt-2 text-base text-sky-100 sm:text-lg">
+            Radnim danima: 8:30 - 15:30
+          </p>
+        </div>
+      </div>
+
+      <div className="tt-container grid gap-10 py-14 lg:grid-cols-[1.25fr_1fr_1fr]">
+        <div className="space-y-5">
           <Image
             src="/assets/logo-white.png"
             alt="TT Medik"
             width={180}
             height={56}
           />
-          <p className="max-w-xs text-sm text-slate-400">
-            Partner u oblasti nege stome, tretmana rana i kontinuiteta podrške
-            pacijentima.
+          <p className="max-w-sm text-sm leading-relaxed text-slate-300">
+            TT Medik pruža podršku pacijentima i zdravstvenim radnicima kroz
+            proverene medicinske programe, edukativne sadržaje i dostupnu stručnu
+            pomoć.
           </p>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-white">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-sky-200">
             Programi
           </h3>
-          <ul className="mt-4 space-y-2 text-sm">
+          <ul className="mt-4 space-y-2.5 text-sm">
             {programs.map((program) => (
               <li key={program.title}>
-                <FooterLink href={program.link.url} label={program.title} />
+                <FooterLink
+                  href={normalizeCmsHref(program.link.url)}
+                  label={program.title}
+                />
               </li>
             ))}
           </ul>
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-white">
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-sky-200">
             Kontakt
           </h3>
-          <ul className="mt-4 space-y-3 text-sm">
+          <ul className="mt-4 space-y-3.5 text-sm">
             <li className="flex items-start gap-2">
-              <Mail className="mt-0.5 size-4 shrink-0 text-slate-200" />
+              <Mail className="mt-0.5 size-4 shrink-0 text-sky-300" />
               <a href={`mailto:${contact.email}`} className="hover:text-white">
                 {contact.email}
               </a>
             </li>
-            {contact.phones.map((phone) => (
-              <li key={phone} className="flex items-start gap-2">
-                <Phone className="mt-0.5 size-4 shrink-0 text-slate-200" />
-                <a href={formatPhoneLink(phone)} className="hover:text-white">
-                  {phone}
+            {primaryPhone ? (
+              <li className="flex items-start gap-2">
+                <Phone className="mt-0.5 size-4 shrink-0 text-sky-300" />
+                <a href={formatPhoneLink(primaryPhone)} className="hover:text-white">
+                  {primaryPhone}
                 </a>
               </li>
-            ))}
+            ) : null}
+            {secondaryPhone ? (
+              <li className="flex items-start gap-2">
+                <Phone className="mt-0.5 size-4 shrink-0 text-sky-300" />
+                <a href={formatPhoneLink(secondaryPhone)} className="hover:text-white">
+                  {secondaryPhone}
+                </a>
+              </li>
+            ) : null}
             <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-slate-200" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-sky-300" />
               <span>{contact.address}</span>
             </li>
           </ul>
         </div>
       </div>
-      <div className="border-t border-slate-800/80 px-4 py-4 text-center text-xs text-slate-500 sm:px-6">
-        © {new Date().getFullYear()} TT Medik. Sva prava zadržana.
+
+      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-slate-400 sm:px-6">
+        Pre upotrebe pročitajte uputstvo. O nameni i neželjenim reakcijama
+        konsultujte lekara ili farmaceuta. © {new Date().getFullYear()} TT Medik.
       </div>
     </footer>
   );
