@@ -123,6 +123,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    --font-source-serif: var(--font-manrope);
     background-image: radial-gradient(
       circle at 14% -10%,
       rgb(222 238 255 / 85%) 0,

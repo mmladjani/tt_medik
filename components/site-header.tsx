@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Mail, Menu, Phone, UserRound, X } from "lucide-react";
+import { ChevronDown, Menu, Phone, UserRound, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   type NavigationItem,
@@ -83,18 +83,32 @@ function DesktopDropdown({
   item: NavigationItem;
   pathname: string;
 }) {
+  const href = resolveNavigationHref(item);
+  const parentIsActive = hasActiveChild(pathname, item.children);
+
   return (
-    <details className="group relative">
-      <summary
+    <div className="group relative">
+      <div
         className={cn(
-          "flex cursor-pointer list-none items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-white hover:text-primary",
-          hasActiveChild(pathname, item.children) && "bg-white text-primary",
+          "flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 hover:text-primary",
+          parentIsActive && "bg-slate-50 text-primary",
         )}
       >
-        {item.label}
-        <ChevronDown className="size-4 transition group-open:rotate-180" />
-      </summary>
-      <div className="absolute left-0 z-40 mt-2 min-w-72 rounded-xl border border-slate-200 bg-white p-4 shadow-lg">
+        {href !== "#" && !isExternalHref(href) ? (
+          <Link href={href} className="outline-none">
+            {item.label}
+          </Link>
+        ) : href !== "#" ? (
+          <a href={href} target="_blank" rel="noreferrer" className="outline-none">
+            {item.label}
+          </a>
+        ) : (
+          <span>{item.label}</span>
+        )}
+        <ChevronDown className="size-4 transition duration-200 group-hover:rotate-180 group-focus-within:rotate-180" />
+      </div>
+
+      <div className="invisible absolute left-0 z-40 mt-2 min-w-72 translate-y-1 rounded-xl border border-slate-200 bg-white p-4 opacity-0 shadow-lg transition-[opacity,transform,visibility] duration-150 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
         <ul className="space-y-2">
           {item.children.map((child) => (
             <li key={child.id}>
@@ -120,7 +134,7 @@ function DesktopDropdown({
           ))}
         </ul>
       </div>
-    </details>
+    </div>
   );
 }
 
@@ -189,6 +203,7 @@ export function SiteHeader({
   contact: {
     phones: string[];
     email?: string;
+    address?: string;
   };
   accountHref: string;
   accountLabel: string;
@@ -197,6 +212,8 @@ export function SiteHeader({
   const [mobileOpen, setMobileOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const primaryPhone = contact.phones[0] ?? "+381113115152";
+  const address = contact.address ?? "Bulevar Mihajla Pupina 10D/I, 11070 Beograd";
+  const compactAddress = address.replace(/,\s*Srbija$/i, "");
 
   useEffect(() => {
     setMobileOpen(false);
@@ -226,31 +243,24 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200/80 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
-      <div className="hidden border-b border-slate-200/80 bg-slate-50/80 lg:block">
-        <div className="mx-auto flex h-10 max-w-6xl items-center justify-between px-4 text-xs text-slate-600 sm:px-6">
-          <p>Podrška i pouzdane informacije za pacijente i zdravstvene radnike.</p>
-          <div className="flex items-center gap-4">
-            {contact.email ? (
-              <a
-                href={`mailto:${contact.email}`}
-                className="inline-flex items-center gap-1 transition hover:text-primary"
-              >
-                <Mail className="size-3.5" />
-                {contact.email}
-              </a>
-            ) : null}
-            <a
-              href={formatPhoneLink(primaryPhone)}
-              className="inline-flex items-center gap-1 font-semibold transition hover:text-primary"
-            >
-              <Phone className="size-3.5" />
+      <div className="border-b border-slate-200/80 bg-slate-50/90">
+        <div className="tt-container flex flex-col gap-1 py-2 text-[14px] text-[#0077a0] lg:flex-row lg:items-center lg:justify-between">
+          <p className="truncate">Podrška i pouzdane informacije za pacijente i zdravstvene radnike.</p>
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+            <a href={`mailto:${contact.email || "office@ttmedik.co.rs"}`} className="hover:underline">
+              {contact.email || "office@ttmedik.co.rs"}
+            </a>
+            <span className="hidden md:inline">|</span>
+            <span className="hidden md:inline">{compactAddress}</span>
+            <span>|</span>
+            <a href={formatPhoneLink(primaryPhone)} className="font-semibold hover:underline">
               {primaryPhone}
             </a>
-          </div>
+          </p>
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="tt-container">
         <div className="flex h-20 items-center justify-between gap-4">
           <Link href="/" className="shrink-0" aria-label="TT Medik">
             <Image
@@ -271,7 +281,7 @@ export function SiteHeader({
                   key={item.id}
                   item={item}
                   isActive={isPathActive(pathname, resolveNavigationHref(item))}
-                  className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 hover:text-primary"
+                  className="rounded-lg px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 hover:text-primary"
                 />
               ),
             )}

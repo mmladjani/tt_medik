@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Source_Serif_4 } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { getContactData, getHomepageData, getNavigationData } from "@/lib/content";
@@ -8,11 +8,6 @@ import "./globals.css";
 
 const manrope = Manrope({
   variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
   subsets: ["latin"],
 });
 
@@ -39,7 +34,7 @@ export default async function RootLayout({
   return (
     <html lang="sr">
       <body
-        className={`${manrope.variable} ${sourceSerif.variable} antialiased`}
+        className={`${manrope.variable} font-sans antialiased`}
       >
         <a
           href="#main-content"

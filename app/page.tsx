@@ -16,9 +16,10 @@ import { FaqAccordion } from "@/components/home/faq-accordion";
 import { HomeLink } from "@/components/home/home-link";
 import { NewsCard } from "@/components/home/news-card";
 import { PageHero } from "@/components/home/page-hero";
-import { ProgramCard } from "@/components/home/program-card";
+import { ProgramsHub } from "@/components/home/programs-hub";
 import { QuickAccessCard } from "@/components/home/quick-access-card";
 import { SectionContainer, SectionHeading } from "@/components/home/section-container";
+import { ContactForm } from "@/components/forms/contact-form";
 import {
   LoggedInOnly,
   MedicalOnly,
@@ -45,6 +46,11 @@ const PROGRAM_FALLBACK_DESCRIPTION: Record<string, string> = {
   "kutak-za-osobe-sa-stomom":
     "Korisni vodiči i praktični sadržaji namenjeni osobama sa stomom i porodici.",
 };
+
+const PROGRAMS_SECTION_EYEBROW = "Programi";
+const PROGRAMS_SECTION_TITLE = "Područja podrške";
+const PROGRAMS_SECTION_SUBTITLE =
+  "Pogledajte ključne TT Medik programe i odaberite sadržaj koji najbolje odgovara vašim potrebama.";
 
 function resolveProgramIcon(title: string): LucideIcon {
   const lowerTitle = title.toLowerCase();
@@ -81,9 +87,11 @@ export default async function HomePage() {
     getNewsPosts(),
     getViewerAccess(),
   ]);
+
   const heroSubtitle = homepage.hero.subtitle.includes("TODO")
     ? "Podrška, informacije i pouzdani medicinski programi za pacijente i negovatelje."
     : normalizeSeedText(homepage.hero.subtitle);
+
   const accountHref = viewerAccess.isLoggedIn ? "/nalog" : "/login";
   const heroImage = homepage.hero.backgroundImage.startsWith("/")
     ? homepage.hero.backgroundImage
@@ -136,6 +144,16 @@ export default async function HomePage() {
   const newsPreview = newsPosts.slice(0, 3);
   const primaryPhone = contact.phones[0] ?? "011 311 51 52";
 
+  const programs = homepage.programs.map((program) => {
+    const href = normalizeCmsHref(program.link.url);
+    return {
+      title: program.title,
+      description: resolveProgramDescription(program.title, href, program.description),
+      href,
+      icon: resolveProgramIcon(program.title),
+    };
+  });
+
   return (
     <div>
       <VisibilityBlock visibility="public">
@@ -154,7 +172,7 @@ export default async function HomePage() {
         />
       </VisibilityBlock>
 
-      <SectionContainer className="-mt-4 pb-10 pt-0 sm:-mt-6 sm:pb-12 lg:-mt-8">
+      <SectionContainer className="-mt-4 pb-8 pt-0 sm:-mt-6 sm:pb-12 lg:-mt-8">
         <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {quickAccessItems.map((item) => (
             <QuickAccessCard
@@ -178,7 +196,7 @@ export default async function HomePage() {
       <SectionContainer className="pt-2">
         <div className="tt-surface grid gap-8 p-7 lg:grid-cols-[1.45fr_1fr] lg:p-10">
           <div>
-            <SectionHeading eyebrow="Ukratko" title={homepage.about.title} />
+            <SectionHeading eyebrow="Ukratko - O nama" title={homepage.about.title} />
             <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
               {aboutParts.length > 0 ? (
                 aboutParts.map((part) => <p key={part}>{part}</p>)
@@ -198,55 +216,22 @@ export default async function HomePage() {
         </div>
       </SectionContainer>
 
-      <SectionContainer id="programi" className="bg-slate-100/65 pb-10">
-        <SectionHeading
-          eyebrow="Programi"
-          title="Područja podrške"
-          subtitle="Pogledajte naše ključne programe i pronađite informacije prilagođene vašim potrebama."
+      <SectionContainer id="programi" className="bg-slate-100/65">
+        <ProgramsHub
+          eyebrow={PROGRAMS_SECTION_EYEBROW}
+          title={PROGRAMS_SECTION_TITLE}
+          subtitle={PROGRAMS_SECTION_SUBTITLE}
+          items={programs}
         />
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {homepage.programs.map((program) => {
-            const href = normalizeCmsHref(program.link.url);
-
-            return (
-              <ProgramCard
-                key={program.title}
-                title={program.title}
-                description={resolveProgramDescription(
-                  program.title,
-                  href,
-                  program.description,
-                )}
-                href={href}
-                icon={resolveProgramIcon(program.title)}
-              />
-            );
-          })}
-        </div>
       </SectionContainer>
 
-      <SectionContainer className="py-10 sm:py-12">
-        <SectionHeading
-          eyebrow="Imate pitanje?"
-          title="Najčešće postavljena pitanja"
-          subtitle="Kratki odgovori na pitanja koja pacijenti i negovatelji najčešće postavljaju."
-        />
-        <div className="mt-6">
-          <FaqAccordion
-            items={homepage.faq.map((item) => ({
-              question: item.question,
-              answer: normalizeSeedText(item.answer),
-            }))}
-          />
-        </div>
-      </SectionContainer>
-
-      <SectionContainer className="pt-4">
+      <SectionContainer className="pt-8">
         <SectionHeading
           eyebrow="Vodiči"
           title="Edukativni sadržaj"
           subtitle="Praktične informacije za svakodnevnu negu i sigurniji oporavak nakon terapije."
         />
+
         <div className="mt-6 grid gap-4 lg:grid-cols-2">
           <article className="tt-card tt-card-hover p-6">
             <h3 className="font-[family-name:var(--font-source-serif)] text-2xl text-slate-900">
@@ -265,6 +250,7 @@ export default async function HomePage() {
               />
             </div>
           </article>
+
           <article className="tt-card tt-card-hover p-6">
             <h3 className="font-[family-name:var(--font-source-serif)] text-2xl text-slate-900">
               Nega stome
@@ -278,74 +264,104 @@ export default async function HomePage() {
             </div>
           </article>
         </div>
+
+        <MedicalOnly>
+          <div className="mt-4">
+            <CalloutNotice
+              title="Stručni savet za zdravstvene radnike"
+              className="border-sky-200 bg-gradient-to-r from-sky-100 to-white"
+            >
+              <p>
+                Sadržaj u stručnom portalu uključuje smernice, edukativne materijale i
+                preporuke za tretman pacijenata u svakodnevnoj praksi.
+              </p>
+              <div className="mt-4">
+                <CtaButton href="/portal/strucni" label="Otvori stručni portal" icon />
+              </div>
+            </CalloutNotice>
+          </div>
+        </MedicalOnly>
       </SectionContainer>
 
-      <MedicalOnly>
-        <SectionContainer className="pt-0">
-          <CalloutNotice
-            title="Stručni savet za zdravstvene radnike"
-            className="border-sky-200 bg-gradient-to-r from-sky-100 to-white"
-          >
-            <p>
-              Sadržaj u stručnom portalu uključuje smernice, edukativne materijale i
-              preporuke za tretman pacijenata u svakodnevnoj praksi.
-            </p>
-            <div className="mt-4">
-              <CtaButton href="/portal/strucni" label="Otvori stručni portal" icon />
-            </div>
-          </CalloutNotice>
-        </SectionContainer>
-      </MedicalOnly>
+      <SectionContainer className="pb-10">
+        <SectionHeading
+          eyebrow="Imate pitanje?"
+          title="Najčešće postavljena pitanja"
+          subtitle="Kratki odgovori na pitanja koja pacijenti i negovatelji najčešće postavljaju."
+        />
+        <div className="mt-6">
+          <FaqAccordion
+            items={homepage.faq.map((item) => ({
+              question: item.question,
+              answer: normalizeSeedText(item.answer),
+            }))}
+          />
+        </div>
+      </SectionContainer>
 
       <SectionContainer className="bg-slate-100/65 pb-10">
         <SectionHeading
           eyebrow="Novosti"
           title="Najnovije vesti"
-          subtitle="Pratite aktuelne informacije i edukativne objave TT Medik tima."
+          subtitle="Aktuelne informacije i edukativni sadržaji TT Medik tima."
         />
 
         {newsPreview.length > 0 ? (
-          <>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {newsPreview.map((post) => (
-                <NewsCard
-                  key={post.slug}
-                  slug={post.slug}
-                  title={post.title}
-                  excerpt={post.excerpt}
-                  publishedAt={post.publishedAt}
-                />
-              ))}
-            </div>
-            <div className="mt-4">
-              <HomeLink
-                href="/novosti"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-sky-700 transition hover:text-sky-900"
-              >
-                Sve novosti
-                <Newspaper className="size-4" />
-              </HomeLink>
-            </div>
-          </>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {newsPreview.map((post) => (
+              <NewsCard
+                key={post.slug}
+                slug={post.slug}
+                title={post.title}
+                excerpt={post.excerpt}
+                publishedAt={post.publishedAt}
+              />
+            ))}
+          </div>
         ) : (
-          <p className="mt-6 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
-            Trenutno nema objavljenih novosti.
-          </p>
+          <p className="mt-6 tt-card p-4 text-sm text-slate-600">Trenutno nema objavljenih novosti.</p>
         )}
+
+        <div className="mt-4">
+          <HomeLink
+            href="/novosti"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-sky-700 transition hover:text-sky-900"
+          >
+            Sve novosti
+            <Newspaper className="size-4" />
+          </HomeLink>
+        </div>
       </SectionContainer>
 
-      <SectionContainer className="pt-2">
-        <CalloutNotice title="Potrebna vam je pomoć?">
-          <p>
-            Pozovite nas na <strong>{primaryPhone}</strong> ili nas kontaktirajte putem
-            kontakt forme. Naš tim je tu da pomogne pacijentima i zdravstvenim
-            radnicima.
-          </p>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <CtaButton href={formatPhoneHref(primaryPhone)} label={`Pozovite ${primaryPhone}`} />
-            <CtaButton href="/kontakt" label="Kontakt strana" variant="outline" />
-          </div>
-        </CalloutNotice>
+      <SectionContainer className="pb-16 pt-8">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_1fr]">
+          <CalloutNotice title="Potrebna vam je pomoć?" className="h-full">
+            <p>
+              Pozovite nas na <strong>{primaryPhone}</strong> ili nas kontaktirajte putem
+              kontakt stranice. Naš tim je tu da pomogne pacijentima i zdravstvenim
+              radnicima.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <CtaButton href={formatPhoneHref(primaryPhone)} label={`Pozovite ${primaryPhone}`} />
+              <CtaButton href="/kontakt" label="Kontakt stranica" variant="outline" />
+            </div>
+          </CalloutNotice>
+
+          <section className="tt-surface p-6 sm:p-7">
+            <h2 className="font-[family-name:var(--font-source-serif)] text-2xl text-slate-900">
+              Pošaljite poruku
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Kratko nam opišite pitanje i odgovorićemo u najkraćem roku.
+            </p>
+            <ContactForm
+              mode="compact"
+              idPrefix="homepage-contact-form"
+              className="mt-5"
+              submitLabel="Pošalji poruku"
+            />
+          </section>
+        </div>
       </SectionContainer>
     </div>
   );

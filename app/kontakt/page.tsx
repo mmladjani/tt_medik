@@ -2,10 +2,8 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { ContentPageShell } from "@/components/content/content-page-shell";
 import { RichContent } from "@/components/content/rich-content";
+import { ContactForm } from "@/components/forms/contact-form";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { getContactData } from "@/lib/content";
 import { getSitePageBySlug } from "@/lib/site-pages";
 
@@ -45,38 +43,7 @@ export default async function ContactPage() {
           <p className="mt-2 text-sm text-slate-600">
             Pošaljite poruku, a tim TT Medik će odgovoriti u najkraćem roku.
           </p>
-          <form className="mt-6 grid gap-4 sm:grid-cols-2">
-            <div className="space-y-2">
-              <Label htmlFor="contact-name">Ime i prezime *</Label>
-              <Input id="contact-name" placeholder="primer, Nikola Nikolić" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contact-email">Email *</Label>
-              <Input id="contact-email" type="email" placeholder="email@primer.rs" required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contact-phone">Telefon *</Label>
-              <Input id="contact-phone" placeholder="Broj telefona" required />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="contact-subject">Naslov *</Label>
-              <Input id="contact-subject" placeholder="Tema poruke" required />
-            </div>
-            <div className="space-y-2 sm:col-span-2">
-              <Label htmlFor="contact-message">Poruka *</Label>
-              <Textarea
-                id="contact-message"
-                rows={6}
-                placeholder="Kako možemo pomoći?"
-                required
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <Button type="button" className="w-full sm:w-auto">
-                Pošalji poruku
-              </Button>
-            </div>
-          </form>
+          <ContactForm mode="full" idPrefix="contact-page-form" className="mt-6" />
         </section>
       </div>
 
