@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { PortableTextBlock } from "@/lib/site-pages";
 
@@ -22,6 +23,7 @@ const headingAliasMap: Record<string, string[]> = {
     "smernice-za-tretman-dekubitusa",
   ],
 };
+const CONVATEC_URL = "https://www.convatec.com/sr-rs/";
 
 function slugifyHeading(value: string): string {
   return value
@@ -39,6 +41,26 @@ function toPlainText(block: PortableTextBlock): string {
     .map((child) => child.text)
     .join("")
     .trim();
+}
+
+function renderTextWithConvaTecLinks(text: string): ReactNode {
+  return text.split(/(ConvaTec)/g).map((part, index) => {
+    if (part === "ConvaTec") {
+      return (
+        <Link
+          key={`convatec-${index}`}
+          href={CONVATEC_URL}
+          target="_blank"
+          rel="noreferrer"
+          className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+        >
+          ConvaTec
+        </Link>
+      );
+    }
+
+    return part;
+  });
 }
 
 function renderPortableText(blocks: PortableTextBlock[]) {
@@ -72,7 +94,7 @@ function renderPortableText(blocks: PortableTextBlock[]) {
         >
           {items.map((item, itemIndex) => (
             <li key={`${item._key ?? "item"}-${itemIndex}`} className="text-slate-700">
-              {toPlainText(item)}
+              {renderTextWithConvaTecLinks(toPlainText(item))}
             </li>
           ))}
         </ListTag>,
@@ -102,7 +124,7 @@ function renderPortableText(blocks: PortableTextBlock[]) {
             id={headingId}
             className="mt-8 font-[family-name:var(--font-source-serif)] text-3xl text-slate-900"
           >
-            {text}
+            {renderTextWithConvaTecLinks(text)}
           </h2>
         </div>,
       );
@@ -115,7 +137,7 @@ function renderPortableText(blocks: PortableTextBlock[]) {
             <span key={alias} id={alias} className="relative -top-24 block" />
           ))}
           <h3 id={headingId} className="mt-7 text-xl font-semibold text-slate-900">
-            {text}
+            {renderTextWithConvaTecLinks(text)}
           </h3>
         </div>,
       );
@@ -125,13 +147,13 @@ function renderPortableText(blocks: PortableTextBlock[]) {
           key={key}
           className="my-5 rounded-xl border-l-4 border-sky-600 bg-sky-50 px-5 py-3 text-slate-700"
         >
-          {text}
+          {renderTextWithConvaTecLinks(text)}
         </blockquote>,
       );
     } else {
       rendered.push(
         <p key={key} className="my-4 leading-relaxed text-slate-700">
-          {text}
+          {renderTextWithConvaTecLinks(text)}
         </p>,
       );
     }
@@ -213,7 +235,7 @@ function renderTextChunks(chunks: TextChunk[]) {
             id={headingId}
             className="mt-8 font-[family-name:var(--font-source-serif)] text-3xl text-slate-900"
           >
-            {chunk.text}
+            {renderTextWithConvaTecLinks(chunk.text ?? "")}
           </h2>
         </div>
       );
@@ -225,7 +247,7 @@ function renderTextChunks(chunks: TextChunk[]) {
           key={`callout-${index}`}
           className="my-5 rounded-xl border-l-4 border-sky-600 bg-sky-50 px-5 py-3 text-slate-700"
         >
-          {chunk.text}
+          {renderTextWithConvaTecLinks(chunk.text ?? "")}
         </aside>
       );
     }
@@ -241,7 +263,7 @@ function renderTextChunks(chunks: TextChunk[]) {
           )}
         >
           {(chunk.items ?? []).map((item, itemIndex) => (
-            <li key={`${index}-${itemIndex}`}>{item}</li>
+            <li key={`${index}-${itemIndex}`}>{renderTextWithConvaTecLinks(item)}</li>
           ))}
         </ListTag>
       );
@@ -249,7 +271,7 @@ function renderTextChunks(chunks: TextChunk[]) {
 
     return (
       <p key={`paragraph-${index}`} className="my-4 leading-relaxed text-slate-700">
-        {chunk.text}
+        {renderTextWithConvaTecLinks(chunk.text ?? "")}
       </p>
     );
   });
