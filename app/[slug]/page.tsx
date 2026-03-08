@@ -1,9 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AboutUsSection } from "@/components/content/about-us-section";
 import { ContentPageShell } from "@/components/content/content-page-shell";
 import { RichContent } from "@/components/content/rich-content";
 import { Button } from "@/components/ui/button";
-import { getContactData, getHomepageData, normalizeCmsHref } from "@/lib/content";
+import {
+  getContactData,
+  getHomepageData,
+  normalizeCmsHref,
+} from "@/lib/content";
 import { getSitePageBySlug } from "@/lib/site-pages";
 
 const programSlugs = new Set([
@@ -51,6 +56,12 @@ export default async function MarketingPage({
   }
 
   const isProgramPage = programSlugs.has(slug);
+  const isAboutPage = slug === "o-nama";
+
+  if (isAboutPage) {
+    return <AboutUsSection />;
+  }
+
   const [homepage, contact] = await Promise.all([getHomepageData(), getContactData()]);
 
   const relatedPrograms = homepage.programs

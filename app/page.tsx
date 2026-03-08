@@ -3,25 +3,21 @@ import {
   Bandage,
   Bed,
   BookOpen,
-  FileText,
   Newspaper,
-  PhoneCall,
   ShieldCheck,
   Stethoscope,
-  UserRound,
 } from "lucide-react";
+import { AboutUsSection } from "@/components/content/about-us-section";
 import { CalloutNotice } from "@/components/home/callout-notice";
 import { CtaButton } from "@/components/home/cta-button";
 import { FaqAccordion } from "@/components/home/faq-accordion";
+import { HeroModernRevision } from "@/components/home/hero-modern-revision";
 import { HomeLink } from "@/components/home/home-link";
 import { NewsCard } from "@/components/home/news-card";
-import { PageHero } from "@/components/home/page-hero";
 import { ProgramsHub } from "@/components/home/programs-hub";
-import { QuickAccessCard } from "@/components/home/quick-access-card";
 import { SectionContainer, SectionHeading } from "@/components/home/section-container";
 import { ContactForm } from "@/components/forms/contact-form";
 import {
-  LoggedInOnly,
   MedicalOnly,
   VisibilityBlock,
 } from "@/components/visibility/visibility-block";
@@ -95,52 +91,8 @@ export default async function HomePage() {
   const accountHref = viewerAccess.isLoggedIn ? "/nalog" : "/login";
   const heroImage = homepage.hero.backgroundImage.startsWith("/")
     ? homepage.hero.backgroundImage
-    : "/assets/cover-photo-homepage.jpg";
+    : "/assets/tt_medik_heading.jpg";
 
-  const quickAccessDefaults = [
-    {
-      title: "Politika privatnosti",
-      description:
-        "Politikom privatnosti uređuju se način na koji TT MEDIK prikuplja, koristi i objavljuje informacije korisnika.",
-      href: "/politika-privatnosti",
-      label: "Saznaj više",
-      icon: FileText,
-    },
-    {
-      title: "Kontakt",
-      description:
-        "Besplatna telefonska linija za pacijente i podrška našeg stručnog tima svakog radnog dana.",
-      href: "/kontakt",
-      label: "Kontaktirajte nas",
-      icon: PhoneCall,
-    },
-    {
-      title: "Nalog",
-      description:
-        "Prijavite se ili registrujte nalog i pristupite celokupnom sadržaju sajta.",
-      href: accountHref,
-      label: viewerAccess.isLoggedIn ? "Moj nalog" : "Prijava i registracija",
-      icon: UserRound,
-    },
-  ] as const;
-
-  const quickAccessItems = quickAccessDefaults.map((fallbackItem, index) => {
-    const seedItem = homepage.quickLinks[index];
-    const href = seedItem?.link?.url
-      ? normalizeCmsHref(seedItem.link.url)
-      : fallbackItem.href;
-
-    return {
-      title: seedItem?.title || fallbackItem.title,
-      description: normalizeSeedText(seedItem?.description || fallbackItem.description),
-      href,
-      label: seedItem?.link?.title || fallbackItem.label,
-      icon: fallbackItem.icon,
-    };
-  });
-
-  const aboutBody = normalizeSeedText(homepage.about.body);
-  const aboutParts = aboutBody.split(/\n{2,}/).filter((part) => part.trim().length > 0);
   const newsPreview = newsPosts.slice(0, 3);
   const primaryPhone = contact.phones[0] ?? "011 311 51 52";
 
@@ -157,7 +109,7 @@ export default async function HomePage() {
   return (
     <div>
       <VisibilityBlock visibility="public">
-        <PageHero
+        <HeroModernRevision
           title={homepage.hero.title}
           subtitle={heroSubtitle}
           imageSrc={heroImage}
@@ -165,56 +117,15 @@ export default async function HomePage() {
             href: normalizeCmsHref(homepage.hero.primaryCta.href),
             label: homepage.hero.primaryCta.label,
           }}
-          secondaryCta={{
-            href: normalizeCmsHref(homepage.hero.secondaryCta.href),
-            label: homepage.hero.secondaryCta.label,
-          }}
+          address={contact.address}
+          email={contact.email}
+          phone={primaryPhone}
+          accountHref={accountHref}
+          isLoggedIn={viewerAccess.isLoggedIn}
         />
       </VisibilityBlock>
 
-      <SectionContainer className="-mt-4 pb-8 pt-0 sm:-mt-6 sm:pb-12 lg:-mt-8">
-        <div className="relative z-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {quickAccessItems.map((item) => (
-            <QuickAccessCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-              href={item.href}
-              linkLabel={item.label}
-              icon={item.icon}
-            />
-          ))}
-        </div>
-        <LoggedInOnly>
-          <p className="mt-4 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-slate-700">
-            Prijavljeni ste kao {viewerAccess.fullName || viewerAccess.email || "korisnik"}. Upravljajte
-            podacima i pristupom na stranici naloga.
-          </p>
-        </LoggedInOnly>
-      </SectionContainer>
-
-      <SectionContainer className="pt-2">
-        <div className="tt-surface grid gap-8 p-7 lg:grid-cols-[1.45fr_1fr] lg:p-10">
-          <div>
-            <SectionHeading eyebrow="Ukratko - O nama" title={homepage.about.title} />
-            <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-              {aboutParts.length > 0 ? (
-                aboutParts.map((part) => <p key={part}>{part}</p>)
-              ) : (
-                <p>{aboutBody}</p>
-              )}
-            </div>
-          </div>
-          <CalloutNotice title="Naša područja podrške" className="h-fit bg-slate-50">
-            <ul className="space-y-2 text-slate-700">
-              <li>Nega stome i podrška pacijentima</li>
-              <li>Moderno lečenje rana i zaštita kože</li>
-              <li>Rešenja za inkontinenciju</li>
-              <li>Programi za intenzivnu negu</li>
-            </ul>
-          </CalloutNotice>
-        </div>
-      </SectionContainer>
+      <AboutUsSection />
 
       <SectionContainer id="programi" className="bg-slate-100/65">
         <ProgramsHub

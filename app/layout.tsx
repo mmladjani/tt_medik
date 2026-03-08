@@ -30,6 +30,14 @@ export default async function RootLayout({
   const {
     data: { user },
   } = supabase ? await supabase.auth.getUser() : { data: { user: null } };
+  const { data: profile } = user && supabase
+    ? await supabase
+        .from("profiles")
+        .select("medical_status")
+        .eq("id", user.id)
+        .maybeSingle()
+    : { data: null };
+  const medicalStatus = profile?.medical_status ?? "none";
 
   return (
     <html lang="sr">
@@ -48,6 +56,8 @@ export default async function RootLayout({
             contact={contact}
             accountHref={user ? "/nalog" : "/login"}
             accountLabel={user ? "Moj nalog" : "Nalog"}
+            isLoggedIn={Boolean(user)}
+            medicalStatus={medicalStatus}
           />
           <main id="main-content" className="flex-1">{children}</main>
           <SiteFooter contact={contact} programs={homepage.programs} />
