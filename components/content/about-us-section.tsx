@@ -13,9 +13,10 @@ const SUPPORT_ITEMS = [
 export function AboutUsSection({ className }: { className?: string }) {
   return (
     <section className={cn("overflow-hidden bg-white py-32", className)}>
-      <div className="relative w-full">
-        <div className="relative grid gap-16 lg:grid-cols-[1fr_480px]">
-          <div className="space-y-8 px-8 md:px-16 lg:pl-24 lg:pr-16">
+      <div className="tt-container max-w-[90rem]">
+        <div className="relative w-full">
+          <div className="relative grid gap-16 lg:grid-cols-[minmax(0,1fr)_440px]">
+            <div className="space-y-8">
             <div>
               <span className="mb-4 block text-lg font-bold uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
                 O kompaniji
@@ -61,7 +62,7 @@ export function AboutUsSection({ className }: { className?: string }) {
                       size={18}
                       className="shrink-0 text-[#00a3ad] transition-transform group-hover:translate-x-1"
                     />
-                    <span className="text-base font-medium capitalize text-slate-700">
+                    <span className="text-base font-medium text-slate-700">
                       {item}
                     </span>
                   </div>
@@ -79,35 +80,36 @@ export function AboutUsSection({ className }: { className?: string }) {
             </div>
           </div>
 
-          <aside className="flex flex-col justify-center space-y-16 border-l border-slate-100 bg-slate-50/40 px-8 md:px-12 lg:w-[480px] lg:px-12">
-            <SidebarTile
-              icon={<History size={32} />}
-              title="Tradicija od 1993."
-              text="Više od tri decenije osiguravamo neprekidnu dostupnost najkvalitetnijih medicinskih rešenja pacijentima širom Srbije."
-            />
-            <SidebarTile
-              icon={<Users2 size={32} />}
-              title="Komunikacija"
-              text="Kroz stalni dijalog sa stručnim licima i korisnicima, kreiramo personalizovana rešenja koja su u potpunosti prilagođena potrebama svakog pacijenta."
-            />
-            <SidebarTile
-              icon={<GraduationCap size={32} />}
-              title="Edukacija"
-              text="Unapređujemo standarde lečenja kroz kontinuirano stručno usavršavanje svih učesnika u lancu pružanja zdravstvenih usluga."
-            />
-          </aside>
-        </div>
+            <aside className="flex flex-col justify-center space-y-16 border-l border-slate-100 bg-slate-50/40 px-6 md:px-8 lg:w-[440px] lg:px-10">
+              <SidebarTile
+                icon={<History size={32} />}
+                title="Tradicija od 1993."
+                text="Više od tri decenije osiguravamo neprekidnu dostupnost najkvalitetnijih medicinskih rešenja pacijentima širom Srbije."
+              />
+              <SidebarTile
+                icon={<Users2 size={32} />}
+                title="Komunikacija"
+                text="Kroz stalni dijalog sa stručnim licima i korisnicima, kreiramo personalizovana rešenja koja su u potpunosti prilagođena potrebama svakog pacijenta."
+              />
+              <SidebarTile
+                icon={<GraduationCap size={32} />}
+                title="Edukacija"
+                text="Unapređujemo standarde lečenja kroz kontinuirano stručno usavršavanje svih učesnika u lancu pružanja zdravstvenih usluga."
+              />
+            </aside>
+          </div>
 
-        <div className="mx-8 mt-32 relative overflow-hidden rounded-[3rem] bg-[#00344d] p-12 text-center shadow-2xl md:mx-12 md:p-20 lg:mx-24">
-          <Quote className="absolute left-8 top-8 text-white/5" size={140} />
-          <div className="relative z-10 mx-auto max-w-4xl">
-            <h3 className="mb-8 px-4 text-xl font-medium italic leading-relaxed text-white md:text-2xl">
-              &ldquo;Ostajući privrženi osnovnim humanim načelima i principima etičkog
-              poslovanja, gledamo u budućnost ističući kao svoj moto želju da
-              unapredimo i produžimo život pacijenata obezbeđujući im proizvode i
-              uslugu vrhunskog kvaliteta.&rdquo;
-            </h3>
-            <div className="mx-auto h-1 w-24 rounded-full bg-[#00a3ad]" />
+          <div className="relative mt-32 overflow-hidden rounded-[3rem] bg-[#00344d] p-12 text-center shadow-2xl md:p-20">
+            <Quote className="absolute left-8 top-8 text-white/5" size={140} />
+            <div className="relative z-10 mx-auto max-w-4xl">
+              <h3 className="mb-8 px-4 text-lg font-medium italic leading-relaxed text-white">
+                &ldquo;Ostajući privrženi osnovnim humanim načelima i principima etičkog
+                poslovanja, gledamo u budućnost ističući kao svoj moto želju da
+                unapredimo i produžimo život pacijenata obezbeđujući im proizvode i
+                uslugu vrhunskog kvaliteta.&rdquo;
+              </h3>
+              <div className="mx-auto h-1 w-24 rounded-full bg-[#00a3ad]" />
+            </div>
           </div>
         </div>
       </div>

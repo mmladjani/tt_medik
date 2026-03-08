@@ -46,17 +46,6 @@ export function SiteFooter({
 
   return (
     <footer className="mt-16 border-t border-slate-200/80 bg-white text-slate-700">
-      <div className="border-b border-sky-200 bg-sky-50 py-8">
-        <div className="tt-container text-center">
-          <p className="text-balance text-2xl font-bold text-sky-900 sm:text-3xl">
-            Telefonska podrška za pacijente: {primaryPhone || "011 311 51 52"}
-          </p>
-          <p className="mt-2 text-base text-sky-800 sm:text-lg">
-            Radnim danima: 8:30 - 15:30
-          </p>
-        </div>
-      </div>
-
       <div className="tt-container grid gap-10 py-14 lg:grid-cols-[1.25fr_1fr_1fr]">
         <div className="space-y-5">
           <Image

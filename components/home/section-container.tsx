@@ -4,15 +4,17 @@ import { cn } from "@/lib/utils";
 export function SectionContainer({
   children,
   className,
+  containerClassName,
   id,
 }: {
   children: ReactNode;
   className?: string;
+  containerClassName?: string;
   id?: string;
 }) {
   return (
     <section id={id} className={cn("tt-section", className)}>
-      <div className="tt-container">{children}</div>
+      <div className={cn("tt-container", containerClassName)}>{children}</div>
     </section>
   );
 }
