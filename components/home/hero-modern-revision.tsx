@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
@@ -17,6 +18,26 @@ function splitHeroTitle(title: string): { first: string; accent?: string } {
     first: match[1].trim(),
     accent: `${match[2]}${match[3] ?? ""}`.trim(),
   };
+}
+
+function renderConvaTecLinks(text: string): ReactNode {
+  return text.split(/(ConvaTec)/g).map((part, index) => {
+    if (part === "ConvaTec") {
+      return (
+        <Link
+          key={`convatec-${index}`}
+          href="https://www.convatec.com/sr-rs/"
+          target="_blank"
+          rel="noreferrer"
+          className="relative inline-block text-[#00a3ad] transition-colors duration-300 hover:text-white after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+        >
+          ConvaTec
+        </Link>
+      );
+    }
+
+    return part;
+  });
 }
 
 export function HeroModernRevision({
@@ -76,7 +97,7 @@ export function HeroModernRevision({
             ) : null}
           </h1>
           <p className="mb-12 text-xl font-medium leading-relaxed text-white/90 md:text-2xl">
-            {subtitle}
+            {renderConvaTecLinks(subtitle)}
           </p>
 
           <div className="flex flex-wrap gap-5">
@@ -107,10 +128,10 @@ export function HeroModernRevision({
                 <MapPin size={24} />
               </div>
               <div>
-                <h4 className="mb-4 text-lg font-bold uppercase tracking-tight text-white">
+                <h4 className="mb-4 text-lg font-bold uppercase tracking-wide text-white">
                   Kontakt informacije
                 </h4>
-                <div className="space-y-3 text-sm text-white/70">
+                <div className="space-y-3 text-base text-white/70">
                   <p className="flex items-center gap-2">
                     <MapPin size={14} className="text-[#00a3ad]" />
                     {cleanAddress}
@@ -139,7 +160,7 @@ export function HeroModernRevision({
                 <Headphones size={24} />
               </div>
               <div>
-                <h4 className="mb-1 text-sm font-bold uppercase tracking-widest text-[#00a3ad]">
+                <h4 className="mb-1 text-lg font-bold uppercase tracking-wide text-[#00a3ad]">
                   Besplatna linija
                 </h4>
                 <a
@@ -148,7 +169,7 @@ export function HeroModernRevision({
                 >
                   {SUPPORT_LINE}
                 </a>
-                <p className="text-xs font-bold uppercase text-white/40">
+                <p className="text-sm font-bold uppercase text-white/40">
                   Radnim danima: 8:30 - 15:30
                 </p>
               </div>
@@ -163,11 +184,13 @@ export function HeroModernRevision({
                 <UserPlus size={24} />
               </div>
               <div>
-                <h4 className="mb-2 text-lg font-bold text-white">{accountTitle}</h4>
-                <p className="mb-4 text-sm leading-relaxed text-white/50">{accountText}</p>
+                <h4 className="mb-2 text-lg font-bold uppercase tracking-wide text-white">
+                  {accountTitle}
+                </h4>
+                <p className="mb-4 text-base leading-relaxed text-white/50">{accountText}</p>
                 <Link
                   href={accountHref}
-                  className="border-b border-[#00a3ad] pb-1 text-xs font-bold uppercase tracking-widest text-[#00a3ad] transition-all hover:border-white hover:text-white"
+                  className="relative inline-block text-sm font-bold uppercase tracking-wide text-[#00a3ad] transition-colors duration-300 hover:text-white after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
                 >
                   {accountCta}
                 </Link>

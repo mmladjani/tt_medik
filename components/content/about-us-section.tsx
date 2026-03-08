@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { ChevronRight, GraduationCap, History, Quote, Users2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,32 +23,59 @@ export function AboutUsSection({ className }: { className?: string }) {
               <h2 className="mb-8 text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
                 TT Medik
               </h2>
-              <p className="text-lg leading-relaxed text-slate-600 md:text-xl">
-                TT Medik, d.o.o. je distributer kompanije <strong>ConvaTec</strong>, jednog
-                od svetskih lidera u razvoju i proizvodnji inovativnih medicinskih
-                tehnologija i proizvoda koji doprinose poboljšanju kvaliteta života
-                miliona ljudi širom sveta.
+              <p className="text-lg leading-relaxed text-slate-600">
+                TT Medik, d.o.o. je distributer kompanije{" "}
+                <Link
+                  href="https://www.convatec.com/sr-rs/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+                >
+                  ConvaTec
+                </Link>
+                , jednog od svetskih lidera u razvoju i proizvodnji inovativnih
+                medicinskih tehnologija i proizvoda koji doprinose poboljšanju kvaliteta
+                života miliona ljudi širom sveta.
               </p>
             </div>
 
             <div className="pt-2">
-              <p className="mb-8 text-lg font-bold tracking-tight text-[#00344d] md:text-xl">
-                ConvaTec paleta proizvoda namenjena je:
+              <p className="mb-8 text-lg font-bold tracking-tight text-[#00344d]">
+                <Link
+                  href="https://www.convatec.com/sr-rs/"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="relative inline-block text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+                >
+                  ConvaTec
+                </Link>{" "}
+                paleta proizvoda namenjena je:
               </p>
-              <div className="grid grid-cols-1 gap-x-12 gap-y-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-x-12 gap-y-3 md:grid-cols-2">
                 {SUPPORT_ITEMS.map((item) => (
                   <div
                     key={item}
-                    className="group flex cursor-default items-center gap-3 border-b border-slate-50 py-2"
+                    className="group flex cursor-default items-center gap-3 border-b border-slate-50 py-1.5"
                   >
                     <ChevronRight
                       size={18}
-                      className="text-[#00a3ad] transition-transform group-hover:translate-x-1"
+                      className="shrink-0 text-[#00a3ad] transition-transform group-hover:translate-x-1"
                     />
-                    <span className="text-lg font-medium capitalize text-slate-700">{item}</span>
+                    <span className="text-base font-medium capitalize text-slate-700">
+                      {item}
+                    </span>
                   </div>
                 ))}
               </div>
+              <p className="mt-10 text-lg leading-relaxed text-slate-600">
+                Mi u TT Mediku svojim velikim uspehom smatramo činjenicu da od svog
+                osnivanja 1993. godine do danas, uprkos brojnim poteškoćama, pacijente u
+                Srbiji kontinuirano snabdevamo visokokvalitetnim medicinskim sredstvima.
+                Kroz svakodnevnu komunikaciju sa zdravstvenim radnicima i korisnicima naših
+                proizvoda, trudimo se da pronađemo individualno prilagođena rešenja za
+                potrebe pacijenata. Posebnu pažnju poklanjamo kontinuiranoj edukaciji svih
+                učesnika u procesu pružanja usluga zdravstvene delatnosti.
+              </p>
             </div>
           </div>
 
@@ -55,17 +83,17 @@ export function AboutUsSection({ className }: { className?: string }) {
             <SidebarTile
               icon={<History size={32} />}
               title="Tradicija od 1993."
-              text="Pacijente u Srbiji kontinuirano snabdevamo visokokvalitetnim medicinskim sredstvima."
+              text="Više od tri decenije osiguravamo neprekidnu dostupnost najkvalitetnijih medicinskih rešenja pacijentima širom Srbije."
             />
             <SidebarTile
               icon={<Users2 size={32} />}
               title="Komunikacija"
-              text="Pronađemo individualno prilagođena rešenja kroz stalni kontakt sa stručnjacima."
+              text="Kroz stalni dijalog sa stručnim licima i korisnicima, kreiramo personalizovana rešenja koja su u potpunosti prilagođena potrebama svakog pacijenta."
             />
             <SidebarTile
               icon={<GraduationCap size={32} />}
               title="Edukacija"
-              text="Posebnu pažnju poklanjamo kontinuiranoj edukaciji svih učesnika u zdravstvu."
+              text="Unapređujemo standarde lečenja kroz kontinuirano stručno usavršavanje svih učesnika u lancu pružanja zdravstvenih usluga."
             />
           </aside>
         </div>
@@ -98,10 +126,10 @@ function SidebarTile({
 }) {
   return (
     <article className="group space-y-4">
-      <div className="text-[#00a3ad] transition-transform duration-300 group-hover:scale-110">
+      <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-[#f0f9fa] text-[#00a3ad] transition-all duration-300 group-hover:bg-[#00a3ad] group-hover:text-white">
         {icon}
       </div>
-      <h4 className="text-lg font-bold uppercase tracking-tight text-[#00344d]">
+      <h4 className="text-xl font-bold uppercase tracking-tight text-[#00344d]">
         {title}
       </h4>
       <p className="text-sm leading-relaxed text-slate-500">{text}</p>

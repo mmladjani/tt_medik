@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ExternalLink } from "lucide-react";
 import { HomeLink } from "./home-link";
 
@@ -22,7 +23,15 @@ export function HeroModern({
         <div className="relative flex min-h-[600px] items-center overflow-hidden rounded-[2.5rem] bg-[#00344d] shadow-2xl shadow-blue-900/20">
           <div className="relative z-20 w-full p-8 md:p-16 lg:w-3/5 lg:p-24">
             <span className="mb-4 inline-block text-sm font-bold uppercase tracking-widest text-[#00a3ad]">
-              TT Medik & ConvaTec
+              TT Medik &{" "}
+              <Link
+                href="https://www.convatec.com/sr-rs/"
+                target="_blank"
+                rel="noreferrer"
+                className="relative inline-block text-[#00a3ad] transition-colors duration-300 hover:text-white after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+              >
+                ConvaTec
+              </Link>
             </span>
 
             <h1 className="mb-6 text-4xl font-black leading-[1.1] text-white md:text-6xl">
