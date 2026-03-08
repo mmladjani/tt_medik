@@ -1,11 +1,5 @@
-import type { LucideIcon } from "lucide-react";
 import {
-  Bandage,
-  Bed,
-  BookOpen,
   Newspaper,
-  ShieldCheck,
-  Stethoscope,
 } from "lucide-react";
 import { AboutUsSection } from "@/components/content/about-us-section";
 import { CalloutNotice } from "@/components/home/callout-notice";
@@ -14,7 +8,7 @@ import { FaqAccordion } from "@/components/home/faq-accordion";
 import { HeroModernRevision } from "@/components/home/hero-modern-revision";
 import { HomeLink } from "@/components/home/home-link";
 import { NewsCard } from "@/components/home/news-card";
-import { ProgramsHub } from "@/components/home/programs-hub";
+import { ProductPrograms } from "@/components/home/product-programs";
 import { SectionContainer, SectionHeading } from "@/components/home/section-container";
 import { ContactForm } from "@/components/forms/contact-form";
 import {
@@ -29,48 +23,6 @@ import {
 } from "@/lib/content";
 import { getNewsPosts } from "@/lib/news";
 import { getViewerAccess } from "@/lib/viewer-access";
-
-const PROGRAM_FALLBACK_DESCRIPTION: Record<string, string> = {
-  "stoma-program":
-    "Informacije, saveti i podrška za svakodnevnu negu stome i kvalitetniji život.",
-  inkontinencija:
-    "Rešenja i edukacija za kontrolu inkontinencije uz stručno vođstvo i podršku.",
-  "program-za-negu-rana":
-    "Savremeni pristupi tretmanu rana i zaštiti kože za pacijente i negovatelje.",
-  "proizvodi-za-jedinice-intenzivne-nege":
-    "Program proizvoda za intenzivnu negu sa fokusom na sigurnost i efikasnost.",
-  "kutak-za-osobe-sa-stomom":
-    "Korisni vodiči i praktični sadržaji namenjeni osobama sa stomom i porodici.",
-};
-
-const PROGRAMS_SECTION_EYEBROW = "Programi";
-const PROGRAMS_SECTION_TITLE = "Područja podrške";
-const PROGRAMS_SECTION_SUBTITLE =
-  "Pogledajte ključne TT Medik programe i odaberite sadržaj koji najbolje odgovara vašim potrebama.";
-
-function resolveProgramIcon(title: string): LucideIcon {
-  const lowerTitle = title.toLowerCase();
-
-  if (lowerTitle.includes("stoma")) return Stethoscope;
-  if (lowerTitle.includes("inkontinen")) return ShieldCheck;
-  if (lowerTitle.includes("rana")) return Bandage;
-  if (lowerTitle.includes("intenzivne")) return Bed;
-  if (lowerTitle.includes("kutak")) return BookOpen;
-
-  return ShieldCheck;
-}
-
-function resolveProgramDescription(title: string, href: string, description: string): string {
-  if (description.trim().length > 0) {
-    return description;
-  }
-
-  const slug = href.split("#")[0].replace(/^\/+/, "");
-  return (
-    PROGRAM_FALLBACK_DESCRIPTION[slug] ||
-    `Saznajte više o programu: ${title.toLowerCase()}.`
-  );
-}
 
 function formatPhoneHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
@@ -96,16 +48,6 @@ export default async function HomePage() {
   const newsPreview = newsPosts.slice(0, 3);
   const primaryPhone = contact.phones[0] ?? "011 311 51 52";
 
-  const programs = homepage.programs.map((program) => {
-    const href = normalizeCmsHref(program.link.url);
-    return {
-      title: program.title,
-      description: resolveProgramDescription(program.title, href, program.description),
-      href,
-      icon: resolveProgramIcon(program.title),
-    };
-  });
-
   return (
     <div>
       <VisibilityBlock visibility="public">
@@ -126,15 +68,7 @@ export default async function HomePage() {
       </VisibilityBlock>
 
       <AboutUsSection />
-
-      <SectionContainer id="programi" className="bg-slate-100/65">
-        <ProgramsHub
-          eyebrow={PROGRAMS_SECTION_EYEBROW}
-          title={PROGRAMS_SECTION_TITLE}
-          subtitle={PROGRAMS_SECTION_SUBTITLE}
-          items={programs}
-        />
-      </SectionContainer>
+      <ProductPrograms />
 
       <SectionContainer className="pt-8">
         <SectionHeading
