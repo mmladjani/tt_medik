@@ -1,6 +1,6 @@
 import { AboutUsSection } from "@/components/content/about-us-section";
 import { CalloutNotice } from "@/components/home/callout-notice";
-import { ContactSection } from "@/components/home/contact-section";
+import { ContactCtaSection } from "@/components/home/contact-cta-section";
 import { CtaButton } from "@/components/home/cta-button";
 import { HeroModernRevision } from "@/components/home/hero-modern-revision";
 import { KnowledgeHub } from "@/components/home/knowledge-hub";
@@ -80,7 +80,7 @@ export default async function HomePage() {
       </MedicalOnly>
 
       <SectionGap size="lg" />
-      <ContactSection contact={contact} className="pt-0" />
+      <ContactCtaSection contact={contact} className="pt-0" />
     </div>
   );
 }
