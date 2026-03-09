@@ -1,120 +1,16 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
-import {
-  ArrowRight,
-  ChevronDown,
-  ExternalLink,
-  HeartPulse,
-  HelpCircle,
-  Utensils,
-} from "lucide-react";
+import { ArrowUpRight, ChevronRight, ExternalLink, HeartPulse, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface AccordionItemProps {
-  number: string;
-  question: string;
-  answer: ReactNode;
-  isOpen: boolean;
-  onClick: () => void;
-}
+type FaqItem = {
+  q: string;
+  a: string;
+};
 
-function AccordionItem({
-  number,
-  question,
-  answer,
-  isOpen,
-  onClick,
-}: AccordionItemProps) {
-  return (
-    <div className="border-b border-slate-100 last:border-0">
-      <button
-        type="button"
-        onClick={onClick}
-        className="group flex w-full items-center justify-between py-6 text-left"
-      >
-        <div className="flex items-center gap-6">
-          <span className="text-sm font-black text-[#00a3ad]/30 transition-colors group-hover:text-[#00a3ad]">
-            {number}
-          </span>
-          <span className="text-lg font-bold text-[#00344d] md:text-xl">{question}</span>
-        </div>
-        <ChevronDown
-          className={`text-[#00a3ad] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-          size={20}
-        />
-      </button>
-      <div
-        className={`overflow-hidden transition-all duration-300 ${isOpen ? "max-h-[80rem] pb-6" : "max-h-0"}`}
-      >
-        <div className="pl-16 text-slate-500">
-          <p className="max-w-2xl leading-relaxed">{answer}</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-interface AdviceTileProps {
-  title: string;
-  icon: LucideIcon;
-  desc: string;
-  href: string;
-  guideHref?: string;
-  guideLabel?: string;
-}
-
-function AdviceTile({
-  title,
-  icon: Icon,
-  desc,
-  href,
-  guideHref,
-  guideLabel,
-}: AdviceTileProps) {
-  return (
-    <article className="group relative overflow-hidden rounded-[2.5rem] border border-transparent bg-slate-50 p-8 transition-all duration-300 hover:border-slate-100 hover:bg-white hover:shadow-xl">
-      <div className="mb-6 inline-flex rounded-2xl bg-white p-4 text-[#00a3ad] shadow-sm transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
-        <Icon size={28} />
-      </div>
-      <h4 className="mb-3 text-xl font-black uppercase tracking-tighter text-[#00344d]">
-        {title}
-      </h4>
-      <p className="text-sm leading-relaxed text-slate-500">{desc}</p>
-
-      <div
-        className={cn(
-          "mt-6 flex flex-col items-start",
-          guideHref && guideLabel ? "gap-3" : "gap-0",
-        )}
-      >
-        {guideHref && guideLabel ? (
-          <a
-            href={guideHref}
-            target="_blank"
-            rel="noreferrer"
-            className="relative inline-flex items-center gap-1.5 text-sm font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-          >
-            {guideLabel}
-            <ExternalLink size={14} className="shrink-0" aria-hidden="true" />
-          </a>
-        ) : null}
-
-        <Link
-          href={href}
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
-        >
-          Pročitaj više
-          <ArrowRight size={14} className="transition-transform group-hover:translate-x-2" />
-        </Link>
-      </div>
-    </article>
-  );
-}
-
-const faqs: Array<{ q: string; a: ReactNode }> = [
+const FAQ_ITEMS: FaqItem[] = [
   {
     q: "Da li mogu da se kupam i tuširam?",
     a: "Naravno. Kese i diskovi su vodootporni. Kada se kupate i tuširate, nosite Vašu kesu kao i obično. Ukoliko koristite kese za kolostomu sa filterom, tokom tuširanja ili kupanja filter zaštitite nalepnicom koja se nalazi u kutiji sa kesama. Ako idete na plivanje kesu ispraznite pre ulaska u vodu i nosite je ispod kupaćeg kostima. Voda ne može ući u stomu niti oštetiti sluzokožu creva. Nakon tuširanja kesu i disk obrišite peškirom. Ukoliko plivate u moru ili bazenu, nakon kupanja se istuširajte, presvucite i posušite disk i kesu.",
@@ -133,7 +29,7 @@ const faqs: Array<{ q: string; a: ReactNode }> = [
   },
   {
     q: "Šta je sa bavljenjem sportom i hobijima?",
-    a: "Kada se oporavite činjenica da imate stomu neće Vas sprečiti da uživate u sportu i u hobijima. Šetnja, vožnja bicikla, rad u bašti, jedrenje, plivanje, kao i veliki broj sportova i ostalih aktivnosti predstavljaju deo svakodnevnog života.Trebalo bi da izbegavate upražnjavanje nekih dinamičnih aktivnosti-kontaktnih sportova, kao što je fudbal, karate ili rvanje, jer je moguća povreda same stome.",
+    a: "Kada se oporavite činjenica da imate stomu neće Vas sprečiti da uživate u sportu i u hobijima. Šetnja, vožnja bicikla, rad u bašti, jedrenje, plivanje, kao i veliki broj sportova i ostalih aktivnosti predstavljaju deo svakodnevnog života. Trebalo bi da izbegavate upražnjavanje nekih dinamičnih aktivnosti-kontaktnih sportova, kao što je fudbal, karate ili rvanje, jer je moguća povreda same stome.",
   },
   {
     q: "Da li ću moći imati intimne odnose?",
@@ -147,56 +43,133 @@ export function KnowledgeHub({ className }: { className?: string }) {
   return (
     <section className={cn("bg-white py-24", className)}>
       <div className="tt-container max-w-[90rem]">
-        <div className="mb-20">
-          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad]">
-            Podrška i Saveti
+        <div className="mb-24">
+          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
+            Podrška
           </span>
           <h2 className="text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
-            Sve što treba da znate
+            Česta pitanja
           </h2>
+          <p className="mt-6 max-w-4xl text-base leading-relaxed text-slate-600 md:text-lg">
+            Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o
+            stomi, o nezi stome i kože oko stome, kao i o načinu ishrane nakon izlaska iz
+            bolnice.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <div className="mb-6 flex items-center gap-3 text-[#00344d]">
-              <HelpCircle size={24} className="text-[#00a3ad]" />
-              <h3 className="text-2xl font-black tracking-tight">NAJČEŠĆE POSTAVLJENA PITANJA</h3>
-            </div>
-            <p className="mb-8 max-w-3xl text-base leading-relaxed text-slate-600">
-              Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o
-              stomi, o nezi stome i kože oko stome, kao i o načinu ishrane nakon izlaska
-              iz bolnice.
-            </p>
-            <div className="space-y-2">
-              {faqs.map((faq, i) => (
-                <AccordionItem
-                  key={faq.q}
-                  number={`${String(i + 1).padStart(2, "0")}.`}
-                  question={faq.q}
-                  answer={faq.a}
-                  isOpen={openIndex === i}
-                  onClick={() => setOpenIndex(openIndex === i ? -1 : i)}
-                />
-              ))}
-            </div>
-          </div>
+        <div className="mb-24 space-y-0 border-t border-slate-100">
+          {FAQ_ITEMS.map((faq, i) => {
+            const isOpen = openIndex === i;
 
-          <div className="flex flex-col gap-6 lg:col-span-5">
-            <AdviceTile
-              icon={Utensils}
-              title="Ishrana"
-              desc="U nastavku možete pročitati detaljnije informacije o ishrani u zavisnosti od vrste izvedene stome."
-              href="/stoma-program"
-              guideHref="/assets/prirucnik-za-pacijente-sa-stomom.pdf"
-              guideLabel="Priručnik za pacijente sa stomom"
+            return (
+              <article
+                key={faq.q}
+                className="group border-b border-slate-100 transition-colors hover:bg-slate-50/50"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : i)}
+                  className="flex w-full items-center justify-between py-8 text-left"
+                >
+                  <div className="flex items-center gap-8">
+                    <span className="text-sm font-black text-[#00a3ad]/20 transition-colors group-hover:text-[#00a3ad]">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-xl font-bold text-[#00344d] md:text-2xl">{faq.q}</span>
+                  </div>
+                  <span
+                    className={cn(
+                      "rounded-full border border-slate-200 p-2 text-[#00a3ad] transition-transform rotate-45",
+                      isOpen && "rotate-[135deg] border-[#00a3ad] bg-[#00a3ad] text-white",
+                    )}
+                  >
+                    <ArrowUpRight size={20} />
+                  </span>
+                </button>
+
+                <div
+                  className={cn(
+                    "overflow-hidden transition-all duration-500",
+                    isOpen ? "max-h-[80rem] pb-8" : "max-h-0",
+                  )}
+                >
+                  <p className="max-w-3xl pl-16 pr-4 text-lg leading-relaxed text-slate-500">
+                    {faq.a}
+                  </p>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+          <article className="group relative flex h-[300px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/5 bg-[#f0f9fa] p-10 transition-all hover:border-[#00a3ad]/20">
+            <div className="relative z-10">
+              <div className="mb-6 inline-flex rounded-2xl bg-white p-4 text-[#00a3ad] shadow-sm transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
+                <Utensils size={32} />
+              </div>
+              <h4 className="mb-2 text-2xl font-black uppercase tracking-tighter text-[#00344d]">
+                Ishrana
+              </h4>
+              <p className="max-w-[320px] text-sm leading-relaxed text-slate-500">
+                U nastavku možete pročitati detaljnije informacije o ishrani u zavisnosti od
+                vrste izvedene stome.
+              </p>
+            </div>
+
+            <div className="relative z-10 flex flex-col items-start gap-3">
+              <a
+                href="/assets/prirucnik-za-pacijente-sa-stomom.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad]"
+              >
+                Priručnik za pacijente sa stomom
+                <ExternalLink size={14} className="shrink-0" aria-hidden="true" />
+              </a>
+              <Link
+                href="/stoma-program"
+                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
+              >
+                Otvori vodič
+                <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
+              </Link>
+            </div>
+
+            <Utensils
+              className="absolute -bottom-10 -right-10 rotate-12 text-[#00a3ad]/5 transition-transform group-hover:scale-110"
+              size={240}
             />
-            <AdviceTile
-              icon={HeartPulse}
-              title="Nega stome"
-              desc="U toku boravka u bolnici nakon operacije od Vaše stoma sestre ste dobili uputstva kako treba negovati kožu oko stome, kao i stomu. Ovde možete dobiti još neke korisne savete koji će Vam olakšati negu."
+          </article>
+
+          <article className="group relative flex h-[300px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-[#00344d] p-10 transition-all hover:shadow-2xl hover:shadow-[#00344d]/20">
+            <div className="relative z-10">
+              <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-4 text-[#00a3ad] backdrop-blur-md transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
+                <HeartPulse size={32} />
+              </div>
+              <h4 className="mb-2 text-2xl font-black uppercase tracking-tighter text-white">
+                Nega stome
+              </h4>
+              <p className="max-w-[320px] text-sm leading-relaxed text-white/60">
+                U toku boravka u bolnici nakon operacije od Vaše stoma sestre ste dobili
+                uputstva kako treba negovati kožu oko stome, kao i stomu. Ovde možete dobiti
+                još neke korisne savete koji će Vam olakšati negu.
+              </p>
+            </div>
+
+            <Link
               href="/stoma-program"
+              className="relative z-10 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
+            >
+              Pogledaj savete
+              <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
+            </Link>
+
+            <HeartPulse
+              className="absolute -bottom-10 -right-10 -rotate-12 text-white/5 transition-transform group-hover:scale-110"
+              size={240}
             />
-          </div>
+          </article>
         </div>
       </div>
     </section>
