@@ -45,7 +45,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
       <div className="tt-container max-w-[90rem]">
         <div className="mb-24">
           <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
-            Podrška
+            Podrška i saveti
           </span>
           <h2 className="text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
             Česta pitanja
