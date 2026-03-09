@@ -48,7 +48,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
             Podrška i saveti
           </span>
           <h2 className="text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
-            Česta pitanja
+            NAJČEŠĆE POSTAVLJENA PITANJA
           </h2>
           <p className="mt-6 max-w-4xl text-base leading-relaxed text-slate-600 md:text-lg">
             Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o
