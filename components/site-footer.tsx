@@ -1,6 +1,14 @@
-import Image from "next/image";
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import {
+  ChevronRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import {
   type ContactData,
   type HomepageProgram,
@@ -24,7 +32,7 @@ function FooterLink({
   }
 
   return (
-    <Link href={href} className="transition hover:text-sky-700">
+    <Link href={href} className="text-white/60 transition-all hover:text-white">
       {label}
     </Link>
   );
@@ -34,6 +42,81 @@ function formatPhoneLink(phone: string) {
   return `tel:${phone.replace(/[^\d+]/g, "")}`;
 }
 
+function DirectoryLink({
+  href,
+  label,
+}: {
+  href: string;
+  label: string;
+}) {
+  return (
+    <li>
+      <div className="group flex items-center gap-2 text-sm transition-all">
+        <ChevronRight className="-ml-4 size-3 text-[#00a3ad] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100" />
+        <FooterLink href={href} label={label} />
+      </div>
+    </li>
+  );
+}
+
+function ContactInfo({
+  icon,
+  text,
+  href,
+  isTeal,
+}: {
+  icon: ReactNode;
+  text: string;
+  href?: string;
+  isTeal?: boolean;
+}) {
+  const content = href ? (
+    <a
+      href={href}
+      className={`${isTeal ? "font-bold text-[#00a3ad]" : "text-white/70"} text-sm transition-colors hover:text-[#00a3ad]`}
+    >
+      {text}
+    </a>
+  ) : (
+    <span className={`${isTeal ? "font-bold text-[#00a3ad]" : "text-white/70"} text-sm`}>
+      {text}
+    </span>
+  );
+
+  return (
+    <div className="group flex items-center gap-4">
+      <div
+        className={`${isTeal ? "text-[#00a3ad]" : "text-white/40"} shrink-0 transition-colors group-hover:text-[#00a3ad]`}
+      >
+        {icon}
+      </div>
+      {content}
+    </div>
+  );
+}
+
+function SocialIcon({
+  href,
+  icon,
+  label,
+}: {
+  href: string;
+  icon: ReactNode;
+  label: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={label}
+      className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 text-white/40 transition-all hover:bg-[#00a3ad] hover:text-white"
+    >
+      {icon}
+    </a>
+  );
+}
+
 export function SiteFooter({
   programs,
   contact,
@@ -41,80 +124,104 @@ export function SiteFooter({
   programs: HomepageProgram[];
   contact: ContactData;
 }) {
-  const primaryPhone = contact.phones[0] ?? "";
-  const secondaryPhone = contact.phones[1] ?? "";
+  const visiblePrograms = programs.slice(0, 4);
+  const supportPhone = contact.phones.find((phone) => phone.includes("0800")) ?? contact.phones[0] ?? "";
+  const usefulLinks = [
+    { label: "O nama", href: "/o-nama" },
+    { label: "Kutak za pacijente", href: "/kutak-za-osobe-sa-stomom" },
+    { label: "Ishrana i saveti", href: "/stoma-program" },
+    { label: "Kontakt", href: "/kontakt" },
+  ];
 
   return (
-    <footer className="mt-16 border-t border-slate-200/80 bg-white text-slate-700">
-      <div className="tt-container grid gap-10 py-14 lg:grid-cols-[1.25fr_1fr_1fr]">
-        <div className="space-y-5">
-          <Image
-            src="/assets/cropped-tt-medik-logo-short.png"
-            alt="TT Medik"
-            width={200}
-            height={52}
-          />
-          <p className="max-w-sm text-sm leading-relaxed text-slate-600">
-            TT Medik pruža podršku pacijentima i zdravstvenim radnicima kroz
-            proverene medicinske programe, edukativne sadržaje i dostupnu stručnu
-            pomoć.
-          </p>
-        </div>
+    <footer className="mt-16 overflow-hidden bg-[#00344d] px-6 pb-12 pt-24 text-white">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-1 gap-16 border-b border-white/5 pb-20 lg:grid-cols-[1.5fr_1fr_1fr_1.5fr]">
+          <div className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tighter">
+              TT<span className="text-[#00a3ad]">Medik</span>
+            </h2>
+            <p className="max-w-xs text-sm leading-relaxed text-white/60">
+              Pouzdan partner u distribuciji inovativnih medicinskih tehnologija kompanije
+              ConvaTec od 1993. godine.
+            </p>
+            <div className="flex gap-4">
+              <SocialIcon href="#" icon={<Facebook size={18} />} label="Facebook" />
+              <SocialIcon href="#" icon={<Instagram size={18} />} label="Instagram" />
+              <SocialIcon href="#" icon={<Linkedin size={18} />} label="LinkedIn" />
+            </div>
+          </div>
 
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Programi
-          </h3>
-          <ul className="mt-4 space-y-2.5 text-sm">
-            {programs.map((program) => (
-              <li key={program.title}>
-                <FooterLink
+          <div className="space-y-6">
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#00a3ad]">
+              Programi
+            </h4>
+            <ul className="space-y-4">
+              {visiblePrograms.map((program) => (
+                <DirectoryLink
+                  key={program.title}
                   href={normalizeCmsHref(program.link.url)}
                   label={program.title}
                 />
-              </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="text-xs font-black uppercase tracking-widest text-[#00a3ad]">
+              Korisni linkovi
+            </h4>
+            <ul className="space-y-4">
+              {usefulLinks.map((item) => (
+                <DirectoryLink key={item.label} href={item.href} label={item.label} />
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-[2.5rem] border border-white/10 bg-white/5 p-8">
+            <h4 className="mb-8 text-sm font-black uppercase tracking-widest text-white">Kontakt</h4>
+            <div className="space-y-6">
+              <ContactInfo icon={<MapPin size={18} />} text={contact.address} />
+              {supportPhone ? (
+                <ContactInfo
+                  icon={<Phone size={18} />}
+                  text={supportPhone}
+                  href={formatPhoneLink(supportPhone)}
+                  isTeal
+                />
+              ) : null}
+              <ContactInfo
+                icon={<Mail size={18} />}
+                text={contact.email}
+                href={`mailto:${contact.email}`}
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Kontakt
-          </h3>
-          <ul className="mt-4 space-y-3.5 text-sm">
-            <li className="flex items-start gap-2">
-              <Mail className="mt-0.5 size-4 shrink-0 text-sky-700" />
-              <a href={`mailto:${contact.email}`} className="hover:text-sky-700">
-                {contact.email}
-              </a>
+        <div className="flex flex-col items-center justify-between gap-6 pt-12 md:flex-row">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+            © {new Date().getFullYear()} TT Medik d.o.o. Sva prava zadržana.
+          </p>
+          <ul className="flex gap-8">
+            <li>
+              <Link
+                href="/politika-privatnosti"
+                className="text-[10px] font-bold uppercase tracking-widest text-white/30 transition-colors hover:text-[#00a3ad]"
+              >
+                Politika privatnosti
+              </Link>
             </li>
-            {primaryPhone ? (
-              <li className="flex items-start gap-2">
-                <Phone className="mt-0.5 size-4 shrink-0 text-sky-700" />
-                <a href={formatPhoneLink(primaryPhone)} className="hover:text-sky-700">
-                  {primaryPhone}
-                </a>
-              </li>
-            ) : null}
-            {secondaryPhone ? (
-              <li className="flex items-start gap-2">
-                <Phone className="mt-0.5 size-4 shrink-0 text-sky-700" />
-                <a href={formatPhoneLink(secondaryPhone)} className="hover:text-sky-700">
-                  {secondaryPhone}
-                </a>
-              </li>
-            ) : null}
-            <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-sky-700" />
-              <span>{contact.address}</span>
+            <li>
+              <Link
+                href="/kontakt"
+                className="text-[10px] font-bold uppercase tracking-widest text-white/30 transition-colors hover:text-[#00a3ad]"
+              >
+                Uslovi korišćenja
+              </Link>
             </li>
           </ul>
         </div>
-      </div>
-
-      <div className="border-t border-slate-200 px-4 py-4 text-center text-xs text-slate-500 sm:px-6">
-        Pre upotrebe pročitajte uputstvo. O nameni i neželjenim reakcijama
-        konsultujte lekara ili farmaceuta. © {new Date().getFullYear()} TT Medik.
       </div>
     </footer>
   );
