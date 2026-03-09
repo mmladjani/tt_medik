@@ -9,6 +9,7 @@ import {
   HeartPulse,
   Package,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ProgramCardProps {
   title: string;
@@ -105,9 +106,9 @@ const programs: ProgramCardProps[] = [
   },
 ];
 
-export function ProductPrograms() {
+export function ProductPrograms({ className }: { className?: string }) {
   return (
-    <section className="bg-white pb-32 pt-0">
+    <section className={cn("bg-white pb-32 pt-0", className)}>
       <div className="tt-container max-w-[90rem]">
         <div className="mb-20">
           <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">

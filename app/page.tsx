@@ -4,11 +4,12 @@ import {
 import { AboutUsSection } from "@/components/content/about-us-section";
 import { CalloutNotice } from "@/components/home/callout-notice";
 import { CtaButton } from "@/components/home/cta-button";
-import { FaqAccordion } from "@/components/home/faq-accordion";
 import { HeroModernRevision } from "@/components/home/hero-modern-revision";
 import { HomeLink } from "@/components/home/home-link";
+import { KnowledgeHub } from "@/components/home/knowledge-hub";
 import { NewsCard } from "@/components/home/news-card";
 import { ProductPrograms } from "@/components/home/product-programs";
+import { SectionGap } from "@/components/home/section-gap";
 import { SectionContainer, SectionHeading } from "@/components/home/section-container";
 import { ContactForm } from "@/components/forms/contact-form";
 import {
@@ -68,48 +69,11 @@ export default async function HomePage() {
       </VisibilityBlock>
 
       <AboutUsSection />
-      <ProductPrograms />
+      <ProductPrograms className="pb-0" />
+      <SectionGap size="lg" />
+      <KnowledgeHub className="pt-0" />
 
-      <SectionContainer className="pt-8">
-        <SectionHeading
-          eyebrow="Vodiči"
-          title="Edukativni sadržaj"
-          subtitle="Praktične informacije za svakodnevnu negu i sigurniji oporavak nakon terapije."
-        />
-
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          <article className="tt-card tt-card-hover p-6">
-            <h3 className="font-[family-name:var(--font-source-serif)] text-2xl text-slate-900">
-              Ishrana
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-              U nastavku možete pročitati detaljnije informacije o ishrani u
-              zavisnosti od vrste izvedene stome i svakodnevnim preporukama.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <CtaButton href="/stoma-program" label="Detaljnije" icon />
-              <CtaButton
-                href="https://www.ttmedik.co.rs/wp-content/uploads/2018/10/Priručnik-za-pacijente-sa-stomom.pdf"
-                label="Priručnik za pacijente"
-                variant="outline"
-              />
-            </div>
-          </article>
-
-          <article className="tt-card tt-card-hover p-6">
-            <h3 className="font-[family-name:var(--font-source-serif)] text-2xl text-slate-900">
-              Nega stome
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
-              Korisni saveti za negu kože oko stome, odabir pribora i organizaciju
-              dnevne rutine nakon izlaska iz bolnice.
-            </p>
-            <div className="mt-5">
-              <CtaButton href="/stoma-program" label="Saznaj više" icon />
-            </div>
-          </article>
-        </div>
-
+      <SectionContainer className="pt-4">
         <MedicalOnly>
           <div className="mt-4">
             <CalloutNotice
@@ -126,22 +90,6 @@ export default async function HomePage() {
             </CalloutNotice>
           </div>
         </MedicalOnly>
-      </SectionContainer>
-
-      <SectionContainer className="pb-10">
-        <SectionHeading
-          eyebrow="Imate pitanje?"
-          title="Najčešće postavljena pitanja"
-          subtitle="Kratki odgovori na pitanja koja pacijenti i negovatelji najčešće postavljaju."
-        />
-        <div className="mt-6">
-          <FaqAccordion
-            items={homepage.faq.map((item) => ({
-              question: item.question,
-              answer: normalizeSeedText(item.answer),
-            }))}
-          />
-        </div>
       </SectionContainer>
 
       <SectionContainer className="bg-slate-100/65 pb-10">
