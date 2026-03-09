@@ -69,7 +69,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
                 <button
                   type="button"
                   onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                  className="flex w-full items-center justify-between py-8 text-left"
+                  className="flex w-full items-center justify-between px-3 py-8 text-left md:px-4"
                 >
                   <div className="flex items-center gap-8">
                     <span className="text-sm font-black text-[#00a3ad]/20 transition-colors group-hover:text-[#00a3ad]">
@@ -93,7 +93,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
                     isOpen ? "max-h-[80rem] pb-8" : "max-h-0",
                   )}
                 >
-                  <p className="max-w-3xl pl-16 pr-4 text-lg leading-relaxed text-slate-500">
+                  <p className="max-w-[96ch] pl-16 pr-4 text-lg leading-relaxed text-slate-500">
                     {faq.a}
                   </p>
                 </div>
@@ -103,7 +103,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          <article className="group relative flex h-[300px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/5 bg-[#f0f9fa] p-10 transition-all hover:border-[#00a3ad]/20">
+          <article className="group relative flex min-h-[360px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/5 bg-[#f0f9fa] p-10 transition-all hover:border-[#00a3ad]/20 hover:shadow-2xl hover:shadow-slate-900/20">
             <div className="relative z-10">
               <div className="mb-6 inline-flex rounded-2xl bg-white p-4 text-[#00a3ad] shadow-sm transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
                 <Utensils size={32} />
@@ -115,18 +115,18 @@ export function KnowledgeHub({ className }: { className?: string }) {
                 U nastavku možete pročitati detaljnije informacije o ishrani u zavisnosti od
                 vrste izvedene stome.
               </p>
-            </div>
-
-            <div className="relative z-10 flex flex-col items-start gap-3">
               <a
                 href="/assets/prirucnik-za-pacijente-sa-stomom.pdf"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad]"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad]"
               >
                 Priručnik za pacijente sa stomom
                 <ExternalLink size={14} className="shrink-0" aria-hidden="true" />
               </a>
+            </div>
+
+            <div className="relative z-10 flex items-start pt-6">
               <Link
                 href="/stoma-program"
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
@@ -142,7 +142,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
             />
           </article>
 
-          <article className="group relative flex h-[300px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-[#00344d] p-10 transition-all hover:shadow-2xl hover:shadow-[#00344d]/20">
+          <article className="group relative flex min-h-[360px] flex-col justify-between overflow-hidden rounded-[2.5rem] bg-[#00344d] p-10 transition-all hover:shadow-2xl hover:shadow-slate-900/20">
             <div className="relative z-10">
               <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-4 text-[#00a3ad] backdrop-blur-md transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
                 <HeartPulse size={32} />
@@ -159,7 +159,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
 
             <Link
               href="/stoma-program"
-              className="relative z-10 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
+              className="relative z-10 flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
             >
               Pogledaj savete
               <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
