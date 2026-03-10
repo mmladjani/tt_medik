@@ -31,7 +31,7 @@
           "link": {
             "type": "internal",
             "post_id": 259,
-            "slug": "stoma-program",
+            "slug": "tipovi-stome",
             "title": "Stoma program"
           },
           "children": [
@@ -43,7 +43,7 @@
               "link": {
                 "type": "internal",
                 "post_id": 259,
-                "slug": "stoma-program",
+                "slug": "tipovi-stome",
                 "title": "Stoma program"
               },
               "children": []

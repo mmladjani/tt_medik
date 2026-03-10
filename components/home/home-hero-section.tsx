@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { ActionLink } from "@/components/design-system/ActionLink";
+import { BrandLink } from "@/components/design-system/BrandLink";
 import { Button } from "@/components/design-system/Button";
 import { HomeLink } from "./home-link";
 
@@ -25,15 +26,9 @@ function renderConvaTecLinks(text: string): ReactNode {
   return text.split(/(ConvaTec)/g).map((part, index) => {
     if (part === "ConvaTec") {
       return (
-        <Link
-          key={`convatec-${index}`}
-          href="https://www.convatec.com/sr-rs/"
-          target="_blank"
-          rel="noreferrer"
-          className="relative inline-block text-[#00a3ad] transition-colors duration-300 hover:text-white after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-        >
+        <BrandLink key={`convatec-${index}`} className="text-[#00a3ad] hover:text-white">
           ConvaTec
-        </Link>
+        </BrandLink>
       );
     }
 
@@ -41,7 +36,7 @@ function renderConvaTecLinks(text: string): ReactNode {
   });
 }
 
-export function HeroModernRevision({
+export function HomeHeroSection({
   title,
   subtitle,
   imageSrc,
@@ -188,13 +183,12 @@ export function HeroModernRevision({
                   {accountTitle}
                 </h4>
                 <p className="mb-4 text-base leading-relaxed text-white/50">{accountText}</p>
-                <Link
+                <ActionLink
                   href={accountHref}
-                  className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
+                  className="text-[#00a3ad]"
                 >
                   {accountCta}
-                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-                </Link>
+                </ActionLink>
               </div>
             </div>
           </div>
@@ -203,3 +197,5 @@ export function HeroModernRevision({
     </section>
   );
 }
+
+export { HomeHeroSection as HeroModernRevision };
