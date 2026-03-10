@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
+import { Button } from "@/components/design-system/Button";
+import { Container } from "@/components/design-system/Container";
 import type { ContactData } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -18,7 +20,7 @@ export function ContactCtaSection({
 
   return (
     <section className={cn("bg-white py-24", className)}>
-      <div className="tt-container max-w-[90rem]">
+      <Container>
         <div className="relative overflow-hidden rounded-[2.5rem] bg-[#00344d] p-10 text-white md:p-14">
           <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#00a3ad]/20 blur-3xl" />
 
@@ -44,17 +46,16 @@ export function ContactCtaSection({
                   {supportPhone}
                 </a>
               ) : null}
-              <Link
-                href="/kontakt"
-                className="group inline-flex h-14 items-center gap-3 rounded-full bg-[#00a3ad] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#008c94]"
-              >
-                Otvori kontakt stranicu
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-              </Link>
+              <Button asChild variant="teal" className="group">
+                <Link href="/kontakt">
+                  Otvori kontakt stranicu
+                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

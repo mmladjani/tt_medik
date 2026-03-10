@@ -1,3 +1,4 @@
+import { SpineDivider } from "@/components/design-system/SpineDivider";
 import { cn } from "@/lib/utils";
 
 const GAP_SIZES = {
@@ -25,7 +26,7 @@ export function SectionGap({
         className,
       )}
     >
-      {divider ? <div className="h-[60px] w-px bg-slate-100" /> : null}
+      {divider ? <SpineDivider height="md" /> : null}
     </div>
   );
 }

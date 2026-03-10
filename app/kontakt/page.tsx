@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { Container } from "@/components/design-system/Container";
+import { SectionHeader } from "@/components/design-system/SectionHeader";
 import { EditorialContactForm } from "@/components/forms/editorial-contact-form";
 import { getContactData } from "@/lib/content";
 
@@ -60,19 +62,14 @@ export default async function KontaktPage() {
 
   return (
     <main className="bg-white pb-32 pt-40">
-      <div className="tt-container max-w-[90rem]">
-        <div className="mb-20">
-          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
-            Podrška i saradnja
-          </span>
-          <h1 className="mb-8 text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
-            Kontakt
-          </h1>
-          <p className="max-w-4xl text-lg leading-relaxed text-slate-600 md:text-xl">
-            Otvoreni smo za pitanja pacijenata, porodica i zdravstvenih radnika. Tu smo da
-            pružimo pouzdane informacije.
-          </p>
-        </div>
+      <Container>
+        <SectionHeader
+          label="Podrška i saradnja"
+          title="Kontakt"
+          className="mb-20"
+          descriptionClassName="max-w-4xl"
+          description="Otvoreni smo za pitanja pacijenata, porodica i zdravstvenih radnika. Tu smo da pružimo pouzdane informacije."
+        />
 
         <div className="relative grid gap-20 lg:grid-cols-[1fr_480px] lg:gap-32">
           <div className="space-y-12">
@@ -139,7 +136,7 @@ export default async function KontaktPage() {
             </section>
           </div>
         </div>
-      </div>
+      </Container>
     </main>
   );
 }

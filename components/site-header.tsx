@@ -268,6 +268,25 @@ function MobileMenuItem({
   );
 }
 
+function useHeaderScrollState() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showSupportBar, setShowSupportBar] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 10);
+      setShowSupportBar(scrollY > 650);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return { isScrolled, showSupportBar };
+}
+
 export function SiteHeader({
   navigation,
   contact,
@@ -289,8 +308,7 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showSupportBar, setShowSupportBar] = useState(false);
+  const { isScrolled, showSupportBar } = useHeaderScrollState();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const filteredNavigation = sanitizeNavigationItems(navigation);
   const isHome = pathname === "/";
@@ -299,17 +317,6 @@ export function SiteHeader({
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setIsScrolled(scrollY > 10);
-      setShowSupportBar(scrollY > 650);
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   useEffect(() => {
     if (!mobileOpen) return undefined;
@@ -356,11 +363,11 @@ export function SiteHeader({
 
         <div
           className={cn(
-            "border-b border-slate-50 px-4 transition-all duration-300 sm:px-6 xl:px-8",
+            "border-b border-slate-50 transition-all duration-300",
             isScrolled ? "bg-white/90 py-4 shadow-sm backdrop-blur-xl" : "bg-white py-6",
           )}
         >
-          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-2 md:px-4 xl:px-8">
+          <div className="mx-auto flex w-full items-center justify-between px-8 md:px-16 lg:px-24">
             <Link
               href="/"
               className="text-2xl font-black uppercase tracking-tighter text-[#005b82]"
@@ -541,3 +548,5 @@ export function SiteHeader({
     </>
   );
 }
+
+export { SiteHeader as MainHeader };

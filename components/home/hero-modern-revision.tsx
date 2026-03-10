@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { Button } from "@/components/design-system/Button";
 import { HomeLink } from "./home-link";
 
 const SUPPORT_LINE = "0800 101 102";
@@ -101,22 +102,20 @@ export function HeroModernRevision({
           </p>
 
           <div className="flex flex-wrap gap-5">
-            <HomeLink
-              href={primaryCta.href}
-              className="inline-flex h-14 items-center gap-3 rounded-full bg-[#00a3ad] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#008c94]"
-            >
-              <FileText size={18} />
-              {primaryCta.label}
-            </HomeLink>
+            <Button asChild variant="teal">
+              <HomeLink href={primaryCta.href}>
+                <FileText size={18} />
+                {primaryCta.label}
+              </HomeLink>
+            </Button>
 
-            <HomeLink
-              href="https://meplus.convatec.com"
-              className="inline-flex h-14 items-center gap-3 rounded-full bg-[#22c55e] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#16a34a]"
-            >
-              <span className="h-6 w-6 rounded-full bg-white/20" aria-hidden="true" />
-              <span className="text-2xl font-black italic tracking-tighter">me+</span>
-              <span className="text-sm uppercase tracking-wider">Podrška</span>
-            </HomeLink>
+            <Button asChild variant="green" className="tracking-[0.1em]">
+              <HomeLink href="https://meplus.convatec.com">
+                <span className="h-6 w-6 rounded-full bg-white/20" aria-hidden="true" />
+                <span className="text-2xl font-black italic tracking-tighter">me+</span>
+                <span className="text-sm uppercase tracking-wider">Podrška</span>
+              </HomeLink>
+            </Button>
           </div>
         </div>
       </div>
