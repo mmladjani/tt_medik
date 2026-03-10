@@ -53,7 +53,7 @@ export function HeroModernIntegrated({
   isLoggedIn: boolean;
 }) {
   const { firstLine, highlight } = splitHeroTitle(title);
-  const accountTitle = isLoggedIn ? "Moj nalog" : "Nemate nalog?";
+  const accountTitle = isLoggedIn ? "Moj nalog" : "Nemaš nalog?";
   const accountCopy = isLoggedIn
     ? "Upravljajte profilom i pristupom edukativnim materijalima."
     : "Registracijom dobijate pristup edukativnim materijalima.";

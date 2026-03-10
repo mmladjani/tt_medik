@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, LogOut, Menu, ShieldCheck, User, UserCircle, X } from "lucide-react";
+import {
+  ChevronDown,
+  ExternalLink,
+  LogOut,
+  Menu,
+  ShieldCheck,
+  User,
+  UserCircle,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   type NavigationItem,
@@ -13,11 +22,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const HIDDEN_TOP_LEVEL_LABELS = new Set(["nalog"]);
-const HIDDEN_CHILD_LABELS = new Set([
-  "tipovi stome",
-  "nega stome",
-  "stoma pomagala",
-]);
+const HIDDEN_CHILD_LABELS = new Set<string>();
 
 function isPathActive(pathname: string, href: string): boolean {
   if (!href || href === "#" || href.startsWith("http")) return false;
@@ -63,16 +68,26 @@ function NavigationAnchor({
   isActive,
   activeClassName = "text-[#00a3ad]",
   onNavigate,
+  trailingIcon = false,
 }: {
   item: NavigationItem;
   className?: string;
   isActive?: boolean;
   activeClassName?: string;
   onNavigate?: () => void;
+  trailingIcon?: boolean;
 }) {
   const href = resolveNavigationHref(item);
   const isExternal = item.link.type === "external" && isExternalHref(href);
   const classes = cn(className, isActive && activeClassName);
+  const content = trailingIcon ? (
+    <>
+      <span>{item.label}</span>
+      <ExternalLink className="size-3 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+    </>
+  ) : (
+    item.label
+  );
 
   if (isExternal) {
     return (
@@ -84,7 +99,7 @@ function NavigationAnchor({
         onClick={onNavigate}
         aria-current={isActive ? "page" : undefined}
       >
-        {item.label}
+        {content}
       </a>
     );
   }
@@ -96,7 +111,7 @@ function NavigationAnchor({
       onClick={onNavigate}
       aria-current={isActive ? "page" : undefined}
     >
-      {item.label}
+      {content}
     </Link>
   );
 }
@@ -110,12 +125,19 @@ function DesktopDropdown({
 }) {
   const href = resolveNavigationHref(item);
   const active = hasActiveChild(pathname, item.children);
+  const isProgrami = item.label.trim().toLowerCase() === "programi";
+  const stomaItem = isProgrami
+    ? item.children.find((child) => child.label.trim().toLowerCase() === "stoma program")
+    : undefined;
+  const otherItems = isProgrami
+    ? item.children.filter((child) => child.id !== stomaItem?.id)
+    : item.children;
 
   return (
     <div className="group relative">
       <div
         className={cn(
-          "flex items-center gap-1 text-[13px] font-bold uppercase tracking-widest text-slate-600 transition hover:text-[#00a3ad]",
+          "flex items-center gap-2 text-sm font-black uppercase tracking-[0.15em] text-[#00344d] transition hover:text-[#00a3ad]",
           active && "text-[#00a3ad]",
         )}
       >
@@ -131,33 +153,58 @@ function DesktopDropdown({
         <ChevronDown className="size-4 transition duration-200 group-hover:rotate-180" />
       </div>
 
-      <div className="invisible absolute left-0 z-50 mt-3 w-[320px] max-w-[82vw] translate-y-1 rounded-xl border border-slate-200 bg-white p-3 opacity-0 shadow-xl transition-[opacity,transform,visibility] duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-        <ul className="space-y-1">
-          {item.children.map((child) => (
-            <li key={child.id} className="rounded-lg p-2 transition hover:bg-slate-50">
-              <NavigationAnchor
-                item={child}
-                isActive={isPathActive(pathname, resolveNavigationHref(child))}
-                className="block text-sm font-semibold text-slate-800"
-                activeClassName="text-[#005b82]"
-              />
-              {child.children.length > 0 ? (
-                <ul className="mt-2 space-y-1 border-l border-slate-200 pl-3">
-                  {child.children.map((grandchild) => (
+      <div className="pointer-events-none invisible absolute -left-8 top-full z-50 translate-y-2 pt-4 opacity-0 transition-all duration-300 group-hover:pointer-events-auto group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+        <div className="w-[320px] max-w-[82vw] rounded-[2rem] border border-slate-50 bg-white p-8 shadow-2xl shadow-[#00344d]/10">
+          {isProgrami && stomaItem ? (
+            <div className="space-y-8">
+              <div>
+                <span className="mb-4 block text-xs font-black uppercase tracking-[0.2em] text-[#00a3ad]">
+                  {stomaItem.label}
+                </span>
+                <ul className="space-y-3">
+                  {stomaItem.children.map((grandchild) => (
                     <li key={grandchild.id}>
                       <NavigationAnchor
                         item={grandchild}
                         isActive={isPathActive(pathname, resolveNavigationHref(grandchild))}
-                        className="block text-xs text-slate-600 transition hover:text-[#005b82]"
-                        activeClassName="text-[#005b82]"
+                        className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                        activeClassName="text-[#00344d]"
                       />
                     </li>
                   ))}
                 </ul>
-              ) : null}
-            </li>
-          ))}
-        </ul>
+              </div>
+
+              <div className="h-px w-full bg-slate-100" />
+
+              <ul className="space-y-3">
+                {otherItems.map((child) => (
+                  <li key={child.id}>
+                    <NavigationAnchor
+                      item={child}
+                      isActive={isPathActive(pathname, resolveNavigationHref(child))}
+                      className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                      activeClassName="text-[#00344d]"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <ul className="space-y-3">
+              {item.children.map((child) => (
+                <li key={child.id}>
+                  <NavigationAnchor
+                    item={child}
+                    isActive={isPathActive(pathname, resolveNavigationHref(child))}
+                    className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                    activeClassName="text-[#00344d]"
+                  />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -242,6 +289,7 @@ export function SiteHeader({
 }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [showSupportBar, setShowSupportBar] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const filteredNavigation = sanitizeNavigationItems(navigation);
@@ -253,7 +301,11 @@ export function SiteHeader({
   }, [pathname]);
 
   useEffect(() => {
-    const handleScroll = () => setShowSupportBar(window.scrollY > 650);
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 10);
+      setShowSupportBar(scrollY > 650);
+    };
     handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -304,11 +356,11 @@ export function SiteHeader({
 
         <div
           className={cn(
-            "bg-white px-4 transition-all duration-300 sm:px-6 xl:px-8",
-            showSupportBar ? "py-3 shadow-md" : "border-b border-slate-100 py-6",
+            "border-b border-slate-50 px-4 transition-all duration-300 sm:px-6 xl:px-8",
+            isScrolled ? "bg-white/90 py-4 shadow-sm backdrop-blur-xl" : "bg-white py-6",
           )}
         >
-          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between">
+          <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-2 md:px-4 xl:px-8">
             <Link
               href="/"
               className="text-2xl font-black uppercase tracking-tighter text-[#005b82]"
@@ -329,71 +381,94 @@ export function SiteHeader({
                   key={item.id}
                   item={item}
                   isActive={isPathActive(pathname, resolveNavigationHref(item))}
-                  className="text-[13px] font-bold uppercase tracking-widest text-slate-600 transition hover:text-[#00a3ad]"
+                  className="text-sm font-black uppercase tracking-[0.15em] text-[#00344d]/70 transition hover:text-[#00a3ad]"
                   activeClassName="text-[#00a3ad]"
                 />
               ),
             )}
             </nav>
 
-            <div className="flex items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-4 lg:gap-8">
+              <div className="hidden h-6 w-px bg-slate-200 lg:block" />
               <details className="group relative hidden sm:block">
                 <summary
-                  className={cn(
-                    "flex list-none cursor-pointer items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold transition-all",
-                    showSupportBar
-                      ? "bg-[#005b82] text-white"
-                      : "bg-[#f0f9fa] text-[#005b82] hover:bg-[#e0f2f5]",
-                  )}
+                  className="flex list-none cursor-pointer items-center gap-3 rounded-full bg-[#00344d] px-8 py-3 text-sm font-black uppercase tracking-widest text-white shadow-lg shadow-[#00344d]/10 transition-all hover:bg-[#00a3ad]"
                 >
-                  <UserCircle size={18} />
+                  <UserCircle size={16} className="text-white" />
                   {isLoggedIn ? accountLabel : "Nalog"}
                   <ChevronDown className="size-3 opacity-80 transition group-open:rotate-180" />
                 </summary>
 
-                <div className="absolute right-0 z-50 mt-2 w-60 rounded-xl border border-slate-200 bg-white p-1 shadow-xl">
+                <div className="absolute right-0 z-50 mt-4 w-[320px] max-w-[82vw] rounded-[2rem] border border-slate-50 bg-white p-8 shadow-2xl shadow-[#00344d]/10">
                 {!isLoggedIn ? (
-                  <>
-                    <div className="px-3 py-2 text-xs font-semibold text-slate-500">Dobrodošli</div>
-                    <Link href="/login" className="block rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                      Prijavite se
-                    </Link>
-                    <Link href="/register" className="block rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                      Napravite nalog
-                    </Link>
-                  </>
+                  <div className="space-y-6">
+                    <div className="text-xs font-black uppercase tracking-[0.2em] text-[#00a3ad]">
+                      Nalog
+                    </div>
+                    <ul className="space-y-3">
+                      <li>
+                        <Link
+                          href="/login"
+                          className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                        >
+                          Prijavi se
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/register"
+                          className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                        >
+                          Registruj se
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
                 ) : (
-                  <>
-                    <div className="flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-500">
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] text-[#00a3ad]">
                       Moj profil
                       {medicalStatus === "approved" ? (
                         <ShieldCheck size={16} className="text-[#00a3ad]" />
                       ) : null}
                     </div>
-                    <Link href="/nalog" className="block rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                      Podešavanja
-                    </Link>
-                    <Link href="/portal" className="block rounded-lg px-3 py-2 text-sm hover:bg-slate-50">
-                      Portal
-                    </Link>
-                    {medicalStatus === "approved" ? (
-                      <Link
-                        href="/portal/strucni"
-                        className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#005b82] hover:bg-slate-50"
-                      >
-                        Stručni materijali
-                      </Link>
-                    ) : null}
+                    <ul className="space-y-3">
+                      <li>
+                        <Link
+                          href="/nalog"
+                          className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                        >
+                          Podešavanja
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          href="/portal"
+                          className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                        >
+                          Portal
+                        </Link>
+                      </li>
+                      {medicalStatus === "approved" ? (
+                        <li>
+                          <Link
+                            href="/portal/strucni"
+                            className="block text-[13px] font-bold uppercase tracking-wider text-[#00344d]/70 transition-colors hover:text-[#00344d]"
+                          >
+                            Stručni materijali
+                          </Link>
+                        </li>
+                      ) : null}
+                    </ul>
+                    <div className="h-px w-full bg-slate-100" />
                     <Link
                       href="/nalog"
-                      className="mt-1 block rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50"
+                      className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-rose-600 transition-colors hover:text-rose-700"
                     >
-                      <span className="inline-flex items-center gap-2">
-                        <LogOut className="size-4" />
-                        Odjavi se
-                      </span>
+                      <LogOut className="size-4" />
+                      Odjavi se
                     </Link>
-                  </>
+                  </div>
                 )}
                 </div>
               </details>

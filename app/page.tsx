@@ -1,8 +1,8 @@
-import { AboutUsSection } from "@/components/content/about-us-section";
 import { CalloutNotice } from "@/components/home/callout-notice";
 import { ContactCtaSection } from "@/components/home/contact-cta-section";
 import { CtaButton } from "@/components/home/cta-button";
 import { HeroModernRevision } from "@/components/home/hero-modern-revision";
+import { HomeAboutTrust } from "@/components/home/home-about-trust";
 import { KnowledgeHub } from "@/components/home/knowledge-hub";
 import { ProductPrograms } from "@/components/home/product-programs";
 import { SectionGap } from "@/components/home/section-gap";
@@ -55,7 +55,7 @@ export default async function HomePage() {
         />
       </VisibilityBlock>
 
-      <AboutUsSection />
+      <HomeAboutTrust />
       <ProductPrograms className="pb-0" />
       <SectionGap size="lg" />
       <KnowledgeHub className="pb-0 pt-0" />
