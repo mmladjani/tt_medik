@@ -6,6 +6,7 @@ import { HomeAboutTrust } from "@/components/home/home-about-trust";
 import { KnowledgeHub } from "@/components/home/knowledge-hub";
 import { ProductPrograms } from "@/components/home/product-programs";
 import { SectionGap } from "@/components/home/section-gap";
+import { Container } from "@/components/design-system/Container";
 import {
   MedicalOnly,
   VisibilityBlock,
@@ -63,7 +64,7 @@ export default async function HomePage() {
 
       <MedicalOnly>
         <section className="bg-white">
-          <div className="tt-container max-w-[90rem] pt-4">
+          <Container className="pt-4">
             <CalloutNotice
               title="Stručni savet za zdravstvene radnike"
               className="border-sky-200 bg-gradient-to-r from-sky-100 to-white"
@@ -76,7 +77,7 @@ export default async function HomePage() {
                 <CtaButton href="/portal/strucni" label="Otvori stručni portal" icon />
               </div>
             </CalloutNotice>
-          </div>
+          </Container>
         </section>
       </MedicalOnly>
 

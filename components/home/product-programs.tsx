@@ -9,6 +9,8 @@ import {
   HeartPulse,
   Package,
 } from "lucide-react";
+import { Container } from "@/components/design-system/Container";
+import { SectionHeader } from "@/components/design-system/SectionHeader";
 import { cn } from "@/lib/utils";
 
 interface ProgramCardProps {
@@ -18,7 +20,6 @@ interface ProgramCardProps {
   image: string;
   href: string;
   isFeatured?: boolean;
-  subLinks?: Array<{ label: string; href: string }>;
 }
 
 function ProgramCard({
@@ -28,7 +29,6 @@ function ProgramCard({
   image,
   href,
   isFeatured = false,
-  subLinks,
 }: ProgramCardProps) {
   return (
     <article
@@ -59,35 +59,12 @@ function ProgramCard({
 
         <Link
           href={href}
-          className={cn(
-            "inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]",
-            subLinks?.length && "transition-opacity duration-300 group-hover:opacity-0",
-          )}
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
         >
           Istraži program
           <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
         </Link>
       </div>
-
-      {subLinks?.length ? (
-        <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 translate-y-6 opacity-0 transition-all duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
-          <div className="rounded-2xl border border-white/15 bg-[#00344d]/85 p-4 backdrop-blur-sm">
-            <ul className="space-y-2">
-              {subLinks.map((subLink) => (
-                <li key={subLink.label}>
-                  <Link
-                    href={subLink.href}
-                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
-                  >
-                    {subLink.label}
-                    <ArrowRight size={14} className="transition-transform hover:translate-x-1" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ) : null}
     </article>
   );
 }
@@ -99,11 +76,6 @@ const programs: ProgramCardProps[] = [
     icon: Package,
     image: "/assets/tt_medik_heading.jpg",
     href: "/stoma-program",
-    subLinks: [
-      { label: "Tipovi stome", href: "/stoma-program" },
-      { label: "Nega stome", href: "/nega-stome" },
-      { label: "Stoma pomagala", href: "/stoma-pomagala" },
-    ],
   },
   {
     title: "Intenzivna nega",
@@ -139,28 +111,26 @@ const programs: ProgramCardProps[] = [
 export function ProductPrograms({ className }: { className?: string }) {
   return (
     <section className={cn("bg-white pb-32 pt-0", className)}>
-      <div className="tt-container max-w-[90rem]">
-        <div className="mb-20">
-          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
-            Naš program
-          </span>
-          <h2 className="mb-8 text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
-            Medicinska rešenja
-          </h2>
-          <p className="w-full text-lg leading-relaxed text-slate-600 md:text-xl">
-            Kao zvanični distributer kompanije{" "}
-            <Link
-              href="https://www.convatec.com/sr-rs/"
-              target="_blank"
-              rel="noreferrer"
-              className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-            >
-              ConvaTec
-            </Link>
-            , nudimo sveobuhvatnu paletu proizvoda koji postavljaju standarde u modernoj
-            medicinskoj nezi.
-          </p>
-        </div>
+      <Container>
+        <SectionHeader
+          label="Naš program"
+          title="Medicinska rešenja"
+          description={
+            <>
+              Kao zvanični distributer kompanije{" "}
+              <Link
+                href="https://www.convatec.com/sr-rs/"
+                target="_blank"
+                rel="noreferrer"
+                className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+              >
+                ConvaTec
+              </Link>
+              , nudimo sveobuhvatnu paletu proizvoda koji postavljaju standarde u modernoj
+              medicinskoj nezi.
+            </>
+          }
+        />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2">
           {programs.slice(0, 4).map((program) => (
@@ -170,7 +140,7 @@ export function ProductPrograms({ className }: { className?: string }) {
             <ProgramCard {...programs[4]} />
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

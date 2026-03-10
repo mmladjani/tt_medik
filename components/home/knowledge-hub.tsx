@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight, ExternalLink, HeartPulse, Utensils } from "lucide-react";
+import { Container } from "@/components/design-system/Container";
+import { SectionHeader } from "@/components/design-system/SectionHeader";
 import { cn } from "@/lib/utils";
 
 type FaqItem = {
@@ -42,20 +44,16 @@ export function KnowledgeHub({ className }: { className?: string }) {
 
   return (
     <section className={cn("bg-white py-24", className)}>
-      <div className="tt-container max-w-[90rem]">
-        <div className="mb-24">
-          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
-            Podrška i saveti
-          </span>
-          <h2 className="text-4xl font-black tracking-tighter text-[#00344d] md:text-6xl">
-            NAJČEŠĆE POSTAVLJENA PITANJA
-          </h2>
-          <p className="mt-6 max-w-4xl text-base leading-relaxed text-slate-600 md:text-lg">
-            Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o
-            stomi, o nezi stome i kože oko stome, kao i o načinu ishrane nakon izlaska iz
-            bolnice.
-          </p>
-        </div>
+      <Container>
+        <SectionHeader
+          label="Podrška i saveti"
+          title="NAJČEŠĆE POSTAVLJENA PITANJA"
+          className="mb-24"
+          descriptionClassName="max-w-4xl text-base md:text-lg"
+          description={
+            "Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o stomi, o nezi stome i kože oko stome, kao i o načinu ishrane nakon izlaska iz bolnice."
+          }
+        />
 
         <div className="mb-24 space-y-0 border-t border-slate-100">
           {FAQ_ITEMS.map((faq, i) => {
@@ -171,7 +169,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
             />
           </article>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

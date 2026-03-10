@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { getContactData, getHomepageData, getNavigationData } from "@/lib/content";
+import { Layout } from "@/components/layout/Layout";
+import { getContactData, getNavigationData } from "@/lib/content";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import "./globals.css";
 
@@ -21,10 +20,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [navigation, contact, homepage, supabase] = await Promise.all([
+  const [navigation, contact, supabase] = await Promise.all([
     getNavigationData(),
     getContactData(),
-    getHomepageData(),
     createSupabaseServerClient(),
   ]);
   const {
@@ -41,27 +39,23 @@ export default async function RootLayout({
 
   return (
     <html lang="sr">
-      <body
-        className={`${manrope.variable} font-sans antialiased`}
-      >
+      <body className={`${manrope.variable} font-sans antialiased`}>
         <a
           href="#main-content"
           className="sr-only z-[100] rounded-md bg-white px-4 py-2 text-sm font-semibold text-slate-900 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Preskoči na sadržaj
         </a>
-        <div className="flex min-h-screen flex-col">
-          <SiteHeader
-            navigation={navigation.primary}
-            contact={contact}
-            accountHref={user ? "/nalog" : "/login"}
-            accountLabel={user ? "Moj nalog" : "Nalog"}
-            isLoggedIn={Boolean(user)}
-            medicalStatus={medicalStatus}
-          />
-          <main id="main-content" className="flex-1">{children}</main>
-          <SiteFooter contact={contact} programs={homepage.programs} />
-        </div>
+        <Layout
+          navigation={navigation.primary}
+          contact={contact}
+          accountHref={user ? "/nalog" : "/login"}
+          accountLabel={user ? "Moj nalog" : "Nalog"}
+          isLoggedIn={Boolean(user)}
+          medicalStatus={medicalStatus}
+        >
+          {children}
+        </Layout>
       </body>
     </html>
   );

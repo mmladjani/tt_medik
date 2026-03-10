@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-tt-navy: #00344d;
+  --color-tt-teal: #00a3ad;
+  --color-tt-green: #22c55e;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
@@ -46,6 +49,9 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  --radius-tt-card: 2.5rem;
+  --radius-tt-pill: 9999px;
+  --tracking-widest: 0.15em;
 }
 
 :root {
@@ -149,7 +155,7 @@
 
 @layer components {
   .tt-container {
-    @apply mx-auto max-w-[90rem] px-6 md:px-8 lg:px-10;
+    @apply mx-auto max-w-[90rem] px-6;
   }
 
   .tt-section {
@@ -169,6 +175,10 @@
   }
 
   .tt-eyebrow {
-    @apply inline-block border-b border-sky-200 pb-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700;
+    @apply inline-block border-b border-sky-200 pb-1 text-xs font-semibold uppercase tracking-widest text-sky-700;
+  }
+
+  .tt-uppercase-heading {
+    @apply font-black uppercase tracking-widest;
   }
 }

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowRight, GraduationCap, History, MessageSquare } from "lucide-react";
+import { Container } from "@/components/design-system/Container";
+import { SectionHeader } from "@/components/design-system/SectionHeader";
 
 function PillarCard({
   icon,
@@ -49,31 +51,30 @@ function PillarCard({
 export function HomeAboutTrust() {
   return (
     <section className="bg-white py-32">
-      <div className="tt-container max-w-[90rem]">
+      <Container>
         <div className="grid items-start gap-20 lg:grid-cols-[1fr_1.2fr]">
-          <div className="space-y-10 lg:sticky lg:top-40">
-            <div className="space-y-4">
-              <span className="block text-lg font-black uppercase tracking-[0.12em] text-[#00a3ad] md:text-xl">
-                Naša misija
-              </span>
-              <h2 className="text-4xl font-black leading-[1.1] tracking-tighter text-[#00344d] md:text-6xl">
-                Više od distribucije. <br /> Briga o ljudima.
-              </h2>
-            </div>
-
-            <p className="text-lg leading-relaxed text-slate-600 md:text-xl">
-              Kao zvanični distributer kompanije{" "}
-              <Link
-                href="https://www.convatec.com/sr-rs/"
-                target="_blank"
-                rel="noreferrer"
-                className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-              >
-                ConvaTec
-              </Link>
-              , TT Medik već decenijama postavlja standarde u modernoj medicinskoj nezi
-              širom Srbije.
-            </p>
+          <div className="lg:sticky lg:top-40">
+            <SectionHeader
+              label="Naša misija"
+              title="Više od distribucije. Briga o ljudima."
+              className="mb-6"
+              titleClassName="leading-[1.1]"
+              description={
+                <>
+                  Kao zvanični distributer kompanije{" "}
+                  <Link
+                    href="https://www.convatec.com/sr-rs/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+                  >
+                    ConvaTec
+                  </Link>
+                  , TT Medik već decenijama postavlja standarde u modernoj medicinskoj nezi
+                  širom Srbije.
+                </>
+              }
+            />
 
             <Link
               href="/o-nama"
@@ -106,7 +107,7 @@ export function HomeAboutTrust() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

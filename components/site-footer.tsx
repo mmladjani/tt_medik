@@ -8,9 +8,9 @@ import {
   MapPin,
   Phone,
 } from "lucide-react";
+import { Container } from "@/components/design-system/Container";
 import {
   type ContactData,
-  type HomepageProgram,
   isExternalHref,
 } from "@/lib/content";
 
@@ -124,13 +124,10 @@ function SocialIcon({
 }
 
 export function SiteFooter({
-  programs,
   contact,
 }: {
-  programs: HomepageProgram[];
   contact: ContactData;
 }) {
-  void programs;
   const supportPhone = contact.phones.find((phone) => phone.includes("0800")) ?? contact.phones[0] ?? "";
   const programLinks = [
     { label: "Tipovi stome", href: "/stoma-program" },
@@ -145,8 +142,8 @@ export function SiteFooter({
   ];
 
   return (
-    <footer className="mt-16 overflow-hidden bg-[#00344d] px-6 pb-12 pt-24 text-white">
-      <div className="mx-auto max-w-7xl">
+    <footer className="mt-16 overflow-hidden bg-[#00344d] pb-12 pt-24 text-white">
+      <Container>
         <div className="grid grid-cols-1 gap-16 border-b border-white/5 pb-20 lg:grid-cols-[1.5fr_1fr_1fr_1.5fr]">
           <div className="space-y-8">
             <h2 className="text-3xl font-black tracking-tighter">
@@ -231,7 +228,9 @@ export function SiteFooter({
             </li>
           </ul>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }
+
+export { SiteFooter as TTMedikFooter };
