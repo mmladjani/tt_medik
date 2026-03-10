@@ -12,7 +12,6 @@ import {
   type ContactData,
   type HomepageProgram,
   isExternalHref,
-  normalizeCmsHref,
 } from "@/lib/content";
 
 function FooterLink({
@@ -131,8 +130,13 @@ export function SiteFooter({
   programs: HomepageProgram[];
   contact: ContactData;
 }) {
-  const visiblePrograms = programs.slice(0, 4);
+  void programs;
   const supportPhone = contact.phones.find((phone) => phone.includes("0800")) ?? contact.phones[0] ?? "";
+  const programLinks = [
+    { label: "Tipovi stome", href: "/stoma-program" },
+    { label: "Nega stome", href: "/nega-stome" },
+    { label: "Stoma pomagala", href: "/stoma-pomagala" },
+  ];
   const usefulLinks = [
     { label: "O nama", href: "/o-nama" },
     { label: "Kutak za pacijente", href: "/kutak-za-osobe-sa-stomom" },
@@ -164,11 +168,11 @@ export function SiteFooter({
               Programi
             </h4>
             <ul className="space-y-4">
-              {visiblePrograms.map((program) => (
+              {programLinks.map((program) => (
                 <DirectoryLink
-                  key={program.title}
-                  href={normalizeCmsHref(program.link.url)}
-                  label={program.title}
+                  key={program.label}
+                  href={program.href}
+                  label={program.label}
                 />
               ))}
             </ul>

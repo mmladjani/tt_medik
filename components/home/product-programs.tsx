@@ -18,6 +18,7 @@ interface ProgramCardProps {
   image: string;
   href: string;
   isFeatured?: boolean;
+  subLinks?: Array<{ label: string; href: string }>;
 }
 
 function ProgramCard({
@@ -27,10 +28,10 @@ function ProgramCard({
   image,
   href,
   isFeatured = false,
+  subLinks,
 }: ProgramCardProps) {
   return (
-    <Link
-      href={href}
+    <article
       className={`group relative block overflow-hidden rounded-[2.5rem] shadow-xl transition-all duration-500 hover:-translate-y-2 ${
         isFeatured ? "h-[400px] lg:col-span-2" : "h-[500px]"
       }`}
@@ -50,20 +51,44 @@ function ProgramCard({
           <Icon size={28} strokeWidth={2} />
         </div>
 
-        <h3 className="mb-3 text-2xl font-black tracking-tighter text-white md:text-3xl">
-          {title}
-        </h3>
+        <h3 className="mb-3 text-2xl font-black tracking-tighter text-white md:text-3xl">{title}</h3>
 
         <p className="mb-6 max-w-[320px] text-sm leading-relaxed text-white/80 transition-all duration-500 group-hover:text-white">
           {desc}
         </p>
 
-        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]">
+        <Link
+          href={href}
+          className={cn(
+            "inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]",
+            subLinks?.length && "transition-opacity duration-300 group-hover:opacity-0",
+          )}
+        >
           Istraži program
           <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-        </span>
+        </Link>
       </div>
-    </Link>
+
+      {subLinks?.length ? (
+        <div className="pointer-events-none absolute inset-x-6 bottom-6 z-20 translate-y-6 opacity-0 transition-all duration-500 group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+          <div className="rounded-2xl border border-white/15 bg-[#00344d]/85 p-4 backdrop-blur-sm">
+            <ul className="space-y-2">
+              {subLinks.map((subLink) => (
+                <li key={subLink.label}>
+                  <Link
+                    href={subLink.href}
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
+                  >
+                    {subLink.label}
+                    <ArrowRight size={14} className="transition-transform hover:translate-x-1" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
+    </article>
   );
 }
 
@@ -74,6 +99,11 @@ const programs: ProgramCardProps[] = [
     icon: Package,
     image: "/assets/tt_medik_heading.jpg",
     href: "/stoma-program",
+    subLinks: [
+      { label: "Tipovi stome", href: "/stoma-program" },
+      { label: "Nega stome", href: "/nega-stome" },
+      { label: "Stoma pomagala", href: "/stoma-pomagala" },
+    ],
   },
   {
     title: "Intenzivna nega",

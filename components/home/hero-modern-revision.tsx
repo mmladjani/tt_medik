@@ -83,7 +83,7 @@ export function HeroModernRevision({
             priority
             className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#00344d] via-[#00344d]/30 to-transparent" />
+          <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#00344d]/40 to-transparent" />
         </div>
 
         <div className="relative z-20 max-w-2xl">
@@ -103,7 +103,7 @@ export function HeroModernRevision({
           <div className="flex flex-wrap gap-5">
             <HomeLink
               href={primaryCta.href}
-              className="inline-flex items-center gap-2 rounded-xl bg-[#00a3ad] px-8 py-4 font-bold text-white transition-colors hover:bg-[#008c94]"
+              className="inline-flex h-14 items-center gap-3 rounded-full bg-[#00a3ad] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#008c94]"
             >
               <FileText size={18} />
               {primaryCta.label}
@@ -111,8 +111,9 @@ export function HeroModernRevision({
 
             <HomeLink
               href="https://meplus.convatec.com"
-              className="inline-flex items-center gap-3 rounded-xl bg-[#28a745] px-8 py-4 font-bold text-white transition-colors hover:bg-[#218838]"
+              className="inline-flex h-14 items-center gap-3 rounded-full bg-[#22c55e] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#16a34a]"
             >
+              <span className="h-6 w-6 rounded-full bg-white/20" aria-hidden="true" />
               <span className="text-2xl font-black italic tracking-tighter">me+</span>
               <span className="text-sm uppercase tracking-wider">Podrška</span>
             </HomeLink>
