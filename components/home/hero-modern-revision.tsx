@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
+import { ArrowRight, FileText, Headphones, Mail, MapPin, Phone, UserPlus } from "lucide-react";
 import { HomeLink } from "./home-link";
 
 const SUPPORT_LINE = "0800 101 102";
@@ -66,11 +66,11 @@ export function HeroModernRevision({
 }) {
   const { first, accent } = splitHeroTitle(title);
   const cleanAddress = address.replace(/,\s*Srbija$/i, "");
-  const accountTitle = isLoggedIn ? "Moj nalog" : "Nemate nalog?";
+  const accountTitle = isLoggedIn ? "Moj nalog" : "Nemaš nalog?";
   const accountText = isLoggedIn
     ? "Upravljajte nalogom i pristupite edukativnim materijalima."
-    : "Otvaranjem naloga dobijate pristup celokupnom sadržaju sajta.";
-  const accountCta = isLoggedIn ? "Otvori nalog" : "Registruj se odmah";
+    : "Otvaranjem naloga dobijaš pristup celokupnom sadržaju sajta.";
+  const accountCta = isLoggedIn ? "Otvori nalog" : "Registruj se";
 
   return (
     <section className="relative flex min-h-screen w-full flex-col bg-[#00344d] pt-[88px] lg:flex-row">
@@ -190,9 +190,10 @@ export function HeroModernRevision({
                 <p className="mb-4 text-base leading-relaxed text-white/50">{accountText}</p>
                 <Link
                   href={accountHref}
-                  className="relative inline-block text-sm font-bold uppercase tracking-wide text-[#00a3ad] transition-colors duration-300 hover:text-white after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
+                  className="group inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
                 >
                   {accountCta}
+                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
                 </Link>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import type { ContactData } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -46,10 +46,10 @@ export function ContactCtaSection({
               ) : null}
               <Link
                 href="/kontakt"
-                className="inline-flex items-center gap-2 rounded-full bg-[#00a3ad] px-7 py-3 text-sm font-bold text-white transition-all hover:bg-[#00b6c2]"
+                className="group inline-flex items-center gap-2 rounded-full bg-[#00a3ad] px-7 py-3 text-sm font-bold text-white transition-all hover:bg-[#00b6c2]"
               >
                 Otvori kontakt stranicu
-                <ArrowUpRight size={16} />
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
               </Link>
             </div>
           </div>

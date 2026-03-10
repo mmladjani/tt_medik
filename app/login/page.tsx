@@ -32,7 +32,7 @@ export default async function LoginPage({
       description="Pristupite svom nalogu i portal sadržaju."
       footer={
         <p className="text-center text-sm text-slate-600">
-          Nemate nalog?{" "}
+          Nemaš nalog?{" "}
           <Link href="/register" className="font-semibold text-sky-700 hover:text-sky-800">
             Registracija
           </Link>

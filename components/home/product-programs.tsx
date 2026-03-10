@@ -58,7 +58,7 @@ function ProgramCard({
           {desc}
         </p>
 
-        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#00a3ad] transition-all group-hover:text-white">
+        <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]">
           Istraži program
           <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
         </span>

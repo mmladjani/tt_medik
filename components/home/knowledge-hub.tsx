@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, ChevronRight, ExternalLink, HeartPulse, Utensils } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ExternalLink, HeartPulse, Utensils } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type FaqItem = {
@@ -108,7 +108,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
               <div className="mb-6 inline-flex rounded-2xl bg-white p-4 text-[#00a3ad] shadow-sm transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
                 <Utensils size={32} />
               </div>
-              <h4 className="mb-2 text-2xl font-black uppercase tracking-tighter text-[#00344d]">
+              <h4 className="mb-3 text-2xl font-black tracking-tighter text-[#00344d] md:text-3xl">
                 Ishrana
               </h4>
               <p className="max-w-[320px] text-sm leading-relaxed text-slate-500">
@@ -132,7 +132,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
                 className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
               >
                 Otvori vodič
-                <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
               </Link>
             </div>
 
@@ -147,7 +147,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
               <div className="mb-6 inline-flex rounded-2xl bg-white/10 p-4 text-[#00a3ad] backdrop-blur-md transition-all group-hover:bg-[#00a3ad] group-hover:text-white">
                 <HeartPulse size={32} />
               </div>
-              <h4 className="mb-2 text-2xl font-black uppercase tracking-tighter text-white">
+              <h4 className="mb-3 text-2xl font-black tracking-tighter text-white md:text-3xl">
                 Nega stome
               </h4>
               <p className="max-w-[320px] text-sm leading-relaxed text-white/60">
@@ -162,7 +162,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
               className="relative z-10 flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
             >
               Pogledaj savete
-              <ChevronRight size={14} className="transition-transform group-hover:translate-x-2" />
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
             </Link>
 
             <HeartPulse

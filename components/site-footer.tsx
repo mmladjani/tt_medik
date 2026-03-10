@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import {
-  ChevronRight,
   Facebook,
   Instagram,
   Linkedin,
@@ -19,21 +18,32 @@ import {
 function FooterLink({
   href,
   label,
+  className,
 }: {
   href: string;
   label: string;
+  className?: string;
 }) {
+  const baseClass =
+    className ??
+    "text-xs font-bold uppercase tracking-widest text-white/70 transition-colors hover:text-[#00a3ad]";
+
   if (isExternalHref(href)) {
     return (
-      <a href={href} target="_blank" rel="noreferrer" className="transition hover:text-sky-700">
-        {label}
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className={`inline-flex items-center ${baseClass}`}
+      >
+        <span>{label}</span>
       </a>
     );
   }
 
   return (
-    <Link href={href} className="text-white/60 transition-all hover:text-white">
-      {label}
+    <Link href={href} className={`inline-flex items-center ${baseClass}`}>
+      <span>{label}</span>
     </Link>
   );
 }
@@ -51,10 +61,7 @@ function DirectoryLink({
 }) {
   return (
     <li>
-      <div className="group flex items-center gap-2 text-sm transition-all">
-        <ChevronRight className="-ml-4 size-3 text-[#00a3ad] opacity-0 transition-all group-hover:ml-0 group-hover:opacity-100" />
-        <FooterLink href={href} label={label} />
-      </div>
+      <FooterLink href={href} label={label} />
     </li>
   );
 }
@@ -73,9 +80,9 @@ function ContactInfo({
   const content = href ? (
     <a
       href={href}
-      className={`${isTeal ? "font-bold text-[#00a3ad]" : "text-white/70"} text-sm transition-colors hover:text-[#00a3ad]`}
+      className={`inline-flex items-center text-sm transition-colors hover:text-[#00a3ad] ${isTeal ? "font-bold text-[#00a3ad]" : "text-white/70"}`}
     >
-      {text}
+      <span>{text}</span>
     </a>
   ) : (
     <span className={`${isTeal ? "font-bold text-[#00a3ad]" : "text-white/70"} text-sm`}>
@@ -153,7 +160,7 @@ export function SiteFooter({
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-black uppercase tracking-widest text-[#00a3ad]">
+            <h4 className="text-sm font-black uppercase tracking-widest text-[#00a3ad]">
               Programi
             </h4>
             <ul className="space-y-4">
@@ -168,7 +175,7 @@ export function SiteFooter({
           </div>
 
           <div className="space-y-6">
-            <h4 className="text-xs font-black uppercase tracking-widest text-[#00a3ad]">
+            <h4 className="text-sm font-black uppercase tracking-widest text-[#00a3ad]">
               Korisni linkovi
             </h4>
             <ul className="space-y-4">
@@ -205,20 +212,18 @@ export function SiteFooter({
           </p>
           <ul className="flex gap-8">
             <li>
-              <Link
+              <FooterLink
                 href="/politika-privatnosti"
+                label="Politika privatnosti"
                 className="text-[10px] font-bold uppercase tracking-widest text-white/30 transition-colors hover:text-[#00a3ad]"
-              >
-                Politika privatnosti
-              </Link>
+              />
             </li>
             <li>
-              <Link
+              <FooterLink
                 href="/kontakt"
+                label="Uslovi korišćenja"
                 className="text-[10px] font-bold uppercase tracking-widest text-white/30 transition-colors hover:text-[#00a3ad]"
-              >
-                Uslovi korišćenja
-              </Link>
+              />
             </li>
           </ul>
         </div>
