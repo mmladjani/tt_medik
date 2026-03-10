@@ -46,7 +46,7 @@ export function ContactCtaSection({
               ) : null}
               <Link
                 href="/kontakt"
-                className="group inline-flex items-center gap-2 rounded-full bg-[#00a3ad] px-7 py-3 text-sm font-bold text-white transition-all hover:bg-[#00b6c2]"
+                className="group inline-flex h-14 items-center gap-3 rounded-full bg-[#00a3ad] px-10 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-[#008c94]"
               >
                 Otvori kontakt stranicu
                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />

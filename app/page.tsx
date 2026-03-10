@@ -56,8 +56,9 @@ export default async function HomePage() {
       </VisibilityBlock>
 
       <HomeAboutTrust />
+      <SectionGap size="sm" divider />
       <ProductPrograms className="pb-0" />
-      <SectionGap size="lg" />
+      <SectionGap size="lg" divider />
       <KnowledgeHub className="pb-0 pt-0" />
 
       <MedicalOnly>
@@ -79,7 +80,7 @@ export default async function HomePage() {
         </section>
       </MedicalOnly>
 
-      <SectionGap size="lg" />
+      <SectionGap size="lg" divider />
       <ContactCtaSection contact={contact} className="pt-0" />
     </div>
   );

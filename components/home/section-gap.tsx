@@ -8,10 +8,24 @@ const GAP_SIZES = {
 
 export function SectionGap({
   size = "md",
+  divider = false,
   className,
 }: {
   size?: keyof typeof GAP_SIZES;
+  divider?: boolean;
   className?: string;
 }) {
-  return <div aria-hidden="true" className={cn("bg-white", GAP_SIZES[size], className)} />;
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        "bg-white",
+        GAP_SIZES[size],
+        divider && "flex items-center justify-center",
+        className,
+      )}
+    >
+      {divider ? <div className="h-[60px] w-px bg-slate-100" /> : null}
+    </div>
+  );
 }
