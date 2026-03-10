@@ -130,14 +130,14 @@ export function SiteFooter({
 }) {
   const supportPhone = contact.phones.find((phone) => phone.includes("0800")) ?? contact.phones[0] ?? "";
   const programLinks = [
-    { label: "Tipovi stome", href: "/stoma-program" },
+    { label: "Tipovi stome", href: "/tipovi-stome" },
     { label: "Nega stome", href: "/nega-stome" },
     { label: "Stoma pomagala", href: "/stoma-pomagala" },
   ];
   const usefulLinks = [
     { label: "O nama", href: "/o-nama" },
     { label: "Kutak za pacijente", href: "/kutak-za-osobe-sa-stomom" },
-    { label: "Ishrana i saveti", href: "/stoma-program" },
+    { label: "Ishrana i saveti", href: "/tipovi-stome" },
     { label: "Kontakt", href: "/kontakt" },
   ];
 

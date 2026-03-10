@@ -12,6 +12,7 @@ import {
 import { getSitePageBySlug } from "@/lib/site-pages";
 
 const programSlugs = new Set([
+  "tipovi-stome",
   "stoma-program",
   "inkontinencija",
   "program-za-negu-rana",
@@ -23,6 +24,7 @@ const pageSubtitles: Record<string, string> = {
   "o-nama": "Informacije o kompaniji TT Medik, vrednostima i dugogodišnjoj podršci pacijentima.",
   "politika-privatnosti": "Pravila obrade i zaštite podataka korisnika TT Medik sajta.",
   "vodic-za-dekubituse": "Praktične informacije o prevenciji, klasifikaciji i tretmanu dekubitusa.",
+  "tipovi-stome": "Pregled stoma programa, saveta za negu i ključnih pojmova za pacijente.",
   "stoma-program": "Pregled stoma programa, saveta za negu i ključnih pojmova za pacijente.",
   inkontinencija: "Informacije o samokateterizaciji i dostupnim rešenjima za inkontinenciju.",
   "program-za-negu-rana": "Smernice i proizvodi za savremeni pristup tretmanu rana.",

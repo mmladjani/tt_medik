@@ -1,14 +1,14 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 import {
   Activity,
-  ArrowRight,
   Droplets,
   HeartHandshake,
   HeartPulse,
   Package,
 } from "lucide-react";
+import { ActionLink } from "@/components/design-system/ActionLink";
+import { BrandLink } from "@/components/design-system/BrandLink";
 import { Container } from "@/components/design-system/Container";
 import { SectionHeader } from "@/components/design-system/SectionHeader";
 import { cn } from "@/lib/utils";
@@ -57,13 +57,7 @@ function ProgramCard({
           {desc}
         </p>
 
-        <Link
-          href={href}
-          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
-        >
-          Istraži program
-          <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-        </Link>
+        <ActionLink href={href}>Istraži program</ActionLink>
       </div>
     </article>
   );
@@ -75,7 +69,7 @@ const programs: ProgramCardProps[] = [
     desc: "Vrhunska rešenja za negu i kvalitetan život sa stomom uz ConvaTec tehnologiju.",
     icon: Package,
     image: "/assets/tt_medik_heading.jpg",
-    href: "/stoma-program",
+    href: "/tipovi-stome",
   },
   {
     title: "Intenzivna nega",
@@ -108,7 +102,7 @@ const programs: ProgramCardProps[] = [
   },
 ];
 
-export function ProductPrograms({ className }: { className?: string }) {
+export function HomeProgramsSection({ className }: { className?: string }) {
   return (
     <section className={cn("bg-white pb-32 pt-0", className)}>
       <Container>
@@ -117,15 +111,7 @@ export function ProductPrograms({ className }: { className?: string }) {
           title="Medicinska rešenja"
           description={
             <>
-              Kao zvanični distributer kompanije{" "}
-              <Link
-                href="https://www.convatec.com/sr-rs/"
-                target="_blank"
-                rel="noreferrer"
-                className="relative inline-block font-semibold text-[#0077a0] transition-colors duration-300 hover:text-[#00a3ad] after:absolute after:bottom-0 after:left-0 after:h-[1.5px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:scale-x-100"
-              >
-                ConvaTec
-              </Link>
+              Kao zvanični distributer kompanije <BrandLink>ConvaTec</BrandLink>
               , nudimo sveobuhvatnu paletu proizvoda koji postavljaju standarde u modernoj
               medicinskoj nezi.
             </>
@@ -144,3 +130,5 @@ export function ProductPrograms({ className }: { className?: string }) {
     </section>
   );
 }
+
+export { HomeProgramsSection as ProductPrograms };

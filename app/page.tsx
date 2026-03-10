@@ -1,10 +1,10 @@
 import { CalloutNotice } from "@/components/home/callout-notice";
 import { ContactCtaSection } from "@/components/home/contact-cta-section";
 import { CtaButton } from "@/components/home/cta-button";
-import { HeroModernRevision } from "@/components/home/hero-modern-revision";
-import { HomeAboutTrust } from "@/components/home/home-about-trust";
-import { KnowledgeHub } from "@/components/home/knowledge-hub";
-import { ProductPrograms } from "@/components/home/product-programs";
+import { HomeFaqSection } from "@/components/home/home-faq-section";
+import { HomeHeroSection } from "@/components/home/home-hero-section";
+import { HomeMissionSection } from "@/components/home/home-mission-section";
+import { HomeProgramsSection } from "@/components/home/home-programs-section";
 import { SectionGap } from "@/components/home/section-gap";
 import { Container } from "@/components/design-system/Container";
 import {
@@ -40,7 +40,7 @@ export default async function HomePage() {
   return (
     <div>
       <VisibilityBlock visibility="public">
-        <HeroModernRevision
+        <HomeHeroSection
           title={homepage.hero.title}
           subtitle={heroSubtitle}
           imageSrc={heroImage}
@@ -56,11 +56,11 @@ export default async function HomePage() {
         />
       </VisibilityBlock>
 
-      <HomeAboutTrust />
+      <HomeMissionSection />
       <SectionGap size="sm" divider />
-      <ProductPrograms className="pb-0" />
+      <HomeProgramsSection className="pb-0" />
       <SectionGap size="lg" divider />
-      <KnowledgeHub className="pb-0 pt-0" />
+      <HomeFaqSection className="pb-0 pt-0" />
 
       <MedicalOnly>
         <section className="bg-white">

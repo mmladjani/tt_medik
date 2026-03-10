@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { Container } from "@/components/design-system/Container";
 import { SectionHeader } from "@/components/design-system/SectionHeader";
+import { SplitSpineLayout } from "@/components/design-system/SplitSpineLayout";
 import { EditorialContactForm } from "@/components/forms/editorial-contact-form";
 import { getContactData } from "@/lib/content";
 
@@ -71,71 +72,74 @@ export default async function KontaktPage() {
           description="Otvoreni smo za pitanja pacijenata, porodica i zdravstvenih radnika. Tu smo da pružimo pouzdane informacije."
         />
 
-        <div className="relative grid gap-20 lg:grid-cols-[1fr_480px] lg:gap-32">
-          <div className="space-y-12">
-            <div className="border-b border-slate-100 pb-8">
-              <h3 className="mb-2 text-2xl font-black tracking-tight text-[#00344d]">Pošaljite upit</h3>
-              <p className="text-slate-400">Naš tim će vam odgovoriti u najkraćem mogućem roku.</p>
-            </div>
-
-            <EditorialContactForm idPrefix="kontakt-editorial-form" />
-          </div>
-
-          <div className="absolute bottom-0 left-[calc(100%-480px)] top-0 hidden w-px bg-slate-100 lg:block" />
-
-          <div className="space-y-12">
-            <section className="group relative overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/10 bg-[#f0f9fa] p-10">
-              <h4 className="relative z-10 mb-8 text-xs font-black uppercase tracking-widest text-[#00a3ad]">
-                Naša lokacija
-              </h4>
-
-              <div className="relative z-10 mb-8">
-                <div className="mb-6 flex items-start gap-4">
-                  <MapPin className="shrink-0 text-[#00344d]" size={24} />
-                  <span className="text-lg font-bold leading-snug text-[#00344d]">{contact.address}</span>
-                </div>
-
-                <div className="relative aspect-video w-full overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-inner">
-                  <iframe
-                    title="Mapa TT Medik lokacije"
-                    src={mapEmbedUrl}
-                    className="h-full w-full border-0 grayscale transition-all duration-700 hover:grayscale-0"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
-                  <Link
-                    href={mapUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border border-slate-100 bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#00344d] shadow-lg transition-all hover:bg-[#00a3ad] hover:text-white"
-                  >
-                    Otvori mapu <ArrowUpRight size={14} />
-                  </Link>
-                </div>
+        <SplitSpineLayout
+          showSpine
+          rightColumnWidth="480px"
+          left={
+            <div className="space-y-12">
+              <div className="border-b border-slate-100 pb-8">
+                <h3 className="mb-2 text-2xl font-black tracking-tight text-[#00344d]">Pošaljite upit</h3>
+                <p className="text-slate-400">Naš tim će vam odgovoriti u najkraćem mogućem roku.</p>
               </div>
-            </section>
 
-            <section className="space-y-8 pl-4">
-              {supportPhone ? (
+              <EditorialContactForm idPrefix="kontakt-editorial-form" />
+            </div>
+          }
+          right={
+            <div className="space-y-12">
+              <section className="group relative overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/10 bg-[#f0f9fa] p-10">
+                <h4 className="relative z-10 mb-8 text-xs font-black uppercase tracking-widest text-[#00a3ad]">
+                  Naša lokacija
+                </h4>
+
+                <div className="relative z-10 mb-8">
+                  <div className="mb-6 flex items-start gap-4">
+                    <MapPin className="shrink-0 text-[#00344d]" size={24} />
+                    <span className="text-lg font-bold leading-snug text-[#00344d]">{contact.address}</span>
+                  </div>
+
+                  <div className="relative aspect-video w-full overflow-hidden rounded-[1.5rem] border border-slate-100 bg-white shadow-inner">
+                    <iframe
+                      title="Mapa TT Medik lokacije"
+                      src={mapEmbedUrl}
+                      className="h-full w-full border-0 grayscale transition-all duration-700 hover:grayscale-0"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                    <Link
+                      href={mapUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="absolute bottom-4 right-4 flex items-center gap-2 rounded-full border border-slate-100 bg-white px-4 py-2 text-[10px] font-black uppercase tracking-widest text-[#00344d] shadow-lg transition-all hover:bg-[#00a3ad] hover:text-white"
+                    >
+                      Otvori mapu <ArrowUpRight size={14} />
+                    </Link>
+                  </div>
+                </div>
+              </section>
+
+              <section className="space-y-8 pl-4">
+                {supportPhone ? (
+                  <ContactItem
+                    icon={<Phone size={24} />}
+                    label="Besplatna linija"
+                    value={supportPhone}
+                    sub="Radnim danima: 8:30 – 15:30"
+                    isTeal
+                    href={formatPhoneLink(supportPhone)}
+                  />
+                ) : null}
+
                 <ContactItem
-                  icon={<Phone size={24} />}
-                  label="Besplatna linija"
-                  value={supportPhone}
-                  sub="Radnim danima: 8:30 – 15:30"
-                  isTeal
-                  href={formatPhoneLink(supportPhone)}
+                  icon={<Mail size={24} />}
+                  label="Email adresa"
+                  value={contact.email}
+                  href={`mailto:${contact.email}`}
                 />
-              ) : null}
-
-              <ContactItem
-                icon={<Mail size={24} />}
-                label="Email adresa"
-                value={contact.email}
-                href={`mailto:${contact.email}`}
-              />
-            </section>
-          </div>
-        </div>
+              </section>
+            </div>
+          }
+        />
       </Container>
     </main>
   );

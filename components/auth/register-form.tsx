@@ -46,7 +46,6 @@ export function RegisterForm() {
 
       const userId = data.user?.id;
       if (userId) {
-        // Declaration only: this does not grant access to protected medical content.
         const { error: profileError } = await supabase.from("profiles").upsert(
           {
             id: userId,
@@ -59,7 +58,6 @@ export function RegisterForm() {
         );
 
         if (profileError) {
-          // Signup still succeeds; profile may also be created by DB trigger.
           console.error("Profile upsert failed:", profileError.message);
         }
       }

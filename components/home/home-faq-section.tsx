@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { ArrowRight, ArrowUpRight, ExternalLink, HeartPulse, Utensils } from "lucide-react";
+import { ExternalLink, HeartPulse, Utensils } from "lucide-react";
+import { ActionLink } from "@/components/design-system/ActionLink";
 import { Container } from "@/components/design-system/Container";
+import { FaqAccordion } from "@/components/design-system/FaqAccordion";
 import { SectionHeader } from "@/components/design-system/SectionHeader";
 import { cn } from "@/lib/utils";
 
@@ -39,7 +40,7 @@ const FAQ_ITEMS: FaqItem[] = [
   },
 ];
 
-export function KnowledgeHub({ className }: { className?: string }) {
+export function HomeFaqSection({ className }: { className?: string }) {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
@@ -55,50 +56,16 @@ export function KnowledgeHub({ className }: { className?: string }) {
           }
         />
 
-        <div className="mb-24 space-y-0 border-t border-slate-100">
-          {FAQ_ITEMS.map((faq, i) => {
-            const isOpen = openIndex === i;
-
-            return (
-              <article
-                key={faq.q}
-                className="group border-b border-slate-100 transition-colors hover:bg-slate-50/50"
-              >
-                <button
-                  type="button"
-                  onClick={() => setOpenIndex(isOpen ? -1 : i)}
-                  className="flex w-full items-center justify-between px-3 py-8 text-left md:px-4"
-                >
-                  <div className="flex items-center gap-8">
-                    <span className="text-sm font-black text-[#00a3ad]/20 transition-colors group-hover:text-[#00a3ad]">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-xl font-bold text-[#00344d] md:text-2xl">{faq.q}</span>
-                  </div>
-                  <span
-                    className={cn(
-                      "rounded-full border border-slate-200 p-2 text-[#00a3ad] transition-transform rotate-45",
-                      isOpen && "rotate-[135deg] border-[#00a3ad] bg-[#00a3ad] text-white",
-                    )}
-                  >
-                    <ArrowUpRight size={20} />
-                  </span>
-                </button>
-
-                <div
-                  className={cn(
-                    "overflow-hidden transition-all duration-500",
-                    isOpen ? "max-h-[80rem] pb-8" : "max-h-0",
-                  )}
-                >
-                  <p className="max-w-[96ch] pl-16 pr-4 text-lg leading-relaxed text-slate-500">
-                    {faq.a}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+        <FaqAccordion
+          className="mb-24"
+          items={FAQ_ITEMS.map((faq, index) => ({
+            id: `${index}-${faq.q}`,
+            question: faq.q,
+            answer: faq.a,
+          }))}
+          openIndex={openIndex}
+          onToggle={(index) => setOpenIndex(openIndex === index ? -1 : index)}
+        />
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <article className="group relative flex min-h-[360px] flex-col justify-between overflow-hidden rounded-[2.5rem] border border-[#00a3ad]/5 bg-[#f0f9fa] p-10 transition-all hover:border-[#00a3ad]/20 hover:shadow-2xl hover:shadow-slate-900/20">
@@ -125,13 +92,7 @@ export function KnowledgeHub({ className }: { className?: string }) {
             </div>
 
             <div className="relative z-10 flex items-start pt-6">
-              <Link
-                href="/stoma-program"
-                className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
-              >
-                Otvori vodič
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-              </Link>
+              <ActionLink href="/tipovi-stome">Otvori vodič</ActionLink>
             </div>
 
             <Utensils
@@ -155,13 +116,9 @@ export function KnowledgeHub({ className }: { className?: string }) {
               </p>
             </div>
 
-            <Link
-              href="/stoma-program"
-              className="relative z-10 flex items-center gap-2 pt-6 text-xs font-bold uppercase tracking-widest text-[#00a3ad]"
-            >
+            <ActionLink href="/tipovi-stome" className="relative z-10 pt-6">
               Pogledaj savete
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
-            </Link>
+            </ActionLink>
 
             <HeartPulse
               className="absolute -bottom-10 -right-10 -rotate-12 text-white/5 transition-transform group-hover:scale-110"
@@ -173,3 +130,5 @@ export function KnowledgeHub({ className }: { className?: string }) {
     </section>
   );
 }
+
+export { HomeFaqSection as KnowledgeHub };
