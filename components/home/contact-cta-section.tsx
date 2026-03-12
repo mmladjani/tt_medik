@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Phone } from "lucide-react";
+import { Phone } from "lucide-react";
 import { Button } from "@/components/design-system/Button";
 import { Container } from "@/components/design-system/Container";
 import type { ContactData } from "@/lib/content";
@@ -46,10 +46,9 @@ export function ContactCtaSection({
                   {supportPhone}
                 </a>
               ) : null}
-              <Button asChild variant="teal" className="group">
+              <Button asChild variant="teal">
                 <Link href="/kontakt">
                   Otvori kontakt stranicu
-                  <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
                 </Link>
               </Button>
             </div>

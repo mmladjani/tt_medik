@@ -1,329 +1,451 @@
+"use client";
+
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Info } from "lucide-react";
-import { Container } from "@/components/design-system/Container";
-import { SectionHeader } from "@/components/design-system/SectionHeader";
+import { EyeOff, FileText } from "lucide-react";
 import { Button } from "@/components/design-system/Button";
+import { Container } from "@/components/design-system/Container";
+import { SpineDivider } from "@/components/design-system/SpineDivider";
 import { cn } from "@/lib/utils";
+
+type AssetType = "image" | "pdf";
+
+type MedicalAsset = {
+  type: AssetType;
+  src: string;
+  alt: string;
+  isSensitive?: boolean;
+};
+
+type Fact = {
+  label: "Lokacija" | "Sadržaj";
+  value: string;
+};
+
+type MedicalTypeCardData = {
+  title: string;
+  description: string;
+  facts: Fact[];
+  asset: MedicalAsset;
+  className?: string;
+  noteTitle?: string;
+  note?: string;
+  splitNoteLayout?: boolean;
+};
+
+const KOLOSTOMA_TYPES: MedicalTypeCardData[] = [
+  {
+    title: "Ascendentna",
+    description:
+      "Može biti izvedena na desnoj strani abdomena i tada je sadržaj tečan ili polutečan i jako iritira kožu ukoliko dođe u kontakt sa njom.",
+    facts: [
+      { label: "Lokacija", value: "Desna strana abdomena" },
+      { label: "Sadržaj", value: "Tečan ili polutečan" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/ascendentna-kolostoma.png",
+      alt: "Ilustracija ascendentne kolostome",
+      isSensitive: true,
+    },
+  },
+  {
+    title: "Transverzalna",
+    description:
+      "Kolostoma može biti i transverzalna, stolica je tada tečna do poluformirana.",
+    facts: [
+      { label: "Lokacija", value: "Poprečni deo kolona" },
+      { label: "Sadržaj", value: "Tečna do poluformirana" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/transverzalna-kolostoma.png",
+      alt: "Ilustracija transverzalne kolostome",
+      isSensitive: true,
+    },
+  },
+  {
+    title: "Descendentna",
+    description:
+      "Izvodi se na levoj strani stomaka. Tada veći deo creva funkcioniše i kroz stomu se eliminiše poluformirana ili formirana stolica.",
+    facts: [
+      { label: "Lokacija", value: "Leva strana stomaka" },
+      { label: "Sadržaj", value: "Poluformirana ili formirana" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/descendentna-kolostoma.png",
+      alt: "Ilustracija descendentne kolostome",
+      isSensitive: true,
+    },
+  },
+  {
+    title: "Sigmoidna",
+    description:
+      "Kod ovog tipa kolostome stolica je formirana jer je sva voda apsorbovana u gornjim delovima creva. Izvodi se na levoj strani stomaka.",
+    facts: [
+      { label: "Lokacija", value: "Leva strana stomaka" },
+      { label: "Sadržaj", value: "Formirana stolica" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/sigmoidma-kolostoma.png",
+      alt: "Ilustracija sigmoidne kolostome",
+      isSensitive: true,
+    },
+  },
+];
+
+const OTHER_STOMA_TYPES: MedicalTypeCardData[] = [
+  {
+    title: "Ileostoma",
+    description:
+      "Nastaje kada se zdravi deo tankog creva izvede na površinu stomaka gde se fiksira i na taj način formira otvor za eliminisanje sadržaja. Ileostoma može biti privremena i trajna, a sadržaj koji se iz nje izlučuje je tečan, obilan i po svojoj prirodi prilično agresivan.",
+    facts: [
+      { label: "Lokacija", value: "Najčešće desna strana stomaka" },
+      { label: "Sadržaj", value: "Tečan, obilan i agresivan" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/ileostoma.png",
+      alt: "Ilustracija ileostome",
+      isSensitive: true,
+    },
+  },
+  {
+    title: "Urostoma",
+    description:
+      "Urostoma se formira kada je neophodno preusmeriti tok urina iz organizma na neki drugi način. Sadržaj koji se izliva iz urostome - urin je agresivan i nezi kože oko urostome se mora posvetiti posebna pažnja.",
+    className: "lg:col-span-2",
+    facts: [
+      { label: "Lokacija", value: "Prednji trbušni zid" },
+      { label: "Sadržaj", value: "Urin" },
+    ],
+    noteTitle: "Napomena (urostoma)",
+    note:
+      "Stoma se može formirati od “pozajmljenog” dela tankog creva koje se zatvara sa jedne strane kako bi se formirao novi rezervoar urina (“nova bešika”). Ureteri se povezuju sa ovom “novom bešikom”, a otvoreni kraj tankog creva se izvodi kroz trbušni zid.",
+    splitNoteLayout: true,
+    asset: {
+      type: "image",
+      src: "/assets/urostoma.png",
+      alt: "Ilustracija urostome",
+      isSensitive: true,
+    },
+  },
+  {
+    title: "Ureterostoma",
+    description:
+      "Kod ureterostome jedan ili dva uretera se preusmeravaju iz bubrega i izvode na površinu stomaka.",
+    facts: [
+      { label: "Lokacija", value: "Površina stomaka" },
+      { label: "Sadržaj", value: "Urin" },
+    ],
+    asset: {
+      type: "image",
+      src: "/assets/ureterostoma.png",
+      alt: "Ilustracija ureterostome",
+      isSensitive: true,
+    },
+  },
+];
 
 export function StomaTypesPage() {
   return (
-    <div className="bg-white pb-0 pt-32">
-      <Container className="mb-12">
-        <div className="w-full max-w-full rounded-2xl border border-slate-100 bg-slate-50 p-2 sm:w-fit sm:rounded-full">
-          <div className="flex flex-wrap justify-start gap-2 sm:gap-3">
-            <Button asChild variant="teal" className="h-10 rounded-full px-4 text-[11px] sm:px-6">
-              <Link href="/tipovi-stome">Tipovi stome</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outlineNavy"
-              className="h-10 rounded-full border-transparent bg-transparent px-4 text-[11px] text-slate-500 hover:bg-white hover:text-tt-navy sm:px-6"
-            >
-              <Link href="/nega-stome">Nega stome</Link>
-            </Button>
-            <Button
-              asChild
-              variant="outlineNavy"
-              className="h-10 rounded-full border-transparent bg-transparent px-4 text-[11px] text-slate-500 hover:bg-white hover:text-tt-navy sm:px-6"
-            >
-              <Link href="/stoma-pomagala">Stoma pomagala</Link>
-            </Button>
-          </div>
-        </div>
-      </Container>
-
-      <Container className="mb-24">
-        <SectionHeader
+    <main className="bg-white pb-24 pt-28">
+      <Container>
+        <PageIntro
           label="Programi / Stoma"
           title="Tipovi stome"
-          description="Upoznavanje sa vrstom stome koju imate je ključni korak ka sigurnosti i pravilnom odabiru pomagala."
-          className="mb-0"
+          description="Upoznavanje sa vrstom stome je ključni korak ka sigurnosti i pravilnom odabiru pomagala za svakodnevnu negu. Kod pojedinih tipova, poput urostome, važno je razumeti i dodatni hirurški kontekst."
         />
       </Container>
 
-      <section className="border-y border-slate-100 bg-slate-50/50 py-24">
-        <Container>
-          <div className="mb-16 max-w-3xl">
-            <h2 className="mb-6 text-4xl font-black uppercase tracking-tighter text-tt-navy">
-              Kolostoma
-            </h2>
-            <p className="text-lg leading-relaxed text-slate-500">
+      <Container className="mt-8">
+        <PageSubnav />
+      </Container>
+
+      <Container className="mt-10">
+        <section id="kolostoma">
+          <header className="mb-6 max-w-3xl md:mb-8">
+            <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">Kolostoma</h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
               Nastaje kada se otvoreni kraj zdravog debelog creva izvuče na površinu stomaka
               (abdomena) i tu se fiksira kako bi se formirao otvor za izbacivanje sadržaja iz
               creva. Kolostoma u zavisnosti od vremena trajanja može biti privremena ili trajna.
             </p>
-          </div>
+          </header>
 
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            <SubtypeCard
-              title="Ascendentna"
-              image="/assets/ascendentna-kolostoma.png"
-              facts={[
-                { label: "Lokacija", value: "Desna strana abdomena" },
-                { label: "Sadržaj", value: "Tečan ili polutečan" },
-              ]}
-              desc="Može biti izvedena na desnoj strani abdomena i tada je sadržaj tečan ili polutečan i jako iritira kožu."
-            />
-            <SubtypeCard
-              title="Transverzalna"
-              image="/assets/transverzalna-kolostoma.png"
-              facts={[
-                { label: "Lokacija", value: "Poprečni deo kolona" },
-                { label: "Sadržaj", value: "Tečna do poluformirana stolica" },
-              ]}
-              desc="Kolostoma može biti i transverzalna, stolica je tada tečna do poluformirana."
-            />
-            <SubtypeCard
-              title="Descendentna"
-              image="/assets/descendentna-kolostoma.png"
-              facts={[
-                { label: "Lokacija", value: "Leva strana stomaka" },
-                { label: "Sadržaj", value: "Poluformirana ili formirana" },
-              ]}
-              desc="Izvodi se na levoj strani stomaka. Tada veći deo creva funkcioniše i kroz stomu se eliminiše poluformirana ili formirana stolica."
-            />
-            <SubtypeCard
-              title="Sigmoidna"
-              image="/assets/sigmoidma-kolostoma.png"
-              facts={[
-                { label: "Lokacija", value: "Leva strana stomaka" },
-                { label: "Sadržaj", value: "Formirana stolica" },
-              ]}
-              desc="Kod ovog tipa kolostome stolica je formirana jer je sva voda apsorbovana u gornjim delovima creva."
-            />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {KOLOSTOMA_TYPES.map((type) => (
+              <MedicalTypeCard key={type.title} data={type} />
+            ))}
           </div>
-        </Container>
-      </section>
-
-      <section className="py-32">
-        <section>
-          <Container className="grid items-center gap-20 lg:grid-cols-2">
-            <div className="space-y-8">
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-tt-navy">
-                Ileostoma
-              </h2>
-              <p className="max-w-3xl text-lg leading-relaxed text-slate-500">
-                Nastaje kada se zdravi deo tankog creva izvede na površinu stomaka gde se fiksira
-                i na taj način formira otvor za eliminisanje sadržaja. Ileostoma može biti
-                privremena i trajna, a sadržaj koji se iz nje izlučuje je tečan, obilan i po svojoj
-                prirodi prilično agresivan. Zbog toga se nezi ileostome mora posvetiti posebna
-                pažnja kako sadržaj ne bi došao u kontakt sa kožom na stomaku.
-              </p>
-              <CareChecklist
-                items={[
-                  "Posebnu pažnju usmeriti na zaštitu kože oko stome.",
-                  "Zbog obilnog i tečnog sadržaja, pomagala menjati na vreme.",
-                  "Prilikom svake zamene proveriti da li postoji iritacija kože.",
-                ]}
-              />
-            </div>
-            <IllustrationFrame src="/assets/ileostoma.png" />
-          </Container>
         </section>
 
-        <div className="my-32 flex justify-center">
-          <div className="h-20 w-px bg-slate-100/70" />
-        </div>
+        <InlineSectionDivider />
 
-        <section>
-          <Container className="grid items-start gap-20 lg:grid-cols-2">
-            <IllustrationFrame src="/assets/urostoma.png" />
-            <div className="space-y-6 lg:space-y-7">
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-tt-navy">
-                Urostoma
-              </h2>
-              <p className="max-w-3xl text-lg leading-relaxed text-slate-500">
-                Urostoma se formira kada je neophodno preusmeriti tok urina iz organizma na neki
-                drugi način. Sadržaj koji se izliva iz urostome - urin je agresivan i nezi kože oko
-                urostome se mora posvetiti posebna pažnja.
-              </p>
-              <CareChecklist
-                compact
-                className="border-slate-200 bg-white/80"
-                items={[
-                  "Kožu oko stome održavati suvom i zaštićenom od kontakta sa urinom.",
-                  "Koristiti pomagala namenjena za urostomu i redovno proveravati naleganje.",
-                ]}
-              />
-              <InfoNote
-                title="Hirurška napomena"
-                lead="Stoma se može formirati od “pozajmljenog” dela tankog creva koje se zatvara sa jedne strane kako bi se formirao novi rezervoar urina (“nova bešika”)."
-                detail="Ureteri koji sprovode urin od bubrega se povezuju sa ovom “novom bešikom”, a otvoreni kraj tankog creva se izvodi kroz trbušni zid da bi se kreirala stoma."
-              />
-            </div>
-          </Container>
-        </section>
+        <section id="ostali-tipovi">
+          <header className="mb-6 max-w-3xl md:mb-8">
+            <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">
+              Ostali tipovi stome
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+              U nastavku su osnovne karakteristike ileostome, urostome i ureterostome kako biste
+              lakše razumeli razlike i potrebe nege.
+            </p>
+          </header>
 
-        <div className="my-32 flex justify-center">
-          <div className="h-20 w-px bg-slate-100/70" />
-        </div>
-
-        <section>
-          <Container className="grid items-center gap-20 lg:grid-cols-2">
-            <div className="space-y-8">
-              <h2 className="text-4xl font-black uppercase tracking-tighter text-tt-navy">
-                Ureterostoma
-              </h2>
-              <p className="max-w-3xl text-lg leading-relaxed text-slate-500">
-                Kod ureterostome jedan ili dva uretera se preusmeravaju iz bubrega i izvode na
-                površinu stomaka.
-              </p>
-              <CareChecklist
-                items={[
-                  "Posebno pažljivo pratiti kožu zbog kontinuiranog kontakta sa urinom.",
-                  "Naleganje pomagala proveravati redovno, naročito nakon fizičke aktivnosti.",
-                ]}
-              />
-            </div>
-            <IllustrationFrame src="/assets/ureterostoma.png" />
-          </Container>
-        </section>
-      </section>
-
-      <section className="pb-32">
-        <Container className="mb-16">
-          <div className="h-px w-full bg-slate-100/70" />
-        </Container>
-        <Container>
-          <div className="relative overflow-hidden rounded-[3rem] bg-tt-navy p-16 md:p-24">
-            <div className="relative z-10 max-w-3xl">
-              <h2 className="mb-8 text-4xl font-black uppercase tracking-tighter text-white md:text-5xl">
-                Prilagođeno Vašim <br /> <span className="text-tt-teal">životnim potrebama</span>
-              </h2>
-              <p className="mb-12 text-lg text-white/60">
-                ConvaTec nudi mnogo različitih sistema diskova i kesa za zbrinjavanje svih tipova
-                stome i negu kože oko stome, ali uvek imajući na umu, različitost Vaših životnih
-                potreba. Od izuzetne je važnosti zbrinuti stomu na najbolji mogući način, a tome
-                značajno doprinosi i pravilan odabir stoma pomagala koje ćete koristiti.
-              </p>
-              <div className="flex w-full max-w-xl flex-col gap-4 md:flex-row md:items-center">
-                <Button
-                  asChild
-                  variant="teal"
-                  className="h-12 w-full rounded-full px-8 text-[11px] md:w-auto md:min-w-[190px]"
-                >
-                  <Link href="/stoma-pomagala">Stoma pomagala</Link>
-                </Button>
-                <Button
-                  asChild
-                  variant="outlineNavy"
-                  className="h-12 w-full rounded-full border-white/30 bg-transparent px-8 text-[11px] text-white hover:border-white/60 hover:bg-white/10 hover:text-white md:w-auto md:min-w-[160px]"
-                >
-                  <Link href="/kontakt">Kontakt</Link>
-                </Button>
-              </div>
-              <p className="mt-5 text-sm text-white/70 transition-colors">
-                Besplatna linija za pacijente: 0800 101 102 (radnim danima 8:30 - 15:30).
-              </p>
-            </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {OTHER_STOMA_TYPES.map((type) => (
+              <MedicalTypeCard key={type.title} data={type} />
+            ))}
           </div>
-        </Container>
-      </section>
-    </div>
+        </section>
+
+        <InlineSectionDivider size="lg" />
+
+        <section id="cta">
+          <CtaCard />
+        </section>
+      </Container>
+    </main>
   );
 }
 
-type SubtypeCardProps = {
+function PageIntro({
+  label,
+  title,
+  description,
+}: {
+  label: string;
   title: string;
-  image: string;
-  desc: string;
-  facts: Array<{
-    label: string;
-    value: string;
-  }>;
-};
-
-function SubtypeCard({ title, image, desc, facts }: SubtypeCardProps) {
+  description: string;
+}) {
   return (
-    <article className="flex h-full flex-col rounded-[2rem] border border-slate-100 bg-white p-6 text-left transition-colors duration-300 hover:border-slate-200">
-      <div className="mb-6 flex h-24 w-full items-center justify-center grayscale transition-all duration-500 hover:grayscale-0">
-        <Image src={image} alt={title} width={120} height={120} className="max-h-full object-contain" />
-      </div>
-      <h4 className="mb-4 text-[10px] font-black uppercase tracking-[0.2em] text-tt-teal">{title}</h4>
-      <dl className="mb-3 space-y-2 border-y border-slate-100 pb-5 pt-4">
-        {facts.map((fact) => (
-          <div key={fact.label} className="flex items-start justify-between gap-3">
-            <dt className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-              {fact.label}
-            </dt>
-            <dd className="text-right text-xs font-medium leading-snug text-slate-700">{fact.value}</dd>
+    <header className="max-w-4xl">
+      <span className="mb-3 block text-sm font-black uppercase tracking-widest text-tt-teal md:text-base">
+        {label}
+      </span>
+      <h1 className="text-4xl font-black tracking-tight text-tt-navy md:text-6xl">{title}</h1>
+      <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">{description}</p>
+    </header>
+  );
+}
+
+function PageSubnav() {
+  return (
+    <nav
+      aria-label="Stoma podnavigacija"
+      className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-2 sm:w-fit sm:rounded-full"
+    >
+      <ul className="grid gap-2 sm:flex sm:flex-wrap">
+        <li className="min-w-0">
+          <Button
+            asChild
+            variant="teal"
+            className="h-auto min-h-10 w-full rounded-full px-4 py-2 text-[11px] leading-tight sm:w-auto sm:px-5"
+          >
+            <Link href="/tipovi-stome" aria-current="page">
+              Tipovi stome
+            </Link>
+          </Button>
+        </li>
+        <li className="min-w-0">
+          <Button
+            asChild
+            variant="outlineNavy"
+            className="h-auto min-h-10 w-full rounded-full border-transparent bg-transparent px-4 py-2 text-[11px] leading-tight text-slate-500 hover:bg-white hover:text-tt-navy sm:w-auto sm:px-5"
+          >
+            <Link href="/nega-stome">Nega stome</Link>
+          </Button>
+        </li>
+        <li className="min-w-0">
+          <Button
+            asChild
+            variant="outlineNavy"
+            className="h-auto min-h-10 w-full rounded-full border-transparent bg-transparent px-4 py-2 text-[11px] leading-tight text-slate-500 hover:bg-white hover:text-tt-navy sm:w-auto sm:px-5"
+          >
+            <Link href="/stoma-pomagala">Stoma pomagala</Link>
+          </Button>
+        </li>
+      </ul>
+    </nav>
+  );
+}
+
+function MedicalTypeCard({ data }: { data: MedicalTypeCardData }) {
+  const isSplitLayout = Boolean(data.note && data.splitNoteLayout);
+
+  if (isSplitLayout) {
+    return (
+      <article
+        className={cn(
+          "flex h-full min-h-[24rem] flex-col rounded-[1.75rem] border border-slate-100 bg-white p-6 shadow-sm",
+          data.className,
+        )}
+      >
+        <div className="grid h-full items-stretch gap-5 lg:grid-cols-[minmax(0,1fr)_1px_minmax(0,1fr)] lg:gap-6">
+          <div className="flex min-h-full flex-col">
+            <SensitiveAssetReveal asset={data.asset} />
+
+            <h3 className="text-base font-black uppercase tracking-tight text-tt-navy">{data.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600">{data.description}</p>
+            <TypeFacts
+              facts={data.facts}
+              className="mt-auto hidden border-t border-slate-100 pt-4 lg:block"
+            />
           </div>
-        ))}
-      </dl>
-      <p className="mt-1 max-w-[30ch] text-sm leading-relaxed text-slate-500">{desc}</p>
+
+          <div aria-hidden className="h-px w-full bg-slate-100 lg:h-auto lg:w-px" />
+
+          <div className="flex h-full flex-col rounded-xl border border-tt-teal/10 bg-tt-teal/5 p-5">
+            <p className="text-[10px] font-black uppercase tracking-widest text-tt-navy">
+              {data.noteTitle ?? "Napomena"}
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-tt-navy/80">{data.note}</p>
+          </div>
+        </div>
+
+        <TypeFacts facts={data.facts} className="mt-auto border-t border-slate-100 pt-4 lg:hidden" />
+      </article>
+    );
+  }
+
+  return (
+    <article
+      className={cn(
+        "flex h-full min-h-[24rem] flex-col rounded-[1.75rem] border border-slate-100 bg-white p-6 shadow-sm",
+        data.className,
+      )}
+    >
+      <SensitiveAssetReveal asset={data.asset} />
+
+      <h3 className="text-base font-black uppercase tracking-tight text-tt-navy">{data.title}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-slate-600">{data.description}</p>
+      {data.note ? (
+        <div className="mt-4 rounded-xl border border-tt-teal/10 bg-tt-teal/5 p-4">
+          <p className="text-[10px] font-black uppercase tracking-widest text-tt-navy">
+            {data.noteTitle}
+          </p>
+          <p className="mt-2 text-sm leading-relaxed text-tt-navy/80">{data.note}</p>
+        </div>
+      ) : null}
+      <TypeFacts facts={data.facts} className="mt-auto border-t border-slate-100 pt-4" />
     </article>
   );
 }
 
-function IllustrationFrame({ src, className }: { src: string; className?: string }) {
+function TypeFacts({ facts, className }: { facts: Fact[]; className?: string }) {
   return (
-    <div className={cn("group relative mx-auto max-w-[480px] overflow-x-hidden lg:mx-0", className)}>
-      <div className="flex aspect-square items-center justify-center rounded-[3rem] border border-slate-100 bg-slate-50 p-12 transition-transform duration-700 group-hover:scale-[1.03] lg:p-14">
-        <Image
-          src={src}
-          alt="Medical Illustration"
-          width={400}
-          height={400}
-          className="max-h-full w-auto object-contain mix-blend-multiply"
-        />
-      </div>
-      <div className="pointer-events-none absolute right-2 top-2 -z-10 h-20 w-20 rounded-full bg-tt-teal/10 opacity-80 blur-xl" />
-    </div>
+    <dl className={cn("space-y-2", className)}>
+      {facts.map((fact) => (
+        <div key={`${fact.label}-${fact.value}`} className="flex items-start justify-between gap-3">
+          <dt className="text-[10px] font-black uppercase tracking-widest text-slate-400">{fact.label}</dt>
+          <dd className="text-right text-xs font-medium leading-snug text-slate-700">{fact.value}</dd>
+        </div>
+      ))}
+    </dl>
   );
 }
 
-function CareChecklist({
-  items,
-  compact = false,
-  className,
-}: {
-  items: string[];
-  compact?: boolean;
-  className?: string;
-}) {
+function SensitiveAssetReveal({ asset }: { asset: MedicalAsset }) {
+  const [isRevealed, setIsRevealed] = React.useState(!asset.isSensitive);
+
+  const handleReveal = () => {
+    if (asset.type === "pdf") {
+      window.open(asset.src, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    setIsRevealed(true);
+  };
+
   return (
     <div
       className={cn(
-        "rounded-2xl border border-slate-100 bg-slate-50/60",
-        compact ? "p-5 sm:p-6" : "p-6",
-        className,
+        "relative mb-4 overflow-hidden rounded-xl border border-slate-100 bg-slate-50",
+        "h-44",
       )}
     >
-      <h3 className="mb-3 text-xs font-black uppercase tracking-[0.12em] text-tt-navy sm:tracking-widest">
-        Ključno za negu
-      </h3>
-      <ul className={cn(compact ? "space-y-1.5" : "space-y-2")}>
-        {items.map((item) => (
-          <li key={item} className="flex items-start gap-2 text-sm leading-relaxed text-slate-600">
-            <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-tt-teal" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
+      {asset.type === "image" ? (
+        <Image
+          src={asset.src}
+          alt={asset.alt}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+          className={cn(
+            "object-contain p-1 transition-all duration-500",
+            !isRevealed && "scale-105 opacity-30",
+          )}
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center text-tt-teal/60">
+          <FileText size={28} />
+        </div>
+      )}
+
+      <div
+        className={cn(
+          "absolute inset-0 z-10 flex items-center justify-center bg-tt-navy/10 backdrop-blur-xl transition-all duration-300",
+          isRevealed && "pointer-events-none opacity-0",
+        )}
+      >
+        <div className="flex flex-col items-center gap-2 px-3 text-center">
+          <span className="rounded-full bg-white p-2.5 text-tt-teal shadow-sm">
+            <EyeOff size={16} />
+          </span>
+          <button
+            type="button"
+            onClick={handleReveal}
+            className="rounded-full border border-tt-navy/15 bg-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest text-tt-navy transition-colors hover:border-tt-teal hover:text-tt-teal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tt-teal/40"
+          >
+            {asset.type === "image" ? "Prikaži ilustraciju" : "Otvori dokument"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
 
-function InfoNote({
-  title,
-  lead,
-  detail,
-}: {
-  title: string;
-  lead: string;
-  detail: string;
-}) {
+function CtaCard() {
   return (
-    <aside className="rounded-[2rem] border border-tt-teal/10 bg-tt-teal/5 p-8">
-      <div className="mb-4 flex items-center gap-3">
-        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-white text-tt-teal">
-          <Info size={14} aria-hidden="true" />
-        </span>
-        <h3 className="text-[10px] font-black uppercase tracking-widest text-tt-navy">{title}</h3>
+    <div className="relative overflow-hidden rounded-[2.5rem] bg-tt-navy p-10 text-white md:p-14">
+      <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-tt-teal/20 blur-3xl" aria-hidden="true" />
+
+      <div className="relative z-10 grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center">
+        <div>
+          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#7cd3d8] md:text-xl">
+            Podrška i izbor pomagala
+          </span>
+          <h2 className="text-4xl font-black tracking-tighter md:text-6xl">Spremni za sledeći korak?</h2>
+          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/75 md:text-xl">
+            Pregledajte stoma pomagala ili kontaktirajte naš tim za podršku pri odabiru rešenja.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-3 lg:justify-end">
+          <Button asChild variant="teal" className="group">
+            <Link href="/stoma-pomagala">Stoma pomagala</Link>
+          </Button>
+
+          <Button
+            asChild
+            variant="outlineNavy"
+            className="border-white/25 bg-white/10 text-white hover:border-white/50 hover:bg-white/15 hover:text-white"
+          >
+            <Link href="/kontakt">Kontakt</Link>
+          </Button>
+        </div>
       </div>
-      <p className="text-sm font-medium leading-relaxed text-tt-navy/85">{lead}</p>
-      <p className="mt-3 text-sm leading-relaxed text-tt-navy/70">{detail}</p>
-    </aside>
+    </div>
+  );
+}
+
+function InlineSectionDivider({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+  return (
+    <div className={cn("flex justify-center", size === "sm" && "py-6", size === "md" && "py-8", size === "lg" && "py-12")}>
+      <SpineDivider height={size} />
+    </div>
   );
 }
