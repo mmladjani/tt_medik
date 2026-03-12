@@ -86,7 +86,11 @@ export default async function MarketingPage({
       className={isProgramPage ? "grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]" : ""}
     >
       <article className="rounded-3xl border border-slate-200/80 bg-white p-7 shadow-sm sm:p-8">
-        <RichContent portableText={page.portableText} textContent={page.textContent} />
+        <RichContent
+          portableText={page.portableText}
+          textContent={page.textContent}
+          slug={slug}
+        />
       </article>
 
       {isProgramPage ? (

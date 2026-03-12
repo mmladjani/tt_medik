@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import type { PortableTextBlock } from "@/lib/site-pages";
@@ -7,6 +8,7 @@ interface RichContentProps {
   portableText?: PortableTextBlock[] | null;
   textContent?: string | null;
   className?: string;
+  slug?: string;
 }
 
 interface TextChunk {
@@ -24,6 +26,30 @@ const headingAliasMap: Record<string, string[]> = {
   ],
 };
 const CONVATEC_URL = "https://www.convatec.com/sr-rs/";
+const STOMA_MEASUREMENT_HEADING_SLUG = "kako-da-izmerite-vasu-stomu";
+
+const STOMA_MEASUREMENT_STEPS = [
+  {
+    title: "Pripremite šablon",
+    text: "Na šablonu koji ćete dobiti uz diskove ucrtajte tačan oblik i veličinu Vaše stome.",
+    image: "/assets/1476395016.jpg",
+  },
+  {
+    title: "Isecite otvor na disku",
+    text: "Izvadite disk iz zaštitne folije i na njegovu poleđinu prislonite pripremljeni šablon. Malim zakrivljenim makazama pažljivo isecite disk po iscrtanoj liniji.",
+    image: "/assets/1476395017.jpg",
+  },
+  {
+    title: "Postavite disk",
+    text: "Odlepite zaštitnu foliju sa diska i pažljivo postavite disk na kožu oko stome.",
+    image: "/assets/1476395014.jpg",
+  },
+  {
+    title: "Postavite kesu",
+    text: 'Na disk postavite kesu i proverite da li je pravilno prikopčana (treba da se čuje "klik").',
+    image: "/assets/1476395015.jpg",
+  },
+] as const;
 
 function slugifyHeading(value: string): string {
   return value
@@ -63,7 +89,7 @@ function renderTextWithConvaTecLinks(text: string): ReactNode {
   });
 }
 
-function renderPortableText(blocks: PortableTextBlock[]) {
+function renderPortableText(blocks: PortableTextBlock[], slug?: string) {
   const rendered: ReactNode[] = [];
   let index = 0;
 
@@ -114,6 +140,26 @@ function renderPortableText(blocks: PortableTextBlock[]) {
 
     if (style === "h1" || style === "h2") {
       const headingId = slugifyHeading(text);
+      if (slug === "nega-stome" && headingId === STOMA_MEASUREMENT_HEADING_SLUG) {
+        rendered.push(
+          <StomaMeasurementStepGuide key={`stoma-measurement-${key}`} headingId={headingId} />,
+        );
+
+        index += 1;
+        let skippedParagraphs = 0;
+        while (index < blocks.length && skippedParagraphs < 3) {
+          const candidate = blocks[index];
+          const candidateStyle = candidate.style ?? "normal";
+          const candidateText = toPlainText(candidate);
+          if (candidate.listItem || !candidateText || candidateStyle !== "normal") {
+            break;
+          }
+          skippedParagraphs += 1;
+          index += 1;
+        }
+        continue;
+      }
+
       const aliases = headingAliasMap[headingId] ?? [];
       rendered.push(
         <div key={key}>
@@ -152,7 +198,7 @@ function renderPortableText(blocks: PortableTextBlock[]) {
       );
     } else {
       rendered.push(
-        <p key={key} className="my-4 leading-relaxed text-slate-700">
+        <p key={key} className="tt-main-copy my-4 leading-relaxed text-slate-700">
           {renderTextWithConvaTecLinks(text)}
         </p>,
       );
@@ -221,12 +267,37 @@ function parseTextContent(textContent: string): TextChunk[] {
   });
 }
 
-function renderTextChunks(chunks: TextChunk[]) {
-  return chunks.map((chunk, index) => {
+function renderTextChunks(chunks: TextChunk[], slug?: string) {
+  const rendered: ReactNode[] = [];
+  let index = 0;
+
+  while (index < chunks.length) {
+    const chunk = chunks[index];
+
+    if (
+      slug === "nega-stome" &&
+      chunk.type === "heading" &&
+      slugifyHeading(chunk.text ?? "") === STOMA_MEASUREMENT_HEADING_SLUG
+    ) {
+      rendered.push(
+        <StomaMeasurementStepGuide
+          key={`stoma-measurement-chunks-${index}`}
+          headingId={STOMA_MEASUREMENT_HEADING_SLUG}
+        />,
+      );
+      index += 1;
+      let skippedParagraphs = 0;
+      while (index < chunks.length && skippedParagraphs < 3 && chunks[index].type === "paragraph") {
+        skippedParagraphs += 1;
+        index += 1;
+      }
+      continue;
+    }
+
     if (chunk.type === "heading") {
       const headingId = slugifyHeading(chunk.text ?? "");
       const aliases = headingAliasMap[headingId] ?? [];
-      return (
+      rendered.push(
         <div key={`heading-${index}`}>
           {aliases.map((alias) => (
             <span key={alias} id={alias} className="relative -top-24 block" />
@@ -239,10 +310,12 @@ function renderTextChunks(chunks: TextChunk[]) {
           </h2>
         </div>
       );
+      index += 1;
+      continue;
     }
 
     if (chunk.type === "callout") {
-      return (
+      rendered.push(
         <aside
           key={`callout-${index}`}
           className="my-5 rounded-xl border-l-4 border-sky-600 bg-sky-50 px-5 py-3 text-slate-700"
@@ -250,11 +323,13 @@ function renderTextChunks(chunks: TextChunk[]) {
           {renderTextWithConvaTecLinks(chunk.text ?? "")}
         </aside>
       );
+      index += 1;
+      continue;
     }
 
     if (chunk.type === "bullet-list" || chunk.type === "number-list") {
       const ListTag = chunk.type === "number-list" ? "ol" : "ul";
-      return (
+      rendered.push(
         <ListTag
           key={`list-${index}`}
           className={cn(
@@ -267,20 +342,67 @@ function renderTextChunks(chunks: TextChunk[]) {
           ))}
         </ListTag>
       );
+      index += 1;
+      continue;
     }
 
-    return (
-      <p key={`paragraph-${index}`} className="my-4 leading-relaxed text-slate-700">
+    rendered.push(
+      <p key={`paragraph-${index}`} className="tt-main-copy my-4 leading-relaxed text-slate-700">
         {renderTextWithConvaTecLinks(chunk.text ?? "")}
       </p>
     );
-  });
+    index += 1;
+  }
+
+  return rendered;
+}
+
+function StomaMeasurementStepGuide({ headingId }: { headingId: string }) {
+  return (
+    <section className="my-8" aria-labelledby={headingId}>
+      <h2
+        id={headingId}
+        className="font-[family-name:var(--font-source-serif)] text-3xl text-slate-900"
+      >
+        Kako da izmerite vašu stomu?
+      </h2>
+      <p className="mt-4 max-w-3xl leading-relaxed text-slate-700">
+        Za pravilnu zaštitu kože oko stome, koristite šablon koji dobijate uz diskove i pažljivo
+        prilagodite otvor obliku i veličini stome pre postavljanja sistema.
+      </p>
+
+      <div className="mt-6 grid gap-4 md:grid-cols-2">
+        {STOMA_MEASUREMENT_STEPS.map((step, index) => (
+          <article
+            key={step.title}
+            className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+          >
+            <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+              <Image
+                src={step.image}
+                alt={step.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="mb-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#00a3ad] text-xs font-black text-white">
+              {index + 1}
+            </div>
+            <h3 className="text-base font-semibold text-slate-900">{step.title}</h3>
+            <p className="mt-2 text-sm leading-relaxed text-slate-700">{step.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 }
 
 export function RichContent({
   portableText,
   textContent,
   className,
+  slug,
 }: RichContentProps) {
   const hasPortableText = Boolean(portableText && portableText.length > 0);
   const chunks = !hasPortableText ? parseTextContent(textContent ?? "") : [];
@@ -288,8 +410,8 @@ export function RichContent({
   return (
     <div className={cn("prose prose-slate max-w-none", className)}>
       {hasPortableText
-        ? renderPortableText(portableText ?? [])
-        : renderTextChunks(chunks)}
+        ? renderPortableText(portableText ?? [], slug)
+        : renderTextChunks(chunks, slug)}
       {!hasPortableText && chunks.length === 0 ? (
         <p className="my-4 leading-relaxed text-slate-600">
           Sadržaj ove stranice je u pripremi.

@@ -167,9 +167,9 @@ export function StomaTypesPage() {
 
       <Container className="mt-10">
         <section id="kolostoma">
-          <header className="mb-6 max-w-3xl md:mb-8">
+          <header className="mb-6 md:mb-8">
             <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">Kolostoma</h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+            <p className="tt-main-copy mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
               Nastaje kada se otvoreni kraj zdravog debelog creva izvuče na površinu stomaka
               (abdomena) i tu se fiksira kako bi se formirao otvor za izbacivanje sadržaja iz
               creva. Kolostoma u zavisnosti od vremena trajanja može biti privremena ili trajna.
@@ -186,11 +186,11 @@ export function StomaTypesPage() {
         <InlineSectionDivider />
 
         <section id="ostali-tipovi">
-          <header className="mb-6 max-w-3xl md:mb-8">
+          <header className="mb-6 md:mb-8">
             <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">
               Ostali tipovi stome
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
+            <p className="tt-main-copy mt-4 text-base leading-relaxed text-slate-600 md:text-lg">
               U nastavku su osnovne karakteristike ileostome, urostome i ureterostome kako biste
               lakše razumeli razlike i potrebe nege.
             </p>
