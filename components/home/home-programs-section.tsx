@@ -130,5 +130,3 @@ export function HomeProgramsSection({ className }: { className?: string }) {
     </section>
   );
 }
-
-export { HomeProgramsSection as ProductPrograms };

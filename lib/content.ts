@@ -111,6 +111,9 @@ interface SanityHomePage {
 
 const contentDir = path.join(process.cwd(), "content");
 const FALLBACK_PRIMARY_PHONE = "011 311 51 52";
+const FALLBACK_HOMEPAGE_HERO_SUBTITLE =
+  "Podrška, informacije i pouzdani medicinski programi za pacijente i negovatelje.";
+const FALLBACK_HOMEPAGE_HERO_IMAGE = "/assets/tt_medik_heading.jpg";
 
 async function readJsonFile<T>(fileName: string): Promise<T> {
   const filePath = path.join(contentDir, fileName);
@@ -233,6 +236,32 @@ async function fetchSanityHomePage(
   }
 }
 
+function normalizeHomepageData(data: HomepageData): HomepageData {
+  const normalizedSubtitle = normalizeSeedText(data.hero.subtitle);
+
+  return {
+    ...data,
+    hero: {
+      ...data.hero,
+      subtitle:
+        !normalizedSubtitle || normalizedSubtitle.includes("TODO")
+          ? FALLBACK_HOMEPAGE_HERO_SUBTITLE
+          : normalizedSubtitle,
+      primaryCta: {
+        ...data.hero.primaryCta,
+        href: normalizeCmsHref(data.hero.primaryCta.href),
+      },
+      secondaryCta: {
+        ...data.hero.secondaryCta,
+        href: normalizeCmsHref(data.hero.secondaryCta.href),
+      },
+      backgroundImage: data.hero.backgroundImage.startsWith("/")
+        ? data.hero.backgroundImage
+        : FALLBACK_HOMEPAGE_HERO_IMAGE,
+    },
+  };
+}
+
 export const getNavigationData = cache(async () => {
   return getLocalNavigationData();
 });
@@ -240,7 +269,7 @@ export const getNavigationData = cache(async () => {
 export const getHomepageData = cache(async () => {
   const localFallback = await getLocalHomepageData();
   const sanityHomePage = await fetchSanityHomePage(localFallback);
-  return sanityHomePage ?? localFallback;
+  return normalizeHomepageData(sanityHomePage ?? localFallback);
 });
 
 export const getContactData = cache(async () => {

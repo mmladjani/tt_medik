@@ -138,10 +138,13 @@ export function HomeHeroSection({
                     <Mail size={14} />
                     {email}
                   </a>
-                  <p className="flex items-center gap-2 text-white/80">
+                  <a
+                    href={formatPhoneLink(phone)}
+                    className="flex items-center gap-2 text-white/80 transition-colors hover:text-[#00a3ad]"
+                  >
                     <Phone size={14} className="text-[#00a3ad]" />
                     {phone}
-                  </p>
+                  </a>
                 </div>
               </div>
             </div>
@@ -197,5 +200,3 @@ export function HomeHeroSection({
     </section>
   );
 }
-
-export { HomeHeroSection as HeroModernRevision };

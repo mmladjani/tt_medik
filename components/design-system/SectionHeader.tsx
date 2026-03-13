@@ -20,14 +20,14 @@ export function SectionHeader({
 }) {
   return (
     <header className={cn("mb-20", className)}>
-      <span className={cn("mb-4 block text-lg font-black uppercase tracking-widest text-tt-teal md:text-xl", labelClassName)}>
+      <span className={cn("tt-section-label", labelClassName)}>
         {label}
       </span>
-      <h2 className={cn("text-4xl font-black tracking-tight text-tt-navy md:text-6xl", titleClassName)}>
+      <h2 className={cn("tt-section-title", titleClassName)}>
         {title}
       </h2>
       {description ? (
-        <p className={cn("mt-6 w-full text-lg leading-relaxed text-slate-600 md:text-xl", descriptionClassName)}>
+        <p className={cn("tt-section-description", descriptionClassName)}>
           {description}
         </p>
       ) : null}

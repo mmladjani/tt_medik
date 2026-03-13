@@ -102,5 +102,3 @@ export function HomeMissionSection() {
     </section>
   );
 }
-
-export { HomeMissionSection as HomeAboutTrust };

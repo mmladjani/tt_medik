@@ -306,7 +306,7 @@ export function SiteHeader({
   isLoggedIn: boolean;
   medicalStatus: string;
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isScrolled, showSupportBar } = useHeaderScrollState();
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);

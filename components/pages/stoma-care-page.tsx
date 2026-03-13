@@ -1,8 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/design-system/Button";
 import { Container } from "@/components/design-system/Container";
-import { SpineDivider } from "@/components/design-system/SpineDivider";
+import { StomaCtaCard } from "@/components/pages/stoma-cta-card";
+import { StomaPageIntro } from "@/components/pages/stoma-page-intro";
+import { StomaSectionHeader } from "@/components/pages/stoma-section-header";
+import { StomaSectionDivider } from "@/components/pages/stoma-section-divider";
+import { StomaSubnav } from "@/components/pages/stoma-subnav";
 import { cn } from "@/lib/utils";
 
 type CareStep = {
@@ -51,7 +53,7 @@ export function StomaCarePage() {
   return (
     <main className="bg-white pb-24 pt-28">
       <Container>
-        <PageIntro
+        <StomaPageIntro
           label="Programi / Stoma"
           title="Nega stome"
           description="Ovim savetima želimo da Vam pomognemo da bolje razumete osnovne pojmove o stomi, o nezi stome i kože oko stome, kao i o načinu ishrane nakon izlaska iz bolnice."
@@ -59,16 +61,12 @@ export function StomaCarePage() {
       </Container>
 
       <Container className="mt-8">
-        <PageSubnav />
+        <StomaSubnav currentPage="nega-stome" />
       </Container>
 
       <Container className="mt-10">
         <section id="kako-negovati">
-          <header className="mb-6 md:mb-8">
-            <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">
-              Kako negovati stomu i kožu oko stome?
-            </h2>
-          </header>
+          <StomaSectionHeader title="Kako negovati stomu i kožu oko stome?" />
 
           <div className="space-y-4">
               {SECTION_ONE_PARAGRAPHS.map((paragraph, index) => (
@@ -85,26 +83,18 @@ export function StomaCarePage() {
           </div>
         </section>
 
-        <InlineSectionDivider />
+        <StomaSectionDivider />
 
         <section id="kako-izmeriti">
-          <header className="mb-6 md:mb-8">
-            <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">
-              Kako da izmerite vašu stomu?
-            </h2>
-          </header>
+          <StomaSectionHeader title="Kako da izmerite vašu stomu?" />
 
           <StepGuide steps={CARE_STEPS} />
         </section>
 
-        <InlineSectionDivider />
+        <StomaSectionDivider />
 
         <section id="zastita-koze">
-          <header className="mb-6 md:mb-8">
-            <h2 className="text-3xl font-black tracking-tight text-tt-navy md:text-4xl">
-              Saveti za zaštitu kože
-            </h2>
-          </header>
+          <StomaSectionHeader title="Saveti za zaštitu kože" />
 
           <ul className="tt-main-copy list-disc space-y-3 pl-5 text-base leading-relaxed text-slate-700 md:text-lg">
             {SKIN_PROTECTION_BULLETS.map((item) => (
@@ -113,76 +103,13 @@ export function StomaCarePage() {
           </ul>
         </section>
 
-        <InlineSectionDivider size="lg" />
+        <StomaSectionDivider size="lg" />
 
         <section id="cta">
-          <CtaCard />
+          <StomaCtaCard />
         </section>
       </Container>
     </main>
-  );
-}
-
-function PageIntro({
-  label,
-  title,
-  description,
-}: {
-  label: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <header className="max-w-4xl">
-      <span className="mb-3 block text-sm font-black uppercase tracking-widest text-tt-teal md:text-base">
-        {label}
-      </span>
-      <h1 className="text-4xl font-black tracking-tight text-tt-navy md:text-6xl">{title}</h1>
-      <p className="mt-5 max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
-        {description}
-      </p>
-    </header>
-  );
-}
-
-function PageSubnav() {
-  return (
-    <nav
-      aria-label="Stoma podnavigacija"
-      className="w-full rounded-2xl border border-slate-100 bg-slate-50 p-2 sm:w-fit sm:rounded-full"
-    >
-      <ul className="grid gap-2 sm:flex sm:flex-wrap">
-        <li className="min-w-0">
-          <Button
-            asChild
-            variant="outlineNavy"
-            className="h-auto min-h-10 w-full rounded-full border-transparent bg-transparent px-4 py-2 text-[11px] leading-tight text-slate-500 hover:bg-white hover:text-tt-navy sm:w-auto sm:px-5"
-          >
-            <Link href="/tipovi-stome">Tipovi stome</Link>
-          </Button>
-        </li>
-        <li className="min-w-0">
-          <Button
-            asChild
-            variant="teal"
-            className="h-auto min-h-10 w-full rounded-full px-4 py-2 text-[11px] leading-tight sm:w-auto sm:px-5"
-          >
-            <Link href="/nega-stome" aria-current="page">
-              Nega stome
-            </Link>
-          </Button>
-        </li>
-        <li className="min-w-0">
-          <Button
-            asChild
-            variant="outlineNavy"
-            className="h-auto min-h-10 w-full rounded-full border-transparent bg-transparent px-4 py-2 text-[11px] leading-tight text-slate-500 hover:bg-white hover:text-tt-navy sm:w-auto sm:px-5"
-          >
-            <Link href="/stoma-pomagala">Stoma pomagala</Link>
-          </Button>
-        </li>
-      </ul>
-    </nav>
   );
 }
 
@@ -192,7 +119,7 @@ function StepGuide({ steps }: { steps: CareStep[] }) {
       {steps.map((step, index) => (
         <article
           key={`step-${index + 1}`}
-          className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+          className="tt-stoma-card min-h-0 rounded-2xl p-4"
         >
           <div className="relative mb-4 h-36 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 sm:h-40 md:h-44">
             <Image
@@ -210,59 +137,6 @@ function StepGuide({ steps }: { steps: CareStep[] }) {
           <p className="text-sm leading-relaxed text-slate-700">{step.text}</p>
         </article>
       ))}
-    </div>
-  );
-}
-
-function CtaCard() {
-  return (
-    <div className="relative overflow-hidden rounded-[2.5rem] bg-tt-navy p-10 text-white md:p-14">
-      <div
-        className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-tt-teal/20 blur-3xl"
-        aria-hidden="true"
-      />
-
-      <div className="relative z-10 grid gap-8 lg:grid-cols-[1.3fr_1fr] lg:items-center">
-        <div>
-          <span className="mb-4 block text-lg font-black uppercase tracking-[0.12em] text-[#7cd3d8] md:text-xl">
-            Podrška i izbor pomagala
-          </span>
-          <h2 className="text-4xl font-black tracking-tighter md:text-6xl">
-            Spremni za sledeći korak?
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg leading-relaxed text-white/75 md:text-xl">
-            Pregledajte stoma pomagala ili kontaktirajte naš tim za podršku pri odabiru rešenja.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-3 lg:justify-end">
-          <Button asChild variant="teal" className="group">
-            <Link href="/stoma-pomagala">Stoma pomagala</Link>
-          </Button>
-          <Button
-            asChild
-            variant="outlineNavy"
-            className="border-white/25 bg-white/10 text-white hover:border-white/50 hover:bg-white/15 hover:text-white"
-          >
-            <Link href="/kontakt">Kontakt</Link>
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function InlineSectionDivider({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
-  return (
-    <div
-      className={cn(
-        "flex justify-center",
-        size === "sm" && "py-6",
-        size === "md" && "py-8",
-        size === "lg" && "py-12",
-      )}
-    >
-      <SpineDivider height={size} />
     </div>
   );
 }

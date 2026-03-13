@@ -130,5 +130,3 @@ export function HomeFaqSection({ className }: { className?: string }) {
     </section>
   );
 }
-
-export { HomeFaqSection as KnowledgeHub };
