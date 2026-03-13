@@ -1,16 +1,11 @@
-import { CalloutNotice } from "@/components/home/callout-notice";
 import { ContactCtaSection } from "@/components/home/contact-cta-section";
-import { CtaButton } from "@/components/home/cta-button";
 import { HomeFaqSection } from "@/components/home/home-faq-section";
 import { HomeHeroSection } from "@/components/home/home-hero-section";
 import { HomeMissionSection } from "@/components/home/home-mission-section";
+import { HomeProfessionalSection } from "@/components/home/home-professional-section";
 import { HomeProgramsSection } from "@/components/home/home-programs-section";
 import { SectionGap } from "@/components/home/section-gap";
-import { Container } from "@/components/design-system/Container";
-import {
-  MedicalOnly,
-  VisibilityBlock,
-} from "@/components/visibility/visibility-block";
+import { VisibilityBlock } from "@/components/visibility/visibility-block";
 import {
   getContactData,
   getHomepageData,
@@ -38,7 +33,7 @@ export default async function HomePage() {
   const primaryPhone = contact.phones[0] ?? "011 311 51 52";
 
   return (
-    <div>
+    <main>
       <VisibilityBlock visibility="public">
         <HomeHeroSection
           title={homepage.hero.title}
@@ -62,27 +57,10 @@ export default async function HomePage() {
       <SectionGap size="lg" divider />
       <HomeFaqSection className="pb-0 pt-0" />
 
-      <MedicalOnly>
-        <section className="bg-white">
-          <Container className="pt-4">
-            <CalloutNotice
-              title="Stručni savet za zdravstvene radnike"
-              className="border-sky-200 bg-gradient-to-r from-sky-100 to-white"
-            >
-              <p>
-                Sadržaj u stručnom portalu uključuje smernice, edukativne materijale i
-                preporuke za tretman pacijenata u svakodnevnoj praksi.
-              </p>
-              <div className="mt-4">
-                <CtaButton href="/portal/strucni" label="Otvori stručni portal" icon />
-              </div>
-            </CalloutNotice>
-          </Container>
-        </section>
-      </MedicalOnly>
+      <HomeProfessionalSection />
 
       <SectionGap size="lg" divider />
       <ContactCtaSection contact={contact} className="pt-0" />
-    </div>
+    </main>
   );
 }
