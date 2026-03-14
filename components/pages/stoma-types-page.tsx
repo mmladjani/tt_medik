@@ -5,10 +5,9 @@ import Image from "next/image";
 import { EyeOff, FileText } from "lucide-react";
 import { Container } from "@/components/design-system/Container";
 import { StomaCtaCard } from "@/components/pages/stoma-cta-card";
-import { StomaPageIntro } from "@/components/pages/stoma-page-intro";
+import { StomaPageTop } from "@/components/pages/stoma-page-top";
 import { StomaSectionHeader } from "@/components/pages/stoma-section-header";
 import { StomaSectionDivider } from "@/components/pages/stoma-section-divider";
-import { StomaSubnav } from "@/components/pages/stoma-subnav";
 import {
   KOLOSTOMA_SECTION,
   OTHER_STOMA_SECTION,
@@ -20,13 +19,7 @@ import { cn } from "@/lib/utils";
 export function StomaTypesPage() {
   return (
     <main className="bg-white pb-24 pt-28">
-      <Container>
-        <StomaPageIntro {...STOMA_TYPES_PAGE_INTRO} />
-      </Container>
-
-      <Container className="mt-8">
-        <StomaSubnav currentPage="tipovi-stome" />
-      </Container>
+      <StomaPageTop {...STOMA_TYPES_PAGE_INTRO} currentPage="tipovi-stome" />
 
       <Container className="mt-10">
         <section id="kolostoma">
